@@ -7,16 +7,19 @@ def get_articles():
         return json_data
 
 def line_by_line(queries: List[str]):
+    print(queries)
     data = ''
-    for _ in queries[:-1]:
+    for _ in queries:
         data += _
         data += '\n'
+        print('line by line', data)
     return data
 
 def build_prompt(user_queries: List[str]):
+    # print(user_queries)
     prompt = f"""
 
-These are all the articles expressed in JSON format:
+Below are all the articles realted to weight loss expressed in JSON format that includes title, sub-title and article content:
 {get_articles()}
 
 These are the questions the user has previously asked:
@@ -25,7 +28,7 @@ These are the questions the user has previously asked:
 This is the user's current query:
 {user_queries[-1]}
 
-Answer the user's current query by taking into context the past queries and the articles.
+Answer the user's current query by taking into context the past queries and the articles. 
 
 """
     return prompt
