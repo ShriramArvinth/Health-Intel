@@ -4,7 +4,7 @@ on:
 env:
   PROJECT_ID: talk-to-your-records
   REGION: us-central1
-  GAR_LOCATION: us-central1-docker.pkg.dev/talk-to-your-records/healthquill
+  GAR_LOCATION: us-central1-docker.pkg.dev/talk-to-your-records/icliniq-search
 
 jobs:
     build-deploy:
@@ -38,13 +38,13 @@ jobs:
 
           - name: Build image
             run: |
-              docker build . --file ./Dockerfile --tag ${{ env.GAR_LOCATION }}/healthquill:${{ steps.vars.outputs.sha }}
+              docker build . --file ./Dockerfile --tag ${{ env.GAR_LOCATION }}/icliniq-search:${{ steps.vars.outputs.sha }}
 
           - name: Push image
-            run: docker push ${{ env.GAR_LOCATION }}/healthquill:${{ steps.vars.outputs.sha }}
+            run: docker push ${{ env.GAR_LOCATION }}/icliniq-search:${{ steps.vars.outputs.sha }}
 
           - id: 'deploy'
             uses: 'google-github-actions/deploy-cloudrun@v2'  
             with:
-                service: 'healthquill'
-                image: ${{ env.GAR_LOCATION }}/healthquill:${{ steps.vars.outputs.sha }}
+                service: 'icliniq-search'
+                image: ${{ env.GAR_LOCATION }}/icliniq-search:${{ steps.vars.outputs.sha }}
