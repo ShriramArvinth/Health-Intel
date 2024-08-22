@@ -17,7 +17,7 @@ jobs:
             env:
               GCP_SA_TALK_TO_YOUR_RECORDS: ${{ secrets.GCP_TALK_TO_YOUR_RECORDS }}
             run: |
-              echo "$GCP_SA_TALK_TO_YOUR_RECORDS" > service-account.json
+              echo "$GCP_SA_TALK_TO_YOUR_RECORDS" > talk-to-your-records-1dd5074904a9.json
       
           - id: 'auth'
             name: 'Authenticate to Google Cloud'
