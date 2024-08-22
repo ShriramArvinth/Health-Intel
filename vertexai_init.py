@@ -27,8 +27,7 @@ Click here to connect with them! They can assess your ear infection and provide 
 
 def vertexai_creds():
     current_dir = os.getcwd()
-    service_account_dir = os.path.join(current_dir, "service account key")
-    service_account_file = os.path.join(service_account_dir, "talk-to-your-records-1dd5074904a9.json")
+    service_account_file = os.path.join(current_dir, "talk-to-your-records-1dd5074904a9.json")
     creds = service_account.Credentials.from_service_account_file(filename = service_account_file)
     return creds
 
