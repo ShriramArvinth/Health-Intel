@@ -1,5 +1,7 @@
 on:
-  workflow_dispatch:
+  push:
+    branches:
+      - main
 
 env:
   PROJECT_ID: talk-to-your-records
@@ -48,3 +50,5 @@ jobs:
             with:
                 service: 'icliniq-search'
                 image: ${{ env.GAR_LOCATION }}/icliniq-search:${{ steps.vars.outputs.sha }}
+                port: 8090
+                memory: 2Gi
