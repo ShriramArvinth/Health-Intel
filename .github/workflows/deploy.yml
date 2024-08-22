@@ -1,5 +1,7 @@
 on:
-  workflow_dispatch:
+  push:
+    branches:
+      - main
 
 env:
   PROJECT_ID: talk-to-your-records
@@ -17,7 +19,7 @@ jobs:
             env:
               GCP_SA_TALK_TO_YOUR_RECORDS: ${{ secrets.GCP_TALK_TO_YOUR_RECORDS }}
             run: |
-              echo "$GCP_SA_TALK_TO_YOUR_RECORDS" > service-account.json
+              echo "$GCP_SA_TALK_TO_YOUR_RECORDS" > talk-to-your-records-1dd5074904a9.json
       
           - id: 'auth'
             name: 'Authenticate to Google Cloud'
@@ -48,3 +50,5 @@ jobs:
             with:
                 service: 'icliniq-search'
                 image: ${{ env.GAR_LOCATION }}/icliniq-search:${{ steps.vars.outputs.sha }}
+                port: 8090
+                memory: 2Gi
