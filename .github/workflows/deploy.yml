@@ -1,0 +1,50 @@
+on:
+  workflow_dispatch:
+
+env:
+  PROJECT_ID: talk-to-your-records
+  REGION: us-central1
+  GAR_LOCATION: us-central1-docker.pkg.dev/talk-to-your-records/healthquill
+
+jobs:
+    build-deploy:
+        runs-on: ubuntu-latest
+        steps:
+          - name: Checkout code
+            uses: actions/checkout@v3
+
+          - name: Store Service Account Credentials in JSON File
+            env:
+              GCP_SA_TALK_TO_YOUR_RECORDS: ${{ secrets.GCP_TALK_TO_YOUR_RECORDS }}
+            run: |
+              echo "$GCP_SA_TALK_TO_YOUR_RECORDS" > service-account.json
+      
+          - id: 'auth'
+            name: 'Authenticate to Google Cloud'
+            uses: 'google-github-actions/auth@v1'
+            with:
+                credentials_json: '${{ secrets.GCP_TALK_TO_YOUR_RECORDS }}'
+
+          - name: Get the commit SHA
+            id: vars
+            run: echo ::set-output name=sha::$(git rev-parse HEAD)
+
+          - name: "Set up google cloud CLI"
+            uses: "google-github-actions/setup-gcloud@v1"
+    
+          - name: "Docker auth"
+            run: |-
+              gcloud auth configure-docker ${{ env.REGION }}-docker.pkg.dev --quiet
+
+          - name: Build image
+            run: |
+              docker build . --file ./Dockerfile --tag ${{ env.GAR_LOCATION }}/healthquill:${{ steps.vars.outputs.sha }}
+
+          - name: Push image
+            run: docker push ${{ env.GAR_LOCATION }}/healthquill:${{ steps.vars.outputs.sha }}
+
+          - id: 'deploy'
+            uses: 'google-github-actions/deploy-cloudrun@v2'  
+            with:
+                service: 'healthquill'
+                image: ${{ env.GAR_LOCATION }}/healthquill:${{ steps.vars.outputs.sha }}
