@@ -7,23 +7,24 @@ def get_articles():
         return json_data
 
 def line_by_line(queries: List[str]):
-    print(queries)
+    # print(queries)
     data = ''
-    for _ in queries:
+    for _ in filter(None, queries):
         data += _
         data += '\n'
-        print('line by line', data)
+        # print('line by line', data)
     return data
 
 def build_prompt(user_queries: List[str]):
     # print(user_queries)
+    past_queries = user_queries[:-1]
     prompt = f"""
 
 Below are all the articles realted to weight loss expressed in JSON format that includes title, sub-title and article content:
 {get_articles()}
 
 These are the questions the user has previously asked:
-{line_by_line(user_queries[:-1]) if(len(user_queries) > 1) else '<<The user has started a new chat, hence there is no query history>>'}
+{line_by_line(past_queries) if((len(user_queries) > 1) and (not(all(query == "" for query in past_queries)))) else '<<The user has started a new chat, hence there is no query history>>'}
 
 This is the user's current query:
 {user_queries[-1]}
