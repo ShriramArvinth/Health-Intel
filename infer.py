@@ -6,6 +6,33 @@ from vertexai.generative_models import (
     Part,
 )
 
+def error_type(x):
+    category = x.category
+    severity = x.severity
+    ans = "" + "\n"
+
+    if category == 0:
+        ans += "Harm Category: Hate Speech"
+    elif category == 1:
+        ans += "Harm Category: Dangerous Content"
+    elif category == 2:
+        ans += "Harm Category: Harassment"
+    elif category == 3:
+        ans += "Harm Category: Sexually Explicit"
+    
+    ans += '\n'
+
+    if severity == 0:
+        ans += 'Severity: Negligible'
+    elif severity == 1:
+        ans += 'Severity: Low'
+    elif severity == 2:
+        ans += 'Severity: Medium'
+    elif severity == 3:
+        ans += 'Severity: High'
+    
+    return ans
+
 def infer(prompt: str, model: GenerativeModel):
     generation_config = GenerationConfig(
         temperature=0.9,
@@ -23,6 +50,7 @@ def infer(prompt: str, model: GenerativeModel):
     }
 
     contents = [prompt]
+    response = ""
 
     try:
         response = model.generate_content(
@@ -32,7 +60,11 @@ def infer(prompt: str, model: GenerativeModel):
         )
         return response
     
-    except ValueError as e:
-        return e
+    except ValueError:
+        ans = 'response failed due to the following reasons:'
+        exception_messages = list(map(error_type, [y for y  in list(filter(lambda d: "blocked" in d, response.candidates[0].safety_ratings))]))
+        for _ in exception_messages:
+            ans += _ + '\n'
+        return ans
 
     
