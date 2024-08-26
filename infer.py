@@ -24,10 +24,15 @@ def infer(prompt: str, model: GenerativeModel):
 
     contents = [prompt]
 
-    response = model.generate_content(
-        contents,
-        generation_config=generation_config,
-        safety_settings=safety_settings,
-    )
+    try:
+        response = model.generate_content(
+            contents,
+            generation_config=generation_config,
+            safety_settings=safety_settings,
+        )
+        return response
+    
+    except ValueError as e:
+        return e
 
-    return response
+    
