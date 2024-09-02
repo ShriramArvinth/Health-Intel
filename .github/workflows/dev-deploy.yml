@@ -1,17 +1,22 @@
 on:
-  workflow_dispatch:
+  push:
+    branches:
+      - main
+    paths:
+      - "dev/**"
+      - ".github/workflows/dev-deploy.yml"
 
 env:
   PROJECT_ID: talk-to-your-records
   REGION: us-central1
-  GAR_LOCATION: us-central1-docker.pkg.dev/talk-to-your-records/icliniq-search
+  GAR_LOCATION: us-central1-docker.pkg.dev/talk-to-your-records/icliniq-search-dev
 
 jobs:
     build-deploy:
         runs-on: ubuntu-latest
         defaults:
           run:
-            working-directory: prod/
+            working-directory: dev/
         steps:
           - name: Checkout code
             uses: actions/checkout@v3
@@ -41,7 +46,7 @@ jobs:
 
           - name: Build image
             run: |
-              docker build . --file ./Dockerfile --tag ${{ env.GAR_LOCATION }}/icliniq-search:${{ steps.vars.outputs.sha }}
+              docker build . --file ./dev.Dockerfile --tag ${{ env.GAR_LOCATION }}/icliniq-search:${{ steps.vars.outputs.sha }}
 
           - name: Push image
             run: docker push ${{ env.GAR_LOCATION }}/icliniq-search:${{ steps.vars.outputs.sha }}
@@ -49,7 +54,7 @@ jobs:
           - id: 'deploy'
             uses: 'google-github-actions/deploy-cloudrun@v2'  
             with:
-                service: 'icliniq-search'
+                service: 'icliniq-search-dev'
                 image: ${{ env.GAR_LOCATION }}/icliniq-search:${{ steps.vars.outputs.sha }}
                 port: 8090
                 memory: 2Gi
