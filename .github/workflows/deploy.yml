@@ -46,10 +46,11 @@ jobs:
           - name: Push image
             run: docker push ${{ env.GAR_LOCATION }}/icliniq-search:${{ steps.vars.outputs.sha }}
 
-          - id: 'deploy'
-            uses: 'google-github-actions/deploy-cloudrun@v2'  
-            with:
-                service: 'icliniq-search'
-                image: ${{ env.GAR_LOCATION }}/icliniq-search:${{ steps.vars.outputs.sha }}
-                port: 8090
-                memory: 2Gi
+          - name: Deploy to Cloud Run
+            run: |
+                gcloud run deploy icliniq-search \
+                --image ${{ env.GAR_LOCATION }}/icliniq-search:${{ steps.vars.outputs.sha }} \
+                --port 8090 \
+                --memory 2Gi \
+                --region ${{ env.REGION }} \
+                --platform managed
