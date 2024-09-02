@@ -49,7 +49,11 @@ def infer(prompt: str, model: GenerativeModel):
         HarmCategory.HARM_CATEGORY_DANGEROUS_CONTENT: HarmBlockThreshold.BLOCK_ONLY_HIGH,
     }
 
-    contents = [prompt]
+    contents = [
+        Part.from_uri("gs://healthquill-medical-records/Google_docs_extract_data.txt", "text/plain"),
+        prompt
+    ]
+    
     response = ""
 
     try:
@@ -57,6 +61,7 @@ def infer(prompt: str, model: GenerativeModel):
             contents,
             generation_config=generation_config,
             safety_settings=safety_settings,
+            stream=True
         )
         return response
     

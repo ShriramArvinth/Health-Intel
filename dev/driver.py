@@ -5,6 +5,7 @@ from vertexai_init import (
 from prompt_builder import build_prompt
 from infer import infer
 from fastapi import FastAPI, HTTPException, UploadFile, File, Request
+from fastapi.responses import StreamingResponse
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 from typing import List
@@ -33,6 +34,13 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+
+def content_generator(prompt: str):
+    responses = infer(prompt = prompt, model = model)
+    for response in responses:
+        # print(response.text)
+        yield response.text
+
 @app.post("/ask-query")
 async def ask_query(data: askquery, request: Request):
     # // check the request.headers["x-api-key"] , make sure the value is = 
@@ -40,23 +48,11 @@ async def ask_query(data: askquery, request: Request):
     if (xapikey == 'Cp)L9dt)ACeZIAv(RDYX)V8NPx+dEFMh(eGFDd(sAxQvEMdZh4y(svKC(4mWCj'):
         # print(data)
         prompt = build_prompt([query.question for query in data.queries])
-        # with open("full_prompt.txt", "w") as f:
-        #     f.write(prompt)
-        response = infer(prompt = prompt, model = model)
-        # print(response.text)
-        cleaned_response = response.text.replace("*", "")
-        json_parsed = json.loads(str(cleaned_response))
-        # print(json_parsed)
-
-        send_data = data
-        send_data.queries[-1].answer = json_parsed['answer']
-        send_data.queries[-1].followupQuestions = json_parsed['followup-questions']
-        # print(send_data)
-        return send_data
+        return StreamingResponse(content_generator(prompt = prompt))
     else:
         return "wrong api key"
 
 if __name__ == "__main__":
     import uvicorn
 
-    uvicorn.run(app, host="0.0.0.0", port=3090)
+    uvicorn.run(app, host="0.0.0.0", port=3080)
