@@ -40,6 +40,7 @@ def content_generator(prompt: str):
     for response in responses:
         # print(response.text)
         yield response.text
+    yield "<< end of stream >>"
 
 @app.post("/ask-query")
 async def ask_query(data: askquery, request: Request):
