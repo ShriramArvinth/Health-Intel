@@ -1,9 +1,16 @@
 from vertexai_init import (
     vertexai_init as init_vertex,
-    model_configuration as init_model
+    model_configuration as init_model,
+    flash_model_configuration as init_flash_model
 )
-from prompt_builder import build_prompt
-from infer import infer
+from prompt_builder import (
+    build_prompt,
+    build_prompt_flash
+)
+from infer import (
+    infer,
+    infer_flash
+)
 from fastapi import FastAPI, HTTPException, UploadFile, File, Request
 from fastapi.responses import StreamingResponse
 from fastapi.middleware.cors import CORSMiddleware
@@ -24,6 +31,7 @@ class askquery(BaseModel):
 
 init_vertex()
 model = init_model()
+flash_model = init_flash_model()
 
 app = FastAPI()
 app.add_middleware(
@@ -35,12 +43,21 @@ app.add_middleware(
 )
 
 
-def content_generator(prompt: str):
+def content_generator(all_queries: List[str]):
+    prompt = build_prompt(all_queries[-1])
     responses = infer(prompt = prompt, model = model)
     for response in responses:
         # print(response.text)
+        # print('\n')
         yield response.text
-    yield "<< end of stream >>"
+
+    yield "$end_of_answer_stream$"
+
+    flash_prompt = build_prompt_flash(all_queries)
+    followup_questions = infer_flash(prompt=flash_prompt, model=flash_model)
+    yield followup_questions.text
+
+
 
 @app.post("/ask-query")
 async def ask_query(data: askquery, request: Request):
@@ -48,8 +65,8 @@ async def ask_query(data: askquery, request: Request):
     xapikey = request.headers.get("x-api-key")
     if (xapikey == 'Cp)L9dt)ACeZIAv(RDYX)V8NPx+dEFMh(eGFDd(sAxQvEMdZh4y(svKC(4mWCj'):
         # print(data)
-        prompt = build_prompt([query.question for query in data.queries])
-        return StreamingResponse(content_generator(prompt = prompt))
+        all_queries = [query.question for query in data.queries]
+        return StreamingResponse(content_generator(all_queries = all_queries))
     else:
         return "wrong api key"
 
