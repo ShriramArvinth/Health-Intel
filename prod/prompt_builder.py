@@ -15,21 +15,32 @@ def line_by_line(queries: List[str]):
         # print('line by line', data)
     return data
 
-def build_prompt(user_queries: List[str]):
+def build_prompt(query: str):
     # print(user_queries)
-    past_queries = user_queries[:-1]
     prompt = f"""
 
-Below are all the articles realted to weight loss expressed in JSON format that includes title, sub-title and article content:
-{get_articles()}
-
-These are the questions the user has previously asked:
-{line_by_line(past_queries) if((len(user_queries) > 1) and (not(all(query == "" for query in past_queries)))) else '<<The user has started a new chat, hence there is no query history>>'}
-
 This is the user's current query:
-{user_queries[-1]}
+{query}
 
 Answer the user's current query by taking into context the past queries and the articles. 
-
 """
+    return prompt
+
+
+def build_prompt_flash(user_queries: List[str]):
+    prompt = f'''
+These are the questions the user has previously asked:
+{line_by_line(user_queries)}
+
+
+'''
+    prompt += '''
+Response JSON Schema:
+    response = {
+        "questions": list[str]
+    }
+
+Return a `response`
+do not enclose your json with "```json ```"
+'''
     return prompt
