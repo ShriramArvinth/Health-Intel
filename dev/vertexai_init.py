@@ -80,7 +80,6 @@ import os
 # Scenario 5: Harassment (user uses offensive language): We understand you might be frustrated, but we can't engage in conversations with inappropriate language. Would you like to try and ask something more respectfully?
 # '''
 
-# flash_system_prompt = "You are provided with a list of questions related to Weight Loss Drugs, that the user had asked till now. You will recommend 3 potential questions(related to Weight Loss Drugs) from the user's point of view. entire response/output is going to consist of a single JSON object, and you will NOT wrap it within JSON md markers"
 
 system_prompt = '''
 Imagine you're a healthcare professional answering questions from patients. Use your knowledge of the 18 articles to provide clear, concise, and empathetic responses.
@@ -99,6 +98,7 @@ Click here to connect with them! They can assess your case and provide the appro
 Scenario 4: Greetings: Hi there! How can we help you? 
 Scenario 5: Harassment (user uses offensive language): We understand you might be frustrated, but we can't engage in conversations with inappropriate language. Would you like to try and ask something more respectfully?
 '''
+flash_system_prompt = "You are provided with a list of questions related to Weight Loss Drugs, that the user had asked till now. You will recommend 3 potential questions(related to Weight Loss Drugs) from the user's point of view. entire response/output is going to consist of a single JSON object, and you will NOT wrap it within JSON md markers"
 
 def vertexai_creds():
     current_dir = os.getcwd()
