@@ -30,6 +30,7 @@ class askquery(BaseModel):
     queries: List[querycontent]
 
 init_vertex()
+model = init_model()
 flash_model = init_flash_model()
 
 app = FastAPI()
@@ -41,9 +42,7 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-
 def content_generator(all_queries: List[str]):
-    model = init_model()
     prompt = build_prompt(all_queries[-1])
     responses = infer(prompt = prompt, model = model)
     for response in responses:
