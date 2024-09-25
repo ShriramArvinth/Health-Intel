@@ -22,7 +22,7 @@ def build_prompt(query: str):
 This is the user's current query:
 {query}
 
-Answer the user's current query by taking into context the past queries and the articles. 
+Answer the user's current query by taking into context all the content from the text file. If the user's query just contains a greeting, then simply just respond with a small greeting.
 """
     return prompt
 

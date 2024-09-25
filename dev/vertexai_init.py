@@ -109,7 +109,7 @@ def vertexai_init():
 
 def model_configuration():
     model = GenerativeModel(
-        "gemini-1.5-flash-001",
+        "gemini-1.5-flash-002",
         system_instruction=[
             system_prompt,
         ]
@@ -119,7 +119,7 @@ def model_configuration():
 
 def flash_model_configuration():
     model = GenerativeModel(
-        "gemini-1.5-flash-001",
+        "gemini-1.5-flash-002",
         system_instruction=[
             flash_system_prompt
         ]
