@@ -5,6 +5,7 @@ from vertexai.generative_models import (
     HarmCategory,
     Part,
 )
+import anthropic
 
 def error_type(x):
     category = x.category
@@ -67,7 +68,7 @@ def infer(prompt: str, model: GenerativeModel):
     
     except ValueError:
         ans = 'response failed due to the following reasons:'
-        exception_messages = list(map(error_type, [y for y  in list(filter(lambda d: "blocked" in d, response.candidates[0].safety_ratings))]))
+        exception_messages = list(map(error_type, [y for y  in list(filter(lambda d: "blocked" in d, response[0].candidates[0].safety_ratings))])) # response is a list when stream = True.
         for _ in exception_messages:
             ans += _ + '\n'
         return ans
@@ -110,3 +111,51 @@ def infer_flash(prompt: str, model: GenerativeModel):
         for _ in exception_messages:
             ans += _ + '\n'
         return ans
+    
+
+def infer_sonnet(prompt: str, client: anthropic):
+    response = client.beta.prompt_caching.messages.create(
+        model="claude-3-5-sonnet-20240620",
+        max_tokens=2048,
+        system=[
+            {
+                "type": "text",
+                "text": prompt["system_prompt"] + "\n",
+            },
+            {
+                "type": "text",
+                "text": prompt["book_data"],
+                "cache_control": {"type": "ephemeral"}
+            }
+        ],
+        messages=[{
+            "role": "user",
+            "content": prompt["user_query"]
+        }],
+        stream=True,
+    )
+
+    for event in response:
+        if event.type == "content_block_delta":
+            yield(event.delta)
+
+def infer_haiku(prompt: str, client: anthropic):
+    response = client.beta.prompt_caching.messages.create(
+        model="claude-3-haiku-20240307",
+        max_tokens=2048,
+        system=[
+            {
+                "type": "text",
+                "text": prompt["system_prompt"] + "\n",
+                "cache_control": {"type": "ephemeral"}
+            }
+        ],
+        messages=[{
+            "role": "user",
+            "content": prompt["user_query"]
+        }],
+        stream=False,
+    )
+
+    return response.content[0]
+

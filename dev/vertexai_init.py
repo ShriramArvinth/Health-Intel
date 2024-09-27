@@ -1,6 +1,7 @@
 from google.oauth2 import service_account
 from vertexai.generative_models import GenerativeModel
 import vertexai
+from anthropic import Anthropic
 import os
 
 # system_prompt = '''
@@ -106,6 +107,24 @@ def vertexai_creds():
 
 def vertexai_init():
     vertexai.init(project="talk-to-your-records", location="us-central1", credentials=vertexai_creds())
+
+def anthropic_creds():
+    try:
+        with open("./anthropic_key.txt", "r") as f:
+            api_key = f.readline().strip()
+            if not api_key:
+                raise ValueError("API key file is empty.")
+        return api_key
+    except FileNotFoundError:
+        print("API key file not found.")
+        return None
+
+def anthropic_init():
+    client = Anthropic(
+        api_key=anthropic_creds(),
+    )
+
+    return client
 
 def model_configuration():
     model = GenerativeModel(
