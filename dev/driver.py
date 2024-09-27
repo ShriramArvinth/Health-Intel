@@ -55,7 +55,7 @@ def content_generator(all_queries: List[str]):
     # responses = infer(prompt = prompt, model = model)
     responses = infer_sonnet(prompt = prompt, client = anthropic_client)
     for response in responses:
-        print(response.text)
+        # print(response.text)
         # print('\n')
         yield response.text
 
