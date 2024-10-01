@@ -103,7 +103,12 @@ def build_prompt_sonnet(query: str):
 
 
 def build_prompt_haiku(user_queries: List[str]):
-    system_prompt = "You are provided with a list of questions related to Weight Loss Drugs, that the user had asked till now. You will recommend 3 potential questions(related to Weight Loss Drugs) from the user's point of view."
+    system_prompt = '''
+        You are provided with a list of questions related to Weight Loss Drugs, that the user had asked till now. You will recommend 3 potential questions(related to Weight Loss Drugs) from the user's point of view.
+
+        The questions should be in the scope of weight loss drugs, and their medical, social, psychological, and practical aspects of their use in obesity management.
+    '''
+    system_prompt = dedent(system_prompt).strip('\n')
 
     prompt = f'''
         These are the questions the user has previously asked:
