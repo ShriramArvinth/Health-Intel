@@ -89,7 +89,7 @@ def build_prompt_sonnet(query: str):
     user_query = f'''
         {query}
 
-        Please do not answer this question if it is not related to weight loss drugs.
+        If the question is outside the scope of weight loss drugs, and their medical, social, psychological, and practical aspects of their use in obesity management. Refuse to answer politely, with a message like: We're sorry, we can't help you with this.
     ''' 
     user_query = dedent(user_query).strip("\n")   
     
