@@ -1,15 +1,20 @@
 from vertexai_init import (
     vertexai_init as init_vertex,
     model_configuration as init_model,
-    flash_model_configuration as init_flash_model
+    flash_model_configuration as init_flash_model,
+    anthropic_init as init_anthropic
 )
 from prompt_builder import (
     build_prompt,
-    build_prompt_flash
+    build_prompt_flash,
+    build_prompt_sonnet,
+    build_prompt_haiku
 )
 from infer import (
     infer,
-    infer_flash
+    infer_flash,
+    infer_sonnet,
+    infer_haiku
 )
 from fastapi import FastAPI, HTTPException, UploadFile, File, Request
 from fastapi.responses import StreamingResponse
@@ -32,6 +37,7 @@ class askquery(BaseModel):
 init_vertex()
 model = init_model()
 flash_model = init_flash_model()
+anthropic_client = init_anthropic()
 
 app = FastAPI()
 app.add_middleware(
@@ -43,8 +49,11 @@ app.add_middleware(
 )
 
 def content_generator(all_queries: List[str]):
-    prompt = build_prompt(all_queries[-1])
-    responses = infer(prompt = prompt, model = model)
+    prompt = build_prompt_sonnet(
+       query = all_queries[-1]
+    )
+    # responses = infer(prompt = prompt, model = model)
+    responses = infer_sonnet(prompt = prompt, client = anthropic_client)
     for response in responses:
         # print(response.text)
         # print('\n')
@@ -52,8 +61,8 @@ def content_generator(all_queries: List[str]):
 
     yield "$end_of_answer_stream$"
 
-    flash_prompt = build_prompt_flash(all_queries)
-    followup_questions = infer_flash(prompt=flash_prompt, model=flash_model)
+    haiku_prompt = build_prompt_haiku(all_queries)
+    followup_questions = infer_haiku(prompt=haiku_prompt, client=anthropic_client)
     yield followup_questions.text
 
 

@@ -1,6 +1,7 @@
 from google.oauth2 import service_account
 from vertexai.generative_models import GenerativeModel
 import vertexai
+from anthropic import Anthropic
 import os
 
 # system_prompt = '''
@@ -82,22 +83,19 @@ import os
 
 
 system_prompt = '''
-Imagine you're a healthcare professional answering questions from patients. Use your knowledge of the 18 articles to provide clear, concise, and empathetic responses.
 Primary Guidelines:
-Contextual Responses: Ensure your responses are directly relevant to the user's query and draw from the information provided in the 18 articles.
-Comprehensive Information: Provide detailed explanations while maintaining clarity. Use bullet points or numbered lists when appropriate to enhance readability.
-Consistently Positive Outlook: Maintain an optimistic and encouraging tone throughout all responses. Focus on the benefits, possibilities, and potential positive outcomes of treatments. When discussing limitations or side effects, frame them as manageable aspects of treatment that can be addressed with proper medical supervision.
+1. Contextual Responses: Answer directly using information from the 18 articles.
+2. Comprehensive Information: Provide detailed, clear explanations. Use lists when helpful.
+3. Positive Outlook: Maintain an optimistic tone. Highlight benefits and frame challenges as manageable.
+
 Secondary Guidelines:
-Medical Advice: Avoid providing medical advice or diagnoses. If a user's question involves medication, dosage adjustments, or prescriptions, politely inform them that you cannot provide that information and direct them to a medical professional.
-Platform Integration: If a user's question is outside the scope of the 18 articles or requires professional medical advice, suggest they schedule a consultation with a healthcare provider on your platform.
-Example Responses:
-Scenario 1: Consuming a Specific Medication: "Unfortunately, we cannot prescribe medications. You might consider consulting one of the medical experts on our platform. They can offer personalized advice about managing your condition and recommend suitable medications."
-Scenario 2: Changing Medication Dosage: "We cannot recommend changes to your medication dosage. Adjusting medication dosage requires professional guidance. To ensure your safety and get the most effective treatment, please schedule a consultation with a healthcare expert on our platform.
-Click here to connect with them! They can review your situation and adjust your medication dosage if necessary."
+1. Medical Advice: Avoid giving diagnoses or medication advice. Refer to medical professionals.
+2. Platform Integration: For questions beyond the 18 articles or needing professional advice, suggest consulting a healthcare provider on your platform.
+If the user's question falls into one of these scenarios, follow the recommeded procedure described for them:
+Scenario 1: Consuming a Specific Medication: ""Let our qualified doctors assist you. They'll discuss your condition and recommend appropriate treatments."
+Scenario 2: Changing Medication Dosage: ""Your health is our priority. For dosage changes, please book an appointment with one of our medical experts for personalized advice."
 Scenario 3: Requesting a Prescription:  "We cannot prescribe medications. To get a proper diagnosis and receive a prescription, please schedule a consultation with a healthcare expert on our platform.
-Click here to connect with them! They can assess your case and provide the appropriate medication and treatment plan.
-Scenario 4: Greetings: Hi there! How can we help you? 
-Scenario 5: Harassment (user uses offensive language): We understand you might be frustrated, but we can't engage in conversations with inappropriate language. Would you like to try and ask something more respectfully?
+Scenario 4: Harassment (user uses offensive language): We understand you might be frustrated, but we can't engage in conversations with inappropriate language. Would you like to try and ask something more respectfully?
 '''
 flash_system_prompt = "You are provided with a list of questions related to Weight Loss Drugs, that the user had asked till now. You will recommend 3 potential questions(related to Weight Loss Drugs) from the user's point of view. entire response/output is going to consist of a single JSON object, and you will NOT wrap it within JSON md markers"
 
@@ -110,9 +108,27 @@ def vertexai_creds():
 def vertexai_init():
     vertexai.init(project="talk-to-your-records", location="us-central1", credentials=vertexai_creds())
 
+def anthropic_creds():
+    try:
+        with open("./anthropic_key.txt", "r") as f:
+            api_key = f.readline().strip()
+            if not api_key:
+                raise ValueError("API key file is empty.")
+        return api_key
+    except FileNotFoundError:
+        print("API key file not found.")
+        return None
+
+def anthropic_init():
+    client = Anthropic(
+        api_key=anthropic_creds(),
+    )
+
+    return client
+
 def model_configuration():
     model = GenerativeModel(
-        "gemini-1.5-pro-001",
+        "gemini-1.5-pro-002",
         system_instruction=[
             system_prompt,
         ]
@@ -122,7 +138,7 @@ def model_configuration():
 
 def flash_model_configuration():
     model = GenerativeModel(
-        "gemini-1.5-pro-001",
+        "gemini-1.5-flash-002",
         system_instruction=[
             flash_system_prompt
         ]
