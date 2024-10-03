@@ -51,7 +51,7 @@ async def lifespan(app: FastAPI):
         args=(
             anthropic_client,  # Pass the client
             "09:00",           # Start time
-            "21:00",           # End time
+            "24:00",           # End time
             4.5,                # Interval in minutes
             'America/New_York',  # Timezone
             stop_event
