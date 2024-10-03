@@ -16,11 +16,14 @@ from infer import (
     infer_sonnet,
     infer_haiku
 )
+from contextlib import asynccontextmanager
+from dummy_calls import run_dummy_calls
 from fastapi import FastAPI, HTTPException, UploadFile, File, Request
 from fastapi.responses import StreamingResponse
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 from typing import List
+from threading import Thread, Event
 import json
 
 class querycontent(BaseModel):
@@ -34,12 +37,36 @@ class askquery(BaseModel):
     timestamp: str
     queries: List[querycontent]
 
-init_vertex()
-model = init_model()
-flash_model = init_flash_model()
+# init_vertex()
+# model = init_model()
+# flash_model = init_flash_model()
 anthropic_client = init_anthropic()
 
-app = FastAPI()
+stop_event = Event()
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    # This will run during startup
+    dummy_calls_thread = Thread(
+        target=run_dummy_calls,
+        args=(
+            anthropic_client,  # Pass the client
+            "09:00",           # Start time
+            "21:00",           # End time
+            4.5,                # Interval in minutes
+            'America/New_York',  # Timezone
+            stop_event
+        )
+    )
+    dummy_calls_thread.start()
+    try:
+        yield
+    finally:
+        # This will run during application shutdown
+        stop_event.set()  # Signal the thread to stop
+        dummy_calls_thread.join()     # Wait for the thread to finish
+
+
+app = FastAPI(lifespan=lifespan)
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],
@@ -69,7 +96,7 @@ def content_generator(all_queries: List[str]):
 
 @app.post("/ask-query")
 async def ask_query(data: askquery, request: Request):
-    # // check the request.headers["x-api-key"] , make sure the value is = 
+    # make sure x-api-key's value is equal to the one we have
     xapikey = request.headers.get("x-api-key")
     if (xapikey == 'Cp)L9dt)ACeZIAv(RDYX)V8NPx+dEFMh(eGFDd(sAxQvEMdZh4y(svKC(4mWCj'):
         # print(data)
@@ -77,6 +104,7 @@ async def ask_query(data: askquery, request: Request):
         return StreamingResponse(content_generator(all_queries = all_queries))
     else:
         return "wrong api key"
+    
 
 if __name__ == "__main__":
     import uvicorn
