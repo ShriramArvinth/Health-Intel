@@ -46,6 +46,7 @@ stop_event = Event()
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     # This will run during startup
+    print("Starting dummy calls Thread")
     dummy_calls_thread = Thread(
         target=run_dummy_calls,
         args=(

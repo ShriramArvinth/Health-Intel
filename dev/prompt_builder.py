@@ -115,6 +115,7 @@ def build_prompt_haiku(user_queries: List[str]):
         These are the questions the user has previously asked:
         {line_by_line(user_queries)}
 
+        respond with only 3 questions
         output in JSON format with keys: "questions" (list).
     '''
     prompt = dedent(prompt).strip('\n')
