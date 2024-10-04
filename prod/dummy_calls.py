@@ -25,9 +25,14 @@ def run_dummy_calls(client: anthropic, start_time_str: str, end_time_str: str, i
     start_time = tz.localize(datetime.strptime(start_time_str, "%H:%M"))
     end_time = tz.localize(datetime.strptime(end_time_str, "%H:%M"))
 
-    while not stop_event.is_set():  # Check if stop_event has been set (indicating shutdown)
-        now = datetime.now(tz)  # Get current time in the specified timezone
-        if start_time.time() <= now.time() <= end_time.time():
+    # Adjust end_time if it's before start_time (indicating next day)
+    if end_time <= start_time:
+        end_time += timedelta(days=1)
+
+    while not stop_event.is_set():
+        now = datetime.now(tz)
+        # Check if current time is within the schedule
+        if start_time <= now <= end_time:
             dummy_query = "dummy question"
             prompt = build_prompt_sonnet(query=dummy_query)
             prompt["user_query"] = f'''
@@ -35,16 +40,16 @@ def run_dummy_calls(client: anthropic, start_time_str: str, end_time_str: str, i
                 If the user's question == "{dummy_query}", respond with "dummy".
             '''
 
-        dummy_response = infer_sonnet(prompt=prompt, client=client)
-        for response in dummy_response:
-            print(f"Dummy call at {now.strftime('%H:%M:%S %Z')}: {response.text}")
+            dummy_response = infer_sonnet(prompt=prompt, client=client)
+            for response in dummy_response:
+                print(f"Dummy call at {now.strftime('%H:%M:%S %Z')}: {response.text}")
 
             # Wait for the interval or stop event
             if stop_event.wait(interval_minutes * 60):
                 break  # Stop event was set, exit the loop
         else:
             # Calculate the time until the next start time or until the stop_event is set
-            next_start = (start_time + timedelta(days=1)) if (now.time() > end_time.time()) else start_time
+            next_start = (start_time + timedelta(days=1)) if now.time() > end_time.time() else start_time
             sleep_duration = (next_start - now).total_seconds()
 
             # Wait for the calculated sleep duration or stop event
