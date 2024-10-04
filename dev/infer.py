@@ -128,10 +128,37 @@ def infer_sonnet(prompt: str, client: anthropic):
                 "cache_control": {"type": "ephemeral"}
             }
         ],
-        messages=[{
-            "role": "user",
-            "content": prompt["user_query"]
-        }],
+        messages=[
+            {
+                "role": "user",
+                "content": [
+                    {
+                        "type": "text",
+                        "text": prompt["user_query"]["instructions"]
+                    }
+                ]
+            },
+            # we need the assistant block as a placeholder, as it doesn't allow two user queries together.
+            {
+                "role": "assistant",
+                "content": [
+                    {
+                        "type": "text",
+                        "text": "Certainly!, We shall follow your instructions!",
+                        "cache_control": {"type": "ephemeral"}
+                    }
+                ]
+            },
+            {
+                "role": "user",
+                "content": [
+                    {
+                        "type": "text",
+                        "text": prompt["user_query"]["user_question"]
+                    }
+                ]
+            }
+        ],
         stream=True,
     )
 
