@@ -48,7 +48,7 @@ do not enclose your json with "```json ```"
 
 
 def build_prompt_sonnet(query: str):
-    book_file_path = './Google_docs_extract_data.txt'
+    book_file_path = '/Users/swarankarthikeyan/Downloads/icliniq_search_1/icliniq-search-c/dev/Google_docs_extract_data.txt'
     with open(book_file_path, 'r', encoding="utf8") as file:
         lines = file.readlines()
     book_data = ''.join(lines)
@@ -103,20 +103,23 @@ def build_prompt_sonnet(query: str):
     return return_obj
 
 
-def build_prompt_haiku(user_queries: List[str]):
+def build_prompt_haiku(last_question: str, last_answer: str):
     system_prompt = '''
-        You are provided with a list of questions related to Weight Loss Drugs, that the user had asked till now. You will recommend 3 potential questions(related to Weight Loss Drugs) from the user's point of view.
+        You are provided with the last question and the answer to this question related to Weight Loss Drugs that the user had asked. You will recommend 3 potential questions (related to Weight Loss Drugs) from the user's point of view.
 
         The questions should be in the scope of weight loss drugs, and their medical, social, psychological, and practical aspects of their use in obesity management.
     '''
     system_prompt = dedent(system_prompt).strip('\n')
 
     prompt = f'''
-        These are the questions the user has previously asked:
-        {line_by_line(user_queries)}
+        This is the last question the user has asked:
+        {last_question}
 
-        respond with only 3 questions
-        output in JSON format with keys: "questions" (list).
+        This is the answer provided to that question:
+        {last_answer}
+
+        Respond with only 3 questions
+        Output in JSON format with keys: "questions" (list).
     '''
     prompt = dedent(prompt).strip('\n')
 
@@ -126,3 +129,4 @@ def build_prompt_haiku(user_queries: List[str]):
     }
 
     return response_obj
+
