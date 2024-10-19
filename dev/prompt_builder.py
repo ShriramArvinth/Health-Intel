@@ -121,7 +121,7 @@ def build_prompt_sonnet(query: str):
     return return_obj
 
 
-def build_prompt_haiku(last_question: str, last_answer: str):
+def build_prompt_haiku_followup(last_question: str, last_answer: str):
     system_prompt = '''
         You are provided with the last question and the answer to this question related to Weight Loss Drugs that the user had asked. You will recommend 3 potential questions (related to Weight Loss Drugs) from the user's point of view.
 
@@ -144,6 +144,33 @@ def build_prompt_haiku(last_question: str, last_answer: str):
     response_obj = {
         "system_prompt": system_prompt,
         "user_query": prompt 
+    }
+
+    return response_obj
+
+
+def build_prompt_haiku_chat_title(first_question: str):
+    system_prompt = '''
+        I will pass in the question from a chat I was having with an LLM.
+        You are supposed to give a very short topic for this chat just based on that question. It's the same way in which 
+        popular LLMs like Gemini, ChatGPT automatically create a topic for a new chat. I want you
+        to create a similar concise topic in the same way.
+
+        Give out your answer in normal text format.
+    '''
+    system_prompt = dedent(system_prompt).strip('\n')
+
+    prompt = f'''
+        This is the first question the user asked in the chat:
+        {first_question}
+
+        Respond with a concise topic for the chat.
+    '''
+    prompt = dedent(prompt).strip('\n')
+
+    response_obj = {
+        "system_prompt": system_prompt,
+        "user_query": prompt
     }
 
     return response_obj

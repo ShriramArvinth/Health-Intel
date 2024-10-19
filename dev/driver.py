@@ -8,7 +8,8 @@ from prompt_builder import (
     build_prompt,
     build_prompt_flash,
     build_prompt_sonnet,
-    build_prompt_haiku
+    build_prompt_haiku_followup,
+    build_prompt_haiku_chat_title
 )
 from infer import (
     infer,
@@ -105,9 +106,16 @@ def content_generator(all_queries: List[str]):
 
     yield "$end_of_answer_stream$"
 
-    haiku_prompt = build_prompt_haiku(all_queries[-1], answer_to_query)
-    followup_questions = infer_haiku(prompt=haiku_prompt, client=anthropic_client)
+    haiku_prompt = build_prompt_haiku_followup(all_queries[-1], answer_to_query)
+    followup_questions = infer_haiku(prompt = haiku_prompt, client = anthropic_client)
     yield followup_questions.text
+
+    # return chat title, if its the first question in the chat window
+    if(len(all_queries) == 1):
+        yield "$end_of_followup_stream$"
+        haiku_prompt = build_prompt_haiku_chat_title(first_question = all_queries[0])
+        chat_title = infer_haiku(prompt = haiku_prompt, client = anthropic_client)
+        yield chat_title.text
 
 
 @app.post("/ask-query")
