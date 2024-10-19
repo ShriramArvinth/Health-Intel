@@ -30,13 +30,7 @@ def run_dummy_calls(client, start_time_str, end_time_str, interval_minutes, time
     while not stop_event.is_set():
         now = datetime.now(tz)
         if start_time <= now <= end_time:
-            dummy_query = "dummy question"
-            prompt = build_prompt_sonnet(query=dummy_query)
-            prompt["user_query"]["user_question"] = f'''
-                {dummy_query}
-                If the user's question == "{dummy_query}", respond with "dummy".
-            '''
-            dummy_response = infer_sonnet(prompt=prompt, client=client)
+            dummy_response = make_dummy_call(client=client)
             for response in dummy_response:
                 print(f"Dummy call at {now.strftime('%H:%M:%S %Z')}: {response.text}")
 
@@ -54,3 +48,14 @@ def run_dummy_calls(client, start_time_str, end_time_str, interval_minutes, time
                 if stop_event.wait(interval_minutes * 60):
                     break
     print("Shutting down run dummy calls")
+
+
+def make_dummy_call(client):
+    dummy_query = "dummy question"
+    prompt = build_prompt_sonnet(query=dummy_query)
+    prompt["user_query"]["user_question"] = f'''
+        {dummy_query}
+        If the user's question == "{dummy_query}", respond with "dummy".
+    '''
+    dummy_response = infer_sonnet(prompt=prompt, client=client)
+    return dummy_response    
