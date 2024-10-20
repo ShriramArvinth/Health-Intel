@@ -98,29 +98,33 @@ def content_generator(all_queries: List[str]):
     parsed_stream = parse_streaming_response(response = response)
 
     answer_to_query = ""
+    chunk_flag = True
     for chunk in parsed_stream:
+        if "$relevant articles begin$" in chunk:
+            chunk_flag = False
+        if chunk_flag:
+            answer_to_query += chunk
         # print(response.text)
         # print('\n')
-        answer_to_query += chunk.text
-        yield chunk.text
+        yield chunk
 
     yield "$end_of_answer_stream$"
 
     haiku_prompt = build_prompt_haiku_followup(all_queries[-1], answer_to_query)
     followup_questions = infer_haiku(prompt = haiku_prompt, client = anthropic_client)
-    yield followup_questions.text
+    yield followup_questions
 
     # return chat title, if its the first question in the chat window
     if(len(all_queries) == 1):
         yield "$end_of_followup_stream$"
         haiku_prompt = build_prompt_haiku_chat_title(first_question = all_queries[0])
         chat_title = infer_haiku(prompt = haiku_prompt, client = anthropic_client)
-        yield chat_title.text
+        yield chat_title
 
 
 @app.post("/ask-query")
 async def ask_query(data: askquery, request: Request):
-    # make sure x-api-key's value is equal to the one we have
+    # Validate x-api-key's value
     xapikey = request.headers.get("x-api-key")
     if (xapikey == 'Cp)L9dt)ACeZIAv(RDYX)V8NPx+dEFMh(eGFDd(sAxQvEMdZh4y(svKC(4mWCj'):
         # print(data)

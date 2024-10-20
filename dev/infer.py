@@ -164,7 +164,7 @@ def infer_sonnet(prompt: str, client: anthropic):
 
     for event in response:
         if event.type == "content_block_delta":
-            yield(event.delta)
+            yield(event.delta.text)
 
 def infer_haiku(prompt: str, client: anthropic):
     response = client.beta.prompt_caching.messages.create(
@@ -184,5 +184,5 @@ def infer_haiku(prompt: str, client: anthropic):
         stream=False,
     )
 
-    return response.content[0]
+    return response.content[0].text
 

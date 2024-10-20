@@ -72,7 +72,7 @@ def handle_streaming_response(response):
     buffer = ""
 
 def parse_streaming_response(response):
-    file_path = '/content/section_article_map.json'
+    file_path = './section_article_map.json'
 
     parsed_stream = handle_streaming_response(response = response)
     first_chunk = next(parsed_stream)
@@ -96,7 +96,7 @@ def parse_streaming_response(response):
         }
         if relevant_articles["relevant_articles"]:
             yield first_chunk # start marker "$relevant articles start$"
-            yield relevant_articles
+            yield json.dumps(relevant_articles) # json.dumps() is needed here as everything in streaming response should be in string format. But in normal responses, json.dumps() is not needed.
             yield next(parsed_stream) # end marker "$relevant articles end$"
         else:
             next(parsed_stream) # end marker "$relevant articles end$"
