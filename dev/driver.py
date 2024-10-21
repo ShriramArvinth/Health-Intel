@@ -104,7 +104,7 @@ def content_generator(all_queries: List[str]):
             chunk_flag = False
         if chunk_flag:
             answer_to_query += chunk
-        print(chunk, end = "")
+        # print(chunk, end = "")
         # print('\n')
         yield chunk
 
