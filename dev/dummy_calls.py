@@ -32,7 +32,7 @@ def run_dummy_calls(client, start_time_str, end_time_str, interval_minutes, time
         if start_time <= now <= end_time:
             dummy_response = make_dummy_call(client=client)
             for response in dummy_response:
-                print(f"Dummy call at {now.strftime('%H:%M:%S %Z')}: {response.text}")
+                print(f"Dummy call at {now.strftime('%H:%M:%S %Z')}: {response}")
 
             if stop_event.wait(interval_minutes * 60):
                 break  # Stop event was set, exit the loop

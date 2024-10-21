@@ -90,16 +90,24 @@ def parse_streaming_response(response):
         with open(file_path, 'r') as json_file:
             map_obj = json.load(json_file)
 
-        # map article name with slugs
-        relevant_articles = {
-            "relevant_articles": list(map(lambda x: map_obj[x], list(filter(lambda x: not(x == "Article: No Article"), relevant_articles))))
-        }
+        # map article name with slugs -- handle keyerror exceptions
+        try:
+            relevant_articles = {
+                "relevant_articles": list(map(lambda x: map_obj[x], list(filter(lambda x: not(x == "Article: No Article"), relevant_articles))))
+            }
+        except Exception:
+            relevant_articles["relevant_articles"] = []
         if relevant_articles["relevant_articles"]:
             yield first_chunk # start marker "$relevant articles start$"
             yield json.dumps(relevant_articles) # json.dumps() is needed here as everything in streaming response should be in string format. But in normal responses, json.dumps() is not needed.
             yield next(parsed_stream) # end marker "$relevant articles end$"
         else:
             next(parsed_stream) # end marker "$relevant articles end$"
+
+        # handle \n at the start of the answer
+        answer_first_chunk = next(parsed_stream)
+        answer_first_chunk = answer_first_chunk.lstrip()
+        parsed_stream = itertools.chain([answer_first_chunk], parsed_stream)
     
     for _ in parsed_stream:
         yield(_)

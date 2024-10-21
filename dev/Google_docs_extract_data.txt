@@ -191,7 +191,7 @@ The BMI score has some restrictions because it determines whether a person is ov
 majority of people.
 
 ## Article: Body Mass Index Calculator
-Use this tool to calculate the BMI -  https://www.icliniq.com/tool/bmi-calculator.
+You can calculate the BMI for your own benifit
 
 
 ## Article: Obesity - Causes, Symptoms, Risks, and Myths
