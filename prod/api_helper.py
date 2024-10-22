@@ -47,9 +47,9 @@ def handle_streaming_response(response):
 
                 # set the state to print the collected text, and proceed normally
                 collection_done_flag = True
-                yield "$relevant articles begin$"
+                yield "$relevant_articles_begin$"
                 yield collected_text.strip("\n") # print(collected_text)
-                yield "$relevant articles end$"
+                yield "$relevant_articles_end$"
                 if buffer: # handle buffer empty case
                   yield buffer # print(buffer, end = "")
                 else:
@@ -78,7 +78,7 @@ def parse_streaming_response(response):
     first_chunk = next(parsed_stream)
     question_exception = False
 
-    start_marker = "$relevant articles begin$"
+    start_marker = "$relevant_articles_begin$"
     relevant_articles = []
     if start_marker not in first_chunk:
         question_exception = True
@@ -98,11 +98,11 @@ def parse_streaming_response(response):
         except Exception:
             relevant_articles["relevant_articles"] = []
         if relevant_articles["relevant_articles"]:
-            yield first_chunk # start marker "$relevant articles start$"
+            yield first_chunk # start marker "$relevant_articles_begin$"
             yield json.dumps(relevant_articles) # json.dumps() is needed here as everything in streaming response should be in string format. But in normal responses, json.dumps() is not needed.
-            yield next(parsed_stream) # end marker "$relevant articles end$"
+            yield next(parsed_stream) # end marker "$relevant_articles_end$"
         else:
-            next(parsed_stream) # end marker "$relevant articles end$"
+            next(parsed_stream) # end marker "$relevant_articles_end$"
 
         # handle \n at the start of the answer
         answer_first_chunk = next(parsed_stream)

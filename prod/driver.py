@@ -101,9 +101,9 @@ def content_generator(all_queries: List[str]):
     answer_to_query = ""
     chunk_flag = True
     for chunk in parsed_stream:
-        if "$relevant articles begin$" in chunk:
+        if "$relevant_articles_begin$" in chunk:
             chunk_flag = not(chunk_flag)
-        elif "$relevant articles end$" in chunk:
+        elif "$relevant_articles_end$" in chunk:
             chunk_flag = not(chunk_flag)
         if chunk_flag:
             answer_to_query += re.sub(r'\$.*?\$', '', chunk)
