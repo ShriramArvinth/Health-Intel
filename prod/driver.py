@@ -8,7 +8,8 @@ from prompt_builder import (
     build_prompt,
     build_prompt_flash,
     build_prompt_sonnet,
-    build_prompt_haiku
+    build_prompt_haiku_followup,
+    build_prompt_haiku_chat_title
 )
 from infer import (
     infer,
@@ -16,14 +17,18 @@ from infer import (
     infer_sonnet,
     infer_haiku
 )
+from api_helper import parse_streaming_response
 from contextlib import asynccontextmanager
-from dummy_calls import run_dummy_calls
+from dummy_calls import (run_dummy_calls, make_dummy_call)
 from fastapi import FastAPI, HTTPException, UploadFile, File, Request
 from fastapi.responses import StreamingResponse
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 from typing import List
 from threading import Thread, Event
+from datetime import datetime, timedelta
+import re
+import pytz
 import json
 
 class querycontent(BaseModel):
@@ -42,6 +47,13 @@ class askquery(BaseModel):
 # flash_model = init_flash_model()
 anthropic_client = init_anthropic()
 
+# dummy calls
+timezone: str = "America/New_York"
+
+    # dummy calls handled from client
+# last_dummy_call = datetime.now(pytz.timezone(timezone))
+
+    # dummy calls handled automatically by the server
 stop_event = Event()
 @asynccontextmanager
 async def lifespan(app: FastAPI):
@@ -54,7 +66,7 @@ async def lifespan(app: FastAPI):
             "09:00",           # Start time
             "23:59",           # End time
             4.5,                # Interval in minutes
-            'America/New_York',  # Timezone
+            timezone,  # Timezone
             stop_event
         )
     )
@@ -67,7 +79,8 @@ async def lifespan(app: FastAPI):
         dummy_calls_thread.join()     # Wait for the thread to finish
 
 
-app = FastAPI(lifespan=lifespan)
+# start app
+app = FastAPI(lifespan=lifespan) # spawn run_dummy_calls thread as soon as the server starts up
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],
@@ -80,24 +93,41 @@ def content_generator(all_queries: List[str]):
     prompt = build_prompt_sonnet(
        query = all_queries[-1]
     )
+
     # responses = infer(prompt = prompt, model = model)
-    responses = infer_sonnet(prompt = prompt, client = anthropic_client)
-    for response in responses:
-        # print(response.text)
+    response = infer_sonnet(prompt = prompt, client = anthropic_client)
+    parsed_stream = parse_streaming_response(response = response)
+
+    answer_to_query = ""
+    chunk_flag = True
+    for chunk in parsed_stream:
+        if "$relevant articles begin$" in chunk:
+            chunk_flag = not(chunk_flag)
+        elif "$relevant articles end$" in chunk:
+            chunk_flag = not(chunk_flag)
+        if chunk_flag:
+            answer_to_query += re.sub(r'\$.*?\$', '', chunk)
+        # print(chunk, end = "")
         # print('\n')
-        yield response.text
+        yield chunk
 
     yield "$end_of_answer_stream$"
 
-    haiku_prompt = build_prompt_haiku(all_queries)
-    followup_questions = infer_haiku(prompt=haiku_prompt, client=anthropic_client)
-    yield followup_questions.text
+    haiku_prompt = build_prompt_haiku_followup(all_queries[-1], answer_to_query)
+    followup_questions = infer_haiku(prompt = haiku_prompt, client = anthropic_client)
+    yield followup_questions
 
+    # return chat title, if its the first question in the chat window
+    if(len(all_queries) == 1):
+        yield "$end_of_followup_stream$"
+        haiku_prompt = build_prompt_haiku_chat_title(first_question = all_queries[0])
+        chat_title = infer_haiku(prompt = haiku_prompt, client = anthropic_client)
+        yield chat_title
 
 
 @app.post("/ask-query")
 async def ask_query(data: askquery, request: Request):
-    # make sure x-api-key's value is equal to the one we have
+    # Validate x-api-key's value
     xapikey = request.headers.get("x-api-key")
     if (xapikey == 'Cp)L9dt)ACeZIAv(RDYX)V8NPx+dEFMh(eGFDd(sAxQvEMdZh4y(svKC(4mWCj'):
         # print(data)
@@ -105,7 +135,20 @@ async def ask_query(data: askquery, request: Request):
         return StreamingResponse(content_generator(all_queries = all_queries))
     else:
         return "wrong api key"
-    
+
+
+# @app.get("/dummy-call")
+# async def dummy_call():
+#     current_time = datetime.now(pytz.timezone(timezone))
+#     global last_dummy_call # refer to the global variable within this function
+#     rtn_var = ''
+#     if ((current_time - last_dummy_call) > timedelta(minutes=4.5)):
+#         print(last_dummy_call)
+#         dummy_response = make_dummy_call(client=anthropic_client)
+#         for response in dummy_response:
+#             rtn_var += response.text
+#         last_dummy_call = current_time
+#     return {"message": rtn_var}
 
 if __name__ == "__main__":
     import uvicorn
