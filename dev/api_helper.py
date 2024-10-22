@@ -96,7 +96,9 @@ def parse_streaming_response(response):
                 "relevant_articles": list(map(lambda x: map_obj[x], list(filter(lambda x: not(x == "Article: No Article"), relevant_articles))))
             }
         except Exception:
-            relevant_articles["relevant_articles"] = []
+            relevant_articles = {
+                "relevant_articles": []
+            }
         if relevant_articles["relevant_articles"]:
             yield first_chunk # start marker "$relevant_articles_begin$"
             yield json.dumps(relevant_articles) # json.dumps() is needed here as everything in streaming response should be in string format. But in normal responses, json.dumps() is not needed.
