@@ -102,7 +102,7 @@ def build_prompt_sonnet(query: str):
             They should have the format: Article: (Article Name)
             End by printing "#####relevant articles end"
 
-            If the user's question requires you to not give an answer, then you don't have to execute task 1.
+            If the user's question doesn't require you to give a medical answer, then you don't have to execute task 1.
 
             -> Therefore, our final, full response format (always follow this format, nothing else should be done, you don't have to explain your actions or your thought process):
 
