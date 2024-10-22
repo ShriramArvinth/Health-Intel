@@ -27,6 +27,7 @@ from pydantic import BaseModel
 from typing import List
 from threading import Thread, Event
 from datetime import datetime, timedelta
+import re
 import pytz
 import json
 
@@ -101,9 +102,11 @@ def content_generator(all_queries: List[str]):
     chunk_flag = True
     for chunk in parsed_stream:
         if "$relevant articles begin$" in chunk:
-            chunk_flag = False
+            chunk_flag = not(chunk_flag)
+        elif "$relevant articles end$" in chunk:
+            chunk_flag = not(chunk_flag)
         if chunk_flag:
-            answer_to_query += chunk
+            answer_to_query += re.sub(r'\$.*?\$', '', chunk)
         # print(chunk, end = "")
         # print('\n')
         yield chunk
