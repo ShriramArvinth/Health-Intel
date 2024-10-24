@@ -2,6 +2,7 @@ from datetime import datetime, timedelta
 from prompt_builder import build_prompt_sonnet
 from infer import infer_sonnet
 import pytz
+from typing import Generator
 from threading import Event
 
 def run_dummy_calls(client, start_time_str, end_time_str, interval_minutes, timezone_str, stop_event):
@@ -50,7 +51,7 @@ def run_dummy_calls(client, start_time_str, end_time_str, interval_minutes, time
     print("Shutting down run dummy calls")
 
 
-def make_dummy_call(client):
+def make_dummy_call(client) -> Generator:
     dummy_query = "dummy question"
     prompt = build_prompt_sonnet(query=dummy_query)
     prompt["user_query"]["user_question"] = f'''

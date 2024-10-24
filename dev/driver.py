@@ -42,6 +42,9 @@ class askquery(BaseModel):
     timestamp: str
     queries: List[querycontent]
 
+class dummydata(BaseModel):
+    data: str 
+
 # init_vertex()
 # model = init_model()
 # flash_model = init_flash_model()
@@ -50,8 +53,8 @@ anthropic_client = init_anthropic()
 # dummy calls
 timezone: str = "America/New_York"
 
-    # dummy calls handled from client
-# last_dummy_call = datetime.now(pytz.timezone(timezone))
+    # dummy calls handled from client -- initialise last dummy call at server_start to -5mins(curr_time) to make dummy_calls immediately
+last_dummy_call = datetime.now(pytz.timezone(timezone)) - timedelta(minutes=5)
 
     # dummy calls handled automatically by the server
 stop_event = Event()
@@ -137,18 +140,18 @@ async def ask_query(data: askquery, request: Request):
         return "wrong api key"
 
 
-# @app.get("/dummy-call")
-# async def dummy_call():
-#     current_time = datetime.now(pytz.timezone(timezone))
-#     global last_dummy_call # refer to the global variable within this function
-#     rtn_var = ''
-#     if ((current_time - last_dummy_call) > timedelta(minutes=4.5)):
-#         print(last_dummy_call)
-#         dummy_response = make_dummy_call(client=anthropic_client)
-#         for response in dummy_response:
-#             rtn_var += response.text
-#         last_dummy_call = current_time
-#     return {"message": rtn_var}
+@app.post("/dummy-call")
+async def dummy_call(data: dummydata):
+    current_time = datetime.now(pytz.timezone(timezone))
+    global last_dummy_call # refer to the global variable within this function
+    dummy_response_text = ""
+    if ((current_time - last_dummy_call) > timedelta(minutes=0.1)):
+        print(last_dummy_call)
+        dummy_response = make_dummy_call(client=anthropic_client)
+        for _ in dummy_response:
+            dummy_response_text += _
+        last_dummy_call = current_time
+    return StreamingResponse((x for x in dummy_response_text))
 
 if __name__ == "__main__":
     import uvicorn
