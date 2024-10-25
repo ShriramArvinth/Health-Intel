@@ -68,8 +68,8 @@ async def lifespan(app: FastAPI):
             anthropic_client,  # Pass the client
             "09:00",           # Start time
             "23:59",           # End time
-            4.5,                # Interval in minutes
-            timezone,  # Timezone
+            4.5,               # Interval in minutes
+            timezone,
             stop_event
         )
     )
@@ -144,6 +144,7 @@ async def ask_query(data: askquery, request: Request):
 async def dummy_call(data: dummydata):
     current_time = datetime.now(pytz.timezone(timezone))
     global last_dummy_call # refer to the global variable within this function
+    
     dummy_response_text = ""
     if ((current_time - last_dummy_call) > timedelta(minutes=4.5)):
         print(last_dummy_call)
@@ -153,7 +154,12 @@ async def dummy_call(data: dummydata):
         last_dummy_call = current_time
     else:
         dummy_response_text = "dummy call blocked"
-    return StreamingResponse((x for x in dummy_response_text))
+    # return StreamingResponse((x for x in dummy_response_text))
+
+    response_obj = {
+        "message": dummy_response_text
+    }
+    return response_obj
 
 if __name__ == "__main__":
     import uvicorn
