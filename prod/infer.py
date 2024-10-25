@@ -124,7 +124,7 @@ def infer_sonnet(prompt: str, client: anthropic):
             },
             {
                 "type": "text",
-                "text": prompt["book_data"],
+                "text": "DATA: \n" + prompt["book_data"],
                 "cache_control": {"type": "ephemeral"}
             }
         ],
