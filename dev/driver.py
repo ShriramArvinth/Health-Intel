@@ -145,12 +145,14 @@ async def dummy_call(data: dummydata):
     current_time = datetime.now(pytz.timezone(timezone))
     global last_dummy_call # refer to the global variable within this function
     dummy_response_text = ""
-    if ((current_time - last_dummy_call) > timedelta(minutes=0.1)):
+    if ((current_time - last_dummy_call) > timedelta(minutes=4.5)):
         print(last_dummy_call)
         dummy_response = make_dummy_call(client=anthropic_client)
         for _ in dummy_response:
             dummy_response_text += _
         last_dummy_call = current_time
+    else:
+        dummy_response_text = "dummy call blocked"
     return StreamingResponse((x for x in dummy_response_text))
 
 if __name__ == "__main__":
