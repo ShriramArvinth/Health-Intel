@@ -60,26 +60,28 @@ last_dummy_call = datetime.now(pytz.timezone(timezone)) - timedelta(minutes=5)
 stop_event = Event()
 @asynccontextmanager
 async def lifespan(app: FastAPI):
-    # This will run during startup
-    print("Starting dummy calls Thread")
-    dummy_calls_thread = Thread(
-        target=run_dummy_calls,
-        args=(
-            anthropic_client,  # Pass the client
-            "09:00",           # Start time
-            "23:59",           # End time
-            4.5,               # Interval in minutes
-            timezone,
-            stop_event
-        )
-    )
-    dummy_calls_thread.start()
+    pass
+    # # This will run during startup
+    # print("Starting dummy calls Thread")
+    # dummy_calls_thread = Thread(
+    #     target=run_dummy_calls,
+    #     args=(
+    #         anthropic_client,  # Pass the client
+    #         "09:00",           # Start time
+    #         "23:59",           # End time
+    #         4.5,               # Interval in minutes
+    #         timezone,
+    #         stop_event
+    #     )
+    # )
+    # dummy_calls_thread.start()
     try:
         yield
     finally:
-        # This will run during application shutdown
-        stop_event.set()  # Signal the thread to stop
-        dummy_calls_thread.join()     # Wait for the thread to finish
+        pass
+        # # This will run during application shutdown
+        # stop_event.set()  # Signal the thread to stop
+        # dummy_calls_thread.join()     # Wait for the thread to finish
 
 
 # start app
