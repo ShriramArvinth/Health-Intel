@@ -54,7 +54,7 @@ anthropic_client = init_anthropic()
 timezone: str = "America/New_York"
 
     # dummy calls handled from client -- initialise last dummy call at server_start to -5mins(curr_time) to make dummy_calls immediately
-last_dummy_call = datetime.now(pytz.timezone(timezone)) - timedelta(minutes=5)
+last_cache_refresh = datetime.now(pytz.timezone(timezone)) - timedelta(minutes=5)
 
     # dummy calls handled automatically by the server
 stop_event = Event()
@@ -98,6 +98,10 @@ def content_generator(all_queries: List[str]):
     prompt = build_prompt_sonnet(
        query = all_queries[-1]
     )
+
+    # reset cache refresh timer
+    global last_cache_refresh
+    last_cache_refresh = datetime.now(pytz.timezone(timezone))
 
     # responses = infer(prompt = prompt, model = model)
     response = infer_sonnet(prompt = prompt, client = anthropic_client)
@@ -145,15 +149,15 @@ async def ask_query(data: askquery, request: Request):
 @app.post("/dummy-call")
 async def dummy_call(data: dummydata):
     current_time = datetime.now(pytz.timezone(timezone))
-    global last_dummy_call # refer to the global variable within this function
+    global  last_cache_refresh # refer to the global variable within this function
     
     dummy_response_text = ""
-    if ((current_time - last_dummy_call) > timedelta(minutes=4.5)):
-        print(last_dummy_call)
+    if ((current_time - last_cache_refresh) > timedelta(minutes=4.5)):
+        print(last_cache_refresh)
+        last_cache_refresh = current_time
         dummy_response = make_dummy_call(client=anthropic_client)
         for _ in dummy_response:
             dummy_response_text += _
-        last_dummy_call = current_time
     else:
         dummy_response_text = "dummy call blocked"
     # return StreamingResponse((x for x in dummy_response_text))

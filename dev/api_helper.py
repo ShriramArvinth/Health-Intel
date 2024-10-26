@@ -72,7 +72,7 @@ def handle_streaming_response(response):
     buffer = ""
 
 def parse_streaming_response(response):
-    file_path = './section_article_map.json'
+    # file_path = './section_article_map.json'
 
     parsed_stream = handle_streaming_response(response = response)
     first_chunk = next(parsed_stream)
@@ -87,18 +87,21 @@ def parse_streaming_response(response):
         parsed_stream = itertools.chain([first_chunk], parsed_stream)
     else:
         relevant_articles = next(parsed_stream).split("\n")
-        with open(file_path, 'r') as json_file:
-            map_obj = json.load(json_file)
+        # with open(file_path, 'r') as json_file:
+        #     map_obj = json.load(json_file)
 
-        # map article name with slugs -- handle keyerror exceptions
-        try:
-            relevant_articles = {
-                "relevant_articles": list(map(lambda x: map_obj[x], list(filter(lambda x: not(x == "Article: No Article"), relevant_articles))))
-            }
-        except Exception:
-            relevant_articles = {
-                "relevant_articles": []
-            }
+        # # map article name with slugs -- handle keyerror exceptions
+        # try:
+        #     relevant_articles = {
+        #         "relevant_articles": list(map(lambda x: map_obj[x], list(filter(lambda x: not(x == "Article: No Article"), relevant_articles))))
+        #     }
+        # except Exception:
+        #     relevant_articles = {
+        #         "relevant_articles": []
+        #     }
+        relevant_articles = {
+            "relevant_articles": list(filter(lambda x: not(x in ["", "articles/no-article"]), relevant_articles))
+        }
         if relevant_articles["relevant_articles"]:
             yield first_chunk # start marker "$relevant_articles_begin$"
             yield json.dumps(relevant_articles) # json.dumps() is needed here as everything in streaming response should be in string format. But in normal responses, json.dumps() is not needed.
