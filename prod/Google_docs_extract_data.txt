@@ -3,7 +3,7 @@ WEIGHT LOSS DRUGS
 INTRODUCTION
 
 
-## Article: No Article
+# articles/no-article
 A Relatable Story Of Someone Struggling With Obesity
 
 
@@ -22,7 +22,7 @@ Obesity poses a significant health risk, potentially leading to a myriad of dise
 Addressing obesity is not merely about achieving a slimmer figure; it's about enhancing overall health and potentially extending life expectancy. It necessitates adopting healthier eating patterns, increasing physical activity, reducing sedentary behaviors, and ensuring adequate sleep. Through such measures, it's possible to diminish the prevalence of obesity and its associated health complications, paving the way for a healthier and more vibrant future for all.
 
 
-## Article: Obesity - Causes, Symptoms, Risks, and Myths
+# articles/diseases-and-disorders-common-medical-conditions/obesity
 
 Obesity is defined as excessive fat accumulation that may impact health. Obesity is a significant concern due to its connection to worsened mental health and diminished quality of life. Both in the United States and globally, obesity is linked to major causes of mortality, such as diabetes, heart disease, stroke, and certain forms of cancer. Obesity can lead to various problems, such as diabetes, heart disease, bone diseases, and chronic health diseases. It also affects the quality of life. The body mass index determines obesity. Body mass index refers to medical screening tools that measure the ratio of height to weight. 
 The World Health Organization (WHO) defines obesity as follows:
@@ -54,7 +54,7 @@ Weight loss drugs are pharmaceutical medications designed to assist individuals 
 This article aims to shed light on the prevalent issues of obesity, weight loss, being overweight, and the consequences of obesity. Additionally, we will discuss the role of weight loss drugs in addressing obesity, examining their types, effectiveness, and safety. Long-term use of weight loss drugs raises questions regarding their efficacy and potential drawbacks. Monitoring for adverse effects, managing tolerance and dependence, and addressing lifestyle factors are essential aspects of prolonged treatment with these medications. Looking ahead, the future of weight loss drugs holds promise, with ongoing research and development initiatives discussed in this article.
 
 Section 1 - Understanding Obesity
-## Article: Obesity - Causes, Symptoms, Risks, and Myths
+# articles/diseases-and-disorders-common-medical-conditions/obesity
 
 What Is Obesity?
 Obesity is a chronic, complex condition characterized by excessive fat deposits, which may adversely affect health. Obesity has an impact on everyday activities, including sleeping and moving. Obesity is beyond a cosmetic problem. It is a medical condition that raises the risk of several other illnesses and health issues. These may include heart disease, diabetes, high blood pressure, high cholesterol, liver disease, and sleep apnea. It can also impact the health of bones and fertility, and it raises the risk of developing several cancers. The standard measure of obesity in adults is a BMI of 27 to 30 or greater. Severe or morbid obesity is defined as having a BMI of 40 or above. Growth charts are used to measure childhood obesity.
@@ -190,11 +190,11 @@ One must use a lower BMI score to determine overweight and obesity if the person
 The BMI score has some restrictions because it determines whether a person is overweight but not obese. For instance, highly muscular individuals, such as athletes, can have a high BMI without being significantly obese. However, BMI is a helpful indicator of a healthy weight for the 
 majority of people.
 
-## Article: Body Mass Index Calculator
+# articles/diet-and-nutrition/body-mass-index
 You can calculate the BMI for your own benifit
 
 
-## Article: Obesity - Causes, Symptoms, Risks, and Myths
+# articles/diseases-and-disorders-common-medical-conditions/obesity
 
 How to Measure a Waist to Height Ratio?
 The waist-to-height ratio is another metric for assessing extra fat that can be applied to persons with BMIs < 35.
@@ -262,7 +262,7 @@ A body mass index (BMI) of 25 kg/m2 or higher is generally considered overweight
 Many people think that their obesity is mainly due to their genes. However, it is not usually caused by a specific genetic problem. Obesity does have a genetic aspect and tends to run in families. Estimates show that about 60 percent of the genetic influence on obesity comes from multiple genes working together rather than a single, clear genetic issue.
 
 
-## Article: Obesity and Its Impacts
+# articles/healthy-living-wellness-and-prevention/obesity-and-its-impacts
 
 Economic and Social Impacts of Obesity 
 Overweight and obesity lead to an economic impact on both nations and individuals. The most notable are the direct medical expenses related to treating disorders linked to obesity. Compared to people of lower weight, obese people are much more likely to need home medical care, outpatient appointments, lots of medication, be admitted to the hospital, and have surgery. The expenses of care and hospital stays are higher for obese patients.
@@ -285,7 +285,7 @@ Researchers have discovered a protein that inhibits brown fat function. This new
 WHO Statistics  
 In 2022, the prevalence of obesity globally stood at 1 in 8 individuals. From the year 1990, the rate of adult obesity worldwide has enormously doubled, while adolescent obesity has quadrupled. In the same year, about 2.5 billion adults aged 18 years and above were categorized as overweight, with 890 million individuals among them suffering from obesity. Moreover, 43 percent of adults aged 18 years and older were overweight, with 16 percent of them being obese. Among children under the age of 5, 37 million individuals were overweight. Furthermore, in 2022, over 390 million children and adolescents aged 5 to 19 years were overweight. Amongst them, 160 million were living with obesity.
 
-## Article: Confronting Obesity: Diagnosis, Treatment, and Prevention
+# articles/diseases-and-disorders-common-medical-conditions/confronting-obesity
 
 WHO Strategies for Prevention and Management
 The prevention and management of overweight and obesity, along with associated non-communicable comorbidities, are primarily within reach and are controllable. At the individual level, people can reduce their risks of obesity by following preventive measures across various life stages, which start very early from the pre-conception stage and extend through the early years. These measures include:
@@ -297,12 +297,12 @@ Restriction of sugar-sweetened beverages and nutrient-rich foods while promoting
 Individuals must adopt a balanced lifestyle comprising a healthy diet, physical activity, proper sleep, tobacco and alcohol restriction, and emotional self-regulation.
 One should restrain energy intake from fats and sugars while also increasing the consumption of whole grains, vegetables, fruits, legumes, and nuts.
 
-## Article: No Article
+# articles/no-article
 
 Adipose tissue has evolved as an adaptive response to the intermittent availability of food. During periods of abundance of food, surplus calories are converted into triglycerides and stored efficiently within the large lipid droplets found in fat cells. These stored triglycerides act as a readily accessible energy reserve. When required, such as during periods of food scarcity, triglycerides are immediately broken down into free fatty acids and glycerol. These breakdown products then serve as a vital energy source for various tissues and organs throughout the body, ensuring survival and sustenance during limited food availability.
 Obesity occurs when energy intake constantly surpasses energy expenditure, leading to the sustained accumulation of excessive triglycerides in adipose tissue. This condition is cumulative, meaning that even a minor daily surplus of energy intake over expenditure, as little as 7 kcaL per day, can result in obesity over several years or decades. It is imperative to note that despite the prevalence of obesity, there are individuals within these populations who do not fall into the overweight category. This emphasizes the complex interplay of genetic, environmental, and behavioral factors in determining individual weight status.
 
-## Article: No Article
+# articles/no-article
 Role of Leptin
 Leptin, a hormone that inhibits food intake, usually increases as fat stores expand. However, this mechanism alone does not always prevent obesity. Evolutionary factors and the nature of leptin's role shed light on this phenomenon. Leptin can strongly defend against losing body fat, thereby triggering excess food intake when its levels drop below an individual's usual level. However, the response to elevated leptin levels is less decided. At higher levels, administering additional leptin may have little to no effect, a phenomenon known as leptin resistance.
 Obesity control measures by healthcare providers:
@@ -311,7 +311,7 @@ Provide counseling on healthy dietary choices and lifestyle practices.
 Comprehensive obesity prevention and management services can be provided upon diagnosis, including guidance on diet, exercise, and medical and surgical interventions if required. 
 Monitoring for other risk factors for noncommunicable diseases, such as blood glucose, blood pressure, and lipids, and assessing the existence of comorbidities and disabilities, including mental health disorders.
 
-## Article: No Article
+# articles/no-article
 Key Policies
 Individual dietary choices and physical activity are shaped mainly by external influences, such as societal and environmental factors, which can limit their personal choices. Ultimately, fighting obesity requires a collective effort rather than individual effort, highlighting the establishment of supportive environments and communities where healthy eating and regular exercise are easily achievable, accessible, and affordable components of everyday life.
 Comprehensive and multisectoral measures are indispensable to slow down the upward trend of obesity effectively. These should comprise various domains, including marketing strategies, food production, pricing policies, and other measures aimed at addressing overarching health determinants like urban development and poverty alleviation.
@@ -319,14 +319,14 @@ To curb obesity effectively, the following need to be mandatory:
 Enact structural, fiscal, and regulatory policies to cultivate environments that encourage healthier food options and ensure they are accessible, abundant, and appealing to consumers.
 Improvise healthcare sector capabilities to identify, prevent, treat, and seamlessly manage obesity and integrate these endeavors into broader frameworks targeting non-communicable diseases. This approach involves strengthening health systems through a primary healthcare model.
 
-## Article: No Article
+# articles/no-article
 The food industry contributions include:
 Reduction of fat, sugar, and salt content in processed foods.
 Ensure that healthy and nutritious foods are accessible and affordable for all consumers.
 Strict regulation of the marketing of foods high in sugars, salt, and fats, particularly those that target children and adolescents.
 Support the availability of healthy food choices.
 
-## Article: Confronting Obesity: Diagnosis, Treatment, and Prevention
+# articles/diseases-and-disorders-common-medical-conditions/confronting-obesity
 Diagnosis
 Healthcare professionals should assess all adult patients for obesity and offer comprehensive counseling, as well as behavioral interventions, focused on achieving lasting weight reduction. The evaluation process for obesity includes four primary steps: 
 Conduct a targeted history of obesity-related aspects such as lifestyle habits, diet, exercise, sleep, and stress management.
@@ -334,7 +334,7 @@ A physical examination is performed to establish the extent and nature of obesit
 Evaluation of any associated medical conditions.
 Estimation of patient's readiness to embrace new lifestyle modifications.
 
-## Article: Confronting Obesity: Diagnosis, Treatment, and Prevention
+# articles/diseases-and-disorders-common-medical-conditions/confronting-obesity
 Obesity Measurement
 Efforts are underway to develop more sensible and effective assessments for identifying high-risk individuals, drifting beyond reliance solely on the BMI scale. Like staging systems used for conditions like chronic kidney disease, the American Association of Clinical Endocrinology (AACE) guidelines and the American College of Endocrinology (ACE) propose a straightforward and clinically suitable treatment system for obesity. This system will incorporate ethnic-specific BMI thresholds along with evaluations for complications related to obesity. This stage has the following stages:
 
@@ -350,7 +350,7 @@ Stage 2: There can be pronounced risk factors that require medical care, moderat
 Stage 3: There can be significant end-organ damage, considerable psychological complaints, severe functional limitations, or severe deterioration of well-being.
 Stage 4: Chronic disease due to obesity, grave psychological symptoms, or grave functional hindrances.
 
-## Article: Confronting Obesity: Diagnosis, Treatment, and Prevention
+# articles/diseases-and-disorders-common-medical-conditions/confronting-obesity
 Treatment Strategies
 Treatment goals for obesity aim at improving related health issues, enhancing quality of life, and minimizing the risk of complications. Thorough medical history, physical examination, and tests help determine risk and plan treatment. The intensity and choice of treatment depend on the patient's risk level, preferences, and available resources. Not all obese patients require treatment based purely on BMI, as it does not directly measure body fat or overall health. However, those with obesity-related health problems should receive active treatment. Treatment involves lifestyle changes initially and might include medication or surgery, depending on the BMI category.
 
@@ -397,17 +397,17 @@ Restrictive surgeries can minimize the stomach's capacity and hinder the emptyin
 In laparoscopic sleeve gastrectomy, the stomach will be restricted by vertically stapling and dividing it, which can remove approximately 80 percent of the greater curvature, thereby leaving a slender, banana-shaped portion along the lesser curvature. Weight loss that follows this procedure surpasses that of laparoscopic adjustable gastric banding.
 
 
-## Article: Obesity and Its Impacts
+# articles/healthy-living-wellness-and-prevention/obesity-and-its-impacts
 Effect of Obesity on Mental Health:
 Obesity can usually cause emotional challenges like mood swings, low self-esteem, and body image issues, which can affect treatment and prognosis. That is why most obesity treatment teams also include mental health experts to support patients with these issues. Fortunately, losing weight can enhance mental well-being, especially for the ones shedding a significant amount, like those who have undergone bariatric surgery. However, some people have recurring mental health issues or develop new ones after losing weight. Even if weight is regained, psychological struggles do persist. This stresses the significance of physicians assessing mental health at the start of treatment, tracking changes during weight loss, and being alert to any worsening symptoms if weight is regained.
 
-## Article: Obesity and Its Impacts
+# articles/healthy-living-wellness-and-prevention/obesity-and-its-impacts
 Effect of Gender-Reaffirmation Hormonal Drugs on Causing Obesity
 Transgender individuals tend to use gender-affirming hormone therapy (GAHT) to align their physical appearance with their gender identity, focusing on improving their quality of life. While GAHT can lead to low long-term risks, transgender women can have a slightly higher chance of experiencing venous thromboembolism, cardiovascular disease (CVD), and cerebrovascular accidents (CVA). In contrast, transgender men may encounter acne, polycythemia, and alopecia. Guidelines from the Endocrine Society and World Professional Association for Transgender Health suggest that the hormone levels be maintained within the expected range for the affirmed gender and avoid excessive doses of GAHT to reduce these risks.
 However, research on how BMI changes in transgender individuals undergoing GAHT is scarce, and studies are still ongoing. Some studies suggest that transgender women have experienced a remarkable increase in BMI after 12 months of GAHT, while transgender men show higher BMI levels after six months and up to 54 months of GAHT. Nevertheless, more long-term studies, especially in the United States, are deemed necessary to get a better insight into the impact of GAHT on BMI.
 
 Section 2 - Exploring Weight Loss Drugs
-## Article: Exploring Weight Loss Drugs
+# articles/drug-and-supplements/exploring-weight-loss-drugs
 Purpose of Weight Loss Drugs in Combating Obesity
 Obesity is the largest and fastest-growing public health concern and mainly occurs due to an imbalance between energy intake and expenditure. It is a heterogeneous condition with different causes and varies among individuals. Approximately 70 percent of adults in the United States are affected by obesity. If left unmanaged, obesity can lead to major comorbidities such as hypertension, diabetes, myocardial infarction, osteoarthritis, etc. Weight loss drugs or anti-obesity medicines are prescribed to individuals who are overweight or obese due to various conditions. 
 
@@ -435,7 +435,7 @@ Sibutramine is a serotonergic and adrenergic drug approved by the USFDA, which w
 Drugs That Increase Energy Expenditure and Thermogenesis: This category includes drugs such as Ephedrine and Caffeine. A long-term, placebo-controlled study showed that combining Caffeine and Ephedrine greatly affected weight loss compared to using them alone. However, this combination has not been approved by the USFDA for weight-reducing treatment.
 
 
-## Article: The Ultimate Guide to Weight Loss Drugs
+# articles/drug-and-supplements/the-ultimate-guide-to-weight-loss-drugs
 What Are the Different Types of Weight Loss Drugs Available, and How Do They Differ?
 Weight loss drugs are available as oral tablets and injections that can be self-administered. They work in different ways to treat obesity and overweight, depending on the group to which they belong. Current pharmacotherapy for obesity mainly targets neurohormonal dysregulations that are responsible for weight gain and also prevent sustained weight loss and its complications. Different weight loss drugs:
 Tirzepatide: It is a recent weight loss drug and is administered subcutaneously once a week. Studies (SURMONT-1) have demonstrated that participants lost up to 21 percent of their body weight using the 15 mg dose, once a week.
@@ -446,7 +446,7 @@ Setmelanotide: It acts by activating melanocortin receptors, reduces the appetit
 Liraglutide: It also mimics GLP-1 and targets the sites of the brain that regulate appetite and food intake. It is also approved by the US FDA and helps in treating type 2 diabetes.
 Naltrexone - Bupropion: Naltrexone is used in the treatment of opioid and alcohol addiction, and Bupropion helps to treat depression. This combination therapy is very effective as it reduces hunger, boosts metabolism, and develops a sensation of fullness sooner during food intake.
 
-## Article: The Ultimate Guide to Weight Loss Drugs
+# articles/drug-and-supplements/the-ultimate-guide-to-weight-loss-drugs
 What Are the Benefits and Limitations of Using Weight Loss Drugs As Part of a Treatment Plan? 
 Benefits of Weight-Loss Drugs:
 Drugs such as Semaglutide, Liraglutide, Sibutramine, Orlistat, etc, are beneficial as they help in treating obesity and type 2 diabetes.
@@ -455,7 +455,7 @@ It also helps in reducing the symptoms of osteoarthritis, hypertension, sleep ap
 These drugs provide a significant boost to individuals who are overweight, thus enhancing their confidence and giving motivation.
 Reducing excess weight prevents various systemic conditions and helps improve overall health and well-being.
 
-## Article: The Ultimate Guide to Weight Loss Drugs
+# articles/drug-and-supplements/the-ultimate-guide-to-weight-loss-drugs
 Limitations of Weight-Loss Drugs:
 Weight loss drugs can be rapid and beneficial only for a short time in many people, and hence, maintaining an ideal weight can be challenging in the long term. Most of the people gain back weight after discontinuing these drugs.
 Most weight loss drugs can be effective only when used with regular physical activity and dietary changes.
@@ -465,7 +465,7 @@ Weight-loss drugs can be addictive or habit-forming as they affect the mood and 
 Weight loss drugs are not recommended for pregnant and lactating women.
 The long-term effects of these weight-loss drugs are not entirely understood.
 
-## Article: Exploring Weight Loss Drugs
+# articles/drug-and-supplements/exploring-weight-loss-drugs
 Importance of Lifestyle Changes Alongside Medication
 Lifestyle medicine mainly focuses on healthy eating, increased physical activity, stress management, avoiding substance abuse, adequate sleep, and good social behavior. Lifestyle modifications provide cognitive and behavioral strategies that help individuals to regulate their energy intake. This also strengthens the highly integrated gut-brain neuroendocrine system, facilitating energy homeostasis and preventing body mass loss. Weight loss can also be achieved by consuming healthy food, reducing calorie intake, and incorporating physical activities, which, in turn, can prevent diabetes and heart diseases. However, it is always recommended to consult a healthcare professional or a certified nutritionist before making any significant changes in the diet, as it may lead to severe fatigue, headache, or nutritional deficiencies.
 
@@ -476,7 +476,7 @@ Traditional lifestyle modification begins by monitoring food intake and physical
 
 Lifestyle changes are a more natural method and are considered an integral component in weight loss management. Researchers believe that similar to the medical therapies for hypertension, type 2 diabetes has transformed the management of these conditions. The new generation treatment has the potential to manage obesity along with lifestyle modifications. This can help improve the lipid panel, weight reduction, insulin resistance, and blood pressure. However, these changes must be personalized depending on the BMI and health condition of the individuals to strengthen their implementation and maintain compliance in the long term.
 
-## Article: The Ultimate Guide to Weight Loss Drugs
+# articles/drug-and-supplements/the-ultimate-guide-to-weight-loss-drugs
 Section 3 - Types of Weight Loss Drugs 
 
 There are different subsets of weight loss drugs, each category with unique therapeutic traits and attributes. The categorization of different weight loss drugs is achieved by setting up and framing specifications or criteria, which demarcate and delineate each drug group, though they all are aimed at downscaling the body weight. 
@@ -500,7 +500,7 @@ This particular weight loss drug group brings out its therapeutic implications i
 4. Thermogenic Agents -
 Another potential weight loss drug class is the thermogenic agent, where weight loss is prompted by underscoring thermogenesis. It is through thermogenesis that the body keeps up its normal temperature. However, it is achieved through the expense of calories. Thermogenic drugs gravitate to calorie expenditure through thermogenesis. The calorie expenditure directly leverages the weight loss. Both thermogenic drugs and metabolic modulator drugs flag overlapping attributes. 
 
-## Article: The Ultimate Guide to Weight Loss Drugs
+# articles/drug-and-supplements/the-ultimate-guide-to-weight-loss-drugs
 Which Are the Popular Weight Loss Drugs?
 Let's check out the popular weight loss drug from each of the weight loss drug groups:
 1. Appetite Suppressants -
@@ -519,7 +519,7 @@ Recombinant Leptin: Recombinant leptin works by upscaling the body's metabolic p
 Ephedrine: Ephedrine brings forth weight loss by augmenting thermogenesis. Ephedrine and caffeine combination has deepened the thermogenic attributes and thereby potentiates the efficacy in bringing down the body weight. 
 Sibutramine: Sibutramine also upregulates thermogenesis. In addition, it could also bring about appetite suppression. 
 
-## Article: The Ultimate Guide to Weight Loss Drugs
+# articles/drug-and-supplements/the-ultimate-guide-to-weight-loss-drugs
 Which Are the FDA-Endorsed Weight Loss Drugs?
 Not all weight loss drugs are endorsed by the Food and Drug Administration (FDA). The below quoted are the weight loss drugs that have gained marketing licensure from the FDA. 
 Phentermine-Topiramate.
@@ -529,7 +529,7 @@ Orlistat.
 Setmelanotide.
 Bupropion-Naltrexone.
 
-## Article: The Ultimate Guide to Weight Loss Drugs
+# articles/drug-and-supplements/the-ultimate-guide-to-weight-loss-drugs
 Which Weight Loss Drugs Has the FDA Recalled in the Recent Past?
 Considering the safety profile, the FDA has withdrawn and called back a few of its approved weight-loss medications and suspended their marketing licensure. 
 Lorcaserin: Post-marketing assessment and analysis unmasked that Lorcaserin could gravitate to certain cancers. Thus, Lorcaserin was eventually recalled and cleared from the market in 2020.
@@ -537,7 +537,7 @@ Sibutramine: Sibutramine therapy appreciably heightens cardiovascular disease pr
 Rimonabant: Post-marketing studies concerning Rimonabant underscored its gravity for bringing up psychiatric issues, particularly suicidality. Therefore, the FDA called back Rimonabant's marketing license in 2008.
 Dexfenfluramine and Fenfluramine: The FDA called back two medicaments, Dexfenfluramine and Fenfluramine, owing to their potency in invoking cardiovascular issues, particularly heart valve impairments and hypertension (inflated blood pressure). The callback of Dexfenfluramine and Fenfluramine was initiated in 1997. 
 
-## Article: The Ultimate Guide to Weight Loss Drugs
+# articles/drug-and-supplements/the-ultimate-guide-to-weight-loss-drugs
 Long-Term and Short-Term Weight Loss Drugs 
 1. Appetite Suppressants That Are Advocated for Short-Term Weight Loss Therapy:
 Adipex-P (pill).
@@ -556,14 +556,14 @@ Wegovy (injection formulation).
 Qsymia (pill).
 Contrave (pill).
 
-## Article: The Ultimate Guide to Weight Loss Drugs
+# articles/drug-and-supplements/the-ultimate-guide-to-weight-loss-drugs
 Novel Additions to Weight Loss Drugs
 Let's take a quick look at the novel additions to weight loss pharmacotherapeutics. 
 Zepbound is a novel addition to weight loss drugs, which secured FDA endorsement in Nov 2023. It is a Tirzepatide formulation, an apt choice for those with concurrent medical issues. It holds back hunger by decelerating the channeling of food across the stomach and intestine. 
 Maridebart cafraglutide is another emerging candidate that has just completed phase 1 of the clinical trial. The outcomes from the phase 1 trial underscored that appreciable and enduring weight loss could be yielded through Maridebart cafraglutide. Owing to its fewer-dosing frequency regimen, Maridebart cafraglutide's safety profile outweighs the hallmark set by other weight-loss drugs. 
 Gliprons are a discrete category of weight loss pills surviving the phase 3 clinical trial. Danuglipron and Orforglipron are the two medicaments of the glipron subset currently under investigation and scrutiny to acquire a green signal from the FDA. The therapeutic attributes reflected by gliprons are superlative and could bring a breakthrough in the weight loss journey. 
 
-## Article: The Ultimate Guide to Weight Loss Drugs
+# articles/drug-and-supplements/the-ultimate-guide-to-weight-loss-drugs
 What Are the Preferred Dosages of Different Weight Loss Drugs?
 The medical team frames the dosage of the weight loss drug such that it could render maximum therapeutic outcomes with minimal safety threats. 
 
@@ -598,7 +598,7 @@ Pediatric (Six to 12 Years) Dosing Schedule:
 Daily dose for the first two weeks: Half the adult dose (one mg).
 Daily dose during the maintenance phase: 0.5 to three mg. 
 
-## Article: The Ultimate Guide to Weight Loss Drugs
+# articles/drug-and-supplements/the-ultimate-guide-to-weight-loss-drugs
 Which Are the Weight Loss Drugs That Are Suitable Even in the Presence of Other Underlying Medical Conditions?
 Certain weight loss drugs are safer even if one has other medical comorbidities. However, that does not imply the universal applicability of all weight loss drugs. Specific weight loss drugs are nominated for specific medical scenarios. Therefore, it is imperative to get medical advice before initiating any weight loss medicinal therapies to ascertain therapeutic efficacy with minimal safety considerations. 
 
@@ -619,7 +619,7 @@ Orlistat could be considered a competent and appreciable weight loss drug choice
 --------------------------------------------------------------------------------------------
 --------------------------------------------------------------------------------------------
 
-## Article: Effectiveness and Safety of Weight Loss Drugs
+# articles/drug-and-supplements/effectiveness-and-safety-of-weight-loss-drugs
 Section 4 - Effectiveness and Safety of Weight Loss Drugs
 Introduction
 The recent approvals of newer pharmacological options by the US Food and Drug Administration (FDA) mark a significant step forward in treating obesity. These anti-obesity medications have undergone more thorough development processes, focusing not only on efficacy but also on safety. This cautious approach reflects a deeper understanding of the complexities of obesity, recognizing it as a chronic condition with a tendency for relapse.
@@ -628,7 +628,7 @@ By approving these drugs for long-term management, the FDA acknowledges the need
 
 Various Anti-Obesity Drugs Approved by the FDA and Used in the United States (U.S) are:[2]
 
-## Article: Effectiveness and Safety of Weight Loss Drugs
+# articles/drug-and-supplements/effectiveness-and-safety-of-weight-loss-drugs
 Understanding Clinical Efficacy of Different Anti-Obesity Drugs
 Exploring the clinical efficacy of various anti-obesity drugs provides valuable insights into their effectiveness and suitability for addressing weight management challenges. Understanding the clinical efficacy of different anti-obesity drugs is crucial for healthcare providers to make informed treatment decisions tailored to individual patient needs, ultimately improving the effectiveness of weight management interventions and patient outcomes. Table 1 presents a compilation of evidence-based studies assessing the clinical efficacy of anti-obesity medications.
 
@@ -651,7 +651,7 @@ Colorectal cancer.
 Lung cancer. |
 XENDOS; XENical for the prevention of diabetes in obese subjects, COR: Contrave obesity research 
 
-## Article: Effectiveness and Safety of Weight Loss Drugs
+# articles/drug-and-supplements/effectiveness-and-safety-of-weight-loss-drugs
 Newer Anti-Obesity Medications Under Development
 Several newer anti-obesity medications are currently under development, aiming to address the complex nature of obesity with improved efficacy and safety profiles. These medications represent a promising frontier in the ongoing effort to combat obesity and its associated health risks. Figure 1 presents various anti-obesity medications under development.
 
@@ -672,7 +672,7 @@ SGLT-2 inhibitors, such as dapagliflozin, empagliflozin, and canagliflozin, are 
 Leucine-Metformin-Sildenafil Combination 
 AMP-activated protein kinase (AMPK) and mammalian sirtuin 1 (Sirt1) are proteins that regulate lipid and energy metabolism. They prevent fat accumulation and promote fatty acid oxidation through reciprocal activation. L-leucine is an allosteric activator of Sirt1, and Metformin is a synergistic coactivator of sirtuin pathway signaling. Nitric oxide (NO) also stimulates Sirt1, which can be enhanced by Sildenafil, a phosphodiesterase type 5 inhibitor.
 
-## Article: Effectiveness and Safety of Weight Loss Drugs
+# articles/drug-and-supplements/effectiveness-and-safety-of-weight-loss-drugs
 
 Pipeline for Future Obesity Medications: Table 2 presents the pipeline for future weight loss medications
 
@@ -723,7 +723,7 @@ The potential side effects of various weight loss drugs are presented in Table 3
 
 
 
-## Article: Potential Side Effects of Weight loss Drugs
+# articles/drug-and-supplements/potential-side-effects-of-weight-loss-drugs
 
 
 Table 3: Side Effects of Anti-Obesity Drugs
@@ -777,7 +777,7 @@ o   Gallbladder complications
 o   Pancreatitis
 o   Low blood sugar levels |
 
-## Article: The Ultimate Guide to Weight Loss Drugs
+# articles/drug-and-supplements/the-ultimate-guide-to-weight-loss-drugs
 
 Food and Drug Administration principles of Anti-Obesity Drugs
 A few guidelines or principles given by the FDA for different types of FDA-approved weight loss drugs are elucidated in Figure 3.
@@ -785,7 +785,7 @@ A few guidelines or principles given by the FDA for different types of FDA-appro
 Figure 3: FDA Principles of Weight Loss Drugs
 
 
-## Article: Effectiveness and Safety of Weight Loss Drugs
+# articles/drug-and-supplements/effectiveness-and-safety-of-weight-loss-drugs
 Drug Interactions Associated with Weight Loss Drugs
 
 In a few instances, weight loss medications, when given in combination with other drugs (combination therapy) or given alone as a stand-alone therapy, can result in potential drug interactions. Table 4 elucidates the potential drug interactions associated with different weight loss medications.
@@ -802,7 +802,7 @@ Table 4: Drug Interaction Associated with Weight Loss Drugs
 | Naltrexone/Bupropion | Potential drug interactions may arise with opioid medications, anti-seizure medications, and MAO inhibitors, among others. Avoid concurrent use with other medications containing bupropion or naltrexone. Exercise caution when used concomitantly with dopaminergic drugs, such as levodopa and amantadine, as it may lead to central nervous system toxicity. |
 | Orlistat | Cyclosporine, hormone contraceptives, seizure medications, thyroid hormones, warfarin |
 
-## Article: Effectiveness and Safety of Weight Loss Drugs
+# articles/drug-and-supplements/effectiveness-and-safety-of-weight-loss-drugs
 
 Clinical Evidence on Success Rate of Anti-Obesity Drugs Compared with Placebo
 According to different published studies and clinical trials on weight loss medications, a few anti-obesity drugs have proven to be successful in effective weight loss treatment when compared to placebo among the study participants. However, the range of glycemic control for each drug showed different results. Liraglutide and semaglutide demonstrate a high efficacy in glycemic control. These drugs are potent in managing blood glucose levels. Orlistat and bupropion exhibit moderate efficacy in glycemic control. Bupropion-naltrexone, however, does not show any specific indication for glycemic control. The evidence-based clinical effectiveness of different weight loss drugs as compared to placebo is presented in figure 4 below. 
@@ -822,48 +822,48 @@ Range of weight loss with the drugs: 15 percent (from 6 percent to 15 percent).
 The standard deviation of weight loss with the drugs is approximately 3.34percent.
 
 
-## Article: No Article
+# articles/no-article
 Comorbidities and Risks Associated with Weight Loss Drugs
 It is crucial to evaluate the safety and effectiveness of treatments for the various health conditions associated with obesity, just as it is standard practice to evaluate treatments for patients with renal or hepatic impairment. However, despite the FDA recommendations to include patients "at the extremes of weight" in clinical trials, there is no regulatory mandate or incentive for pharmaceutical companies to involve individuals with obesity during the approval process of a new medication. It is worth noting that while 42 percent of US adults are affected by obesity, the prevalence rates for kidney disease and liver disease are significantly lower at 2.2 percent and 1.7 percent, respectively. Figure 5 presents the percentage prevalence of common chronic diseases among adults in the United States, as reported by the CDC. 
 
 Figure 5: Percentage prevalence of common chronic diseases among adults in the United States, as reported by the CDC
 
 
-## Article: Essential Considerations Before Taking Weight Loss Drugs
+# articles/drug-and-supplements/essential-considerations-before-taking-weight-loss-drugs
 Section 5 - Considerations Before Taking Weight Loss Drugs 
 
 Weight loss is a dream for a lot of individuals suffering from being overweight or obese. Being heavy comes with a lot of medical problems, and weight loss drugs are one of the medical interventions. Weight loss medications, including appetite suppressants, lipase inhibitors, GLP-1 receptor agonists, combination drugs, and others, offer potential aid in weight management by targeting various mechanisms in the body. However, these medications offer a considerable fact that helps in overcoming obesity and other associated health problems. Administration of weight loss drugs should be a well-informed decision as the medications come with perks and perils. Before indicating these medications, a person should consider consulting a doctor and several key factors to ensure effective, safe, and positive outcomes. 
 
 Certain considerations are necessary before administering weight loss medications to individuals with a past medical history or those who are taking them for the first time. Each aspect is crucial in considering weight loss drugs, from medical history to interpretation of potential risk factors and side effects, choosing alternative options, and long-term administration. 
 
-## Article: Essential Considerations Before Taking Weight Loss Drugs
+# articles/drug-and-supplements/essential-considerations-before-taking-weight-loss-drugs
 
 Points to be Considered Before Taking Weight Loss Drugs - 
 
 Medical Evaluation - Before starting weight loss drugs, the patient should undergo a medical examination with an experienced healthcare professional. The evaluation helps determine whether the patient is suitable for the administration of such drugs based on their overall health, test reports, and ongoing medications. 
 
-## Article: Essential Considerations Before Taking Weight Loss Drugs
+# articles/drug-and-supplements/essential-considerations-before-taking-weight-loss-drugs
 
 Pre-existing Medical Conditions
 Underlying or pre-existing disorders like diabetes, hypertension, cardiovascular disease, thyroid, or metabolic problems can affect the patient's normal metabolism and hamper weight management. There are certain drugs that are indicated in diabetes and obesity; and are also considered weight loss drugs. 
 Healthcare professionals try to customize the course of the drug according to the patient's history and pre-existing disorder to minimize the potential side effects or consider alternative options for weight loss. 
 
-## Article: Essential Considerations Before Taking Weight Loss Drugs
+# articles/drug-and-supplements/essential-considerations-before-taking-weight-loss-drugs
 
 Medication History
 While evaluating the administration of weight loss drugs, an individual's medication history matters. Certain drugs may interact with weight loss drugs and lead to severe health complications. 
 Certain medications like antidepressants, corticosteroids, antipsychotics, and some diabetes medications can lead to health or weight-related side effects.
-## Article: Essential Considerations Before Taking Weight Loss Drugs
+# articles/drug-and-supplements/essential-considerations-before-taking-weight-loss-drugs
 
 
-## Article: Essential Considerations Before Taking Weight Loss Drugs
+# articles/drug-and-supplements/essential-considerations-before-taking-weight-loss-drugs
 
 Past Weight Loss Attempts
 Recording previous methods and weight-losing attempts can help the healthcare professional understand what suits best for the patients.
 Individuals may have had success with certain weight loss strategies in the past.
 Past weight loss attempts may have been hindered by specific challenges or barriers. Healthcare providers can identify these challenges and develop strategies to overcome them, potentially increasing the likelihood of success with weight loss drugs.
 
-## Article: Essential Considerations Before Taking Weight Loss Drugs
+# articles/drug-and-supplements/essential-considerations-before-taking-weight-loss-drugs
 
 Psychological and Behavioral Factors
 Psychological and behavioral factors are very important aspects taken into account before starting on weight loss drugs. 
@@ -872,118 +872,118 @@ Binge eating disorder is characterized by recurrent episodes of bringing along w
 Many people are concerned about their body type. Body types such as pear, inverted triangle, hourglass, and others may vary. These shapes can impact an individual's self-esteem.
 By understanding all these aspects, doctors can identify the triggering factors, behavioral patterns, overeating habits, or other emotional problems and plan a strategy that may be effective and support successful weight loss efforts. 
 
-## Article: Essential Considerations Before Taking Weight Loss Drugs
+# articles/drug-and-supplements/essential-considerations-before-taking-weight-loss-drugs
 
 Dietary Habits
 People have certain types of dietary patterns, which gives an insight into their eating habits, preferences, and nutritional intake. It is very important to understand the patient's dietary patterns that may result in nutritional deficiencies, such as inadequate intake of vitamins, minerals, or essential nutrients. Healthcare providers evaluate nutritional status and address any deficiencies before initiating weight loss drugs. 
 Healthcare providers can confirm dietary restrictions or preferences, such as non-vegetarian, vegetarian, or vegan, and food allergies, intolerances, or sensitivities, and plan meals accordingly, which may be suitable for a positive outcome during the administration of weight loss drugs. Sometimes, cultural and social factors may also vary the outcomes.
 
 
-## Article: Essential Considerations Before Taking Weight Loss Drugs
+# articles/drug-and-supplements/essential-considerations-before-taking-weight-loss-drugs
 
 Physical Activity Level
 Physical activity plays an important role in weight management and should be considered before initiating weight loss drugs. 
 The patient's fitness level needs to be evaluated based on factors like frequency, duration, intensity, and type of exercise to determine the appropriate level of exercise for weight loss.
 Pre-existing health conditions, injuries, or physical limitations can impact the weight loss journey. Healthcare professionals can find solutions, which may include suitable workouts or alternative exercises according to the patient's limitations.
 
-## Article: Essential Considerations Before Taking Weight Loss Drugs
+# articles/drug-and-supplements/essential-considerations-before-taking-weight-loss-drugs
 
 Sleep Patterns
 Sleep patterns are mostly overlooked in weight management. Any sleep-related issue can impact the weight loss journey. Sleep disorders such as insomnia, sleep apnea, or other sleep disorders may cause disrupted sleep and affect weight management.
 Proper sleep, duration of sleep, and quality of sleep are important for overall health, metabolism, and weight regulation. Healthcare providers assess an individual's sleep duration, efficiency, and quality to identify deficits or disturbances contributing to weight gain or hindering weight loss efforts.
 Sleep plays a vital role in regulating hormones in appetite control, metabolism, and energy balance. Disruptions in sleep patterns, such as insufficient or irregular sleep schedules, can affect hormonal regulation. Hormones like leptin, ghrelin, insulin, and cortisol lead to increased appetite, reduced satiety, and alterations in metabolism that promote weight gain.
 
-## Article: Essential Considerations Before Taking Weight Loss Drugs
+# articles/drug-and-supplements/essential-considerations-before-taking-weight-loss-drugs
 
 Family History
 Genetic predisposition of weight-related issues should be considered before initiating weight loss drugs. Healthcare providers understand the familial patterns of obesity, overweight, diabetes, cardiovascular disease, and other related health conditions to identify genetic predispositions that may impact weight management.
 
-## Article: Essential Considerations Before Taking Weight Loss Drugs
+# articles/drug-and-supplements/essential-considerations-before-taking-weight-loss-drugs
 
 Pregnancy and Reproductive History
 Pregnancy and reproductive history are important considerations before initiating weight loss drugs due to their potential impact on fertility, maternal health, and pregnancy outcomes.
 Weight loss drugs may affect fertility and reproductive functions, affecting the menstrual cycle, ovulation, and conception.
 Concerns related to postpartum weight gain require special attention before administering weight loss drugs because some factors like breastfeeding status, sleep deprivation, hormonal changes, and the impact of caregiving responsibilities on diet and exercise habits need to be considered.
 
-## Article: Essential Considerations Before Taking Weight Loss Drugs
+# articles/drug-and-supplements/essential-considerations-before-taking-weight-loss-drugs
 
 Smoking and Alcohol Consumption
 Smoking and excessive alcohol consumption are associated with numerous health risks, including cardiovascular disease, respiratory conditions, liver disease, and certain cancers. Therefore, this is an important factor to consider before starting weight loss drugs.
 Smoking and alcohol consumption can affect metabolism, energy expenditure, and nutrient absorption, which may influence weight management outcomes. 
 
-## Article: Essential Considerations Before Taking Weight Loss Drugs
+# articles/drug-and-supplements/essential-considerations-before-taking-weight-loss-drugs
 
 Understanding Risks and Side Effects
 Weight loss drugs, like any medication, may come with potential risks and side effects. Common side effects include gastrointestinal discomfort, insomnia, or increased heart rate. However, more severe risks, such as cardiovascular complications or mood disorders, can also happen. 
 Common Side Effects -
 Inducing weight loss drugs brings some very common side effects. For example - nausea, diarrhea, constipation and other gastrointestinal discomfort, sleep disorders, dry mouth, and cardiovascular problems like increased heart rate. These side effects can be regulated with the adjustment of the drug dosage. Bupropion-naltrexone (Contrave), Liraglutide (Saxenda), Orlistat (Xenical, Alli), Phentermine-topiramate (Qsymia), Semaglutide (Wegovy), Setmelanotide (Imcivree) these are a common drug used for weight loss and may lead to common side effects.
 
-## Article: Essential Considerations Before Taking Weight Loss Drugs
+# articles/drug-and-supplements/essential-considerations-before-taking-weight-loss-drugs
 
 Cardiovascular Risk -
 Some weight loss drugs can affect cardiovascular problems like high blood pressure, palpitations, arrhythmias, and other problems. 
 It is very important to present any history related to cardiovascular problems like a history of stroke, hypertension, or other heart diseases so that the healthcare professional can understand and plan the drug dosage accordingly. 
 
-## Article: Essential Considerations Before Taking Weight Loss Drugs
+# articles/drug-and-supplements/essential-considerations-before-taking-weight-loss-drugs
 
 Mood Disorders -
 Weight loss drugs may show some effect on the patient's mood or underlying behavior problems, causing mood swings, anxiety, depression, or self-harming thoughts. 
 Patients require specific attention and management of mood disorders along with the administration of weight loss medications.
 
-## Article: Essential Considerations Before Taking Weight Loss Drugs
+# articles/drug-and-supplements/essential-considerations-before-taking-weight-loss-drugs
 
 Metabolic Effects -
 Metabolic disturbance can also be observed while on weight loss medications. 
 Weight loss drugs can interfere with normal metabolic parameters, such as blood glucose levels, lipid profiles, and thyroid function. 
 
-## Article: Essential Considerations Before Taking Weight Loss Drugs
+# articles/drug-and-supplements/essential-considerations-before-taking-weight-loss-drugs
 
 Liver and Kidney Function -
 Some weight loss drugs may harm the functioning of the liver and kidneys, leading to hepatotoxicity or nephrotoxicity.
 It is recommended that liver and kidney function tests be evaluated before starting the weight loss drugs.
 
-## Article: Essential Considerations Before Taking Weight Loss Drugs
+# articles/drug-and-supplements/essential-considerations-before-taking-weight-loss-drugs
 
 Contraindications and Precautions
 Before starting weight loss drugs, healthcare providers consider contraindications and precautions to ensure the safety and appropriateness of treatment for each individual. 
 Contraindications:
 Pregnancy and Lactation - Weight loss drugs are typically contraindicated during pregnancy and breastfeeding due to potential risks to the fetus or nursing infant.
 
-## Article: Essential Considerations Before Taking Weight Loss Drugs
+# articles/drug-and-supplements/essential-considerations-before-taking-weight-loss-drugs
 
 History of Eating Disorders - Patients with a history of eating disorders anorexia nervosa or bulimia nervosa, may be contraindicated for weight loss drugs due to increased risk of misuse, dependence, relapse, or worsening of symptoms with weight loss drugs.
 
-## Article: Essential Considerations Before Taking Weight Loss Drugs
+# articles/drug-and-supplements/essential-considerations-before-taking-weight-loss-drugs
 
 Cardiovascular Disease - Weight loss drugs may be contraindicated in individuals with a history of cardiovascular disease, such as coronary artery disease, heart failure, or arrhythmias, as they can increase heart rate or blood pressure, and due to other potential cardiovascular risks associated with certain weight loss medications.
 
-## Article: Essential Considerations Before Taking Weight Loss Drugs
+# articles/drug-and-supplements/essential-considerations-before-taking-weight-loss-drugs
 
 Uncontrolled Hypertension - Weight loss drugs may be contraindicated in individuals with uncontrolled hypertension or severe hypertension, as some medications can increase blood pressure.
 
-## Article: Essential Considerations Before Taking Weight Loss Drugs
+# articles/drug-and-supplements/essential-considerations-before-taking-weight-loss-drugs
 
 History of Stroke - Individuals with a history of stroke or TIA (Transient Ischemic Attack) may have an increased risk of recurrent events with certain weight loss drugs.
 
-## Article: Essential Considerations Before Taking Weight Loss Drugs
+# articles/drug-and-supplements/essential-considerations-before-taking-weight-loss-drugs
 
 History of Substance Abuse - Individuals with a history of substance abuse, including drug addiction or alcoholism, may be contraindicated for weight loss drugs due to the potential for misuse or dependence on appetite-suppressant medications.
 
-## Article: Essential Considerations Before Taking Weight Loss Drugs
+# articles/drug-and-supplements/essential-considerations-before-taking-weight-loss-drugs
 
 Allergy or Sensitivity - Individuals with known allergies or sensitivities to specific weight loss drugs or their components may be contraindicated for those medications.
 
-## Article: Essential Considerations Before Taking Weight Loss Drugs
+# articles/drug-and-supplements/essential-considerations-before-taking-weight-loss-drugs
 
-## Article: Essential Considerations Before Taking Weight Loss Drugs
+# articles/drug-and-supplements/essential-considerations-before-taking-weight-loss-drugs
 
 Severe Liver or Kidney Disease - Patients with severe liver or kidney impairment may have difficulty metabolizing or excreting certain weight loss medications, leading to potential toxicity.
 
-## Article: Essential Considerations Before Taking Weight Loss Drugs
+# articles/drug-and-supplements/essential-considerations-before-taking-weight-loss-drugs
 
 Age and Pediatric Use - Some weight loss medications are not approved for use in pediatric populations due to safety concerns.
 
-## Article: Essential Considerations Before Taking Weight Loss Drugs
+# articles/drug-and-supplements/essential-considerations-before-taking-weight-loss-drugs
 
 Precautions
 Liver or Kidney Impairment - Weight loss drugs may require precautions or dose adjustments in individuals with impaired liver or kidney function to minimize the risk of hepatotoxicity or nephrotoxicity.
@@ -993,19 +993,19 @@ History of Seizures - Weight loss drugs may require precautions in individuals w
 Medication Interactions - Weight loss drugs may interact with other medications, including prescription medications, over-the-counter drugs, and dietary supplements, necessitating precautions to avoid potential drug interactions or adverse effects.
 
 
-## Article: Essential Considerations Before Taking Weight Loss Drugs
+# articles/drug-and-supplements/essential-considerations-before-taking-weight-loss-drugs
 
 
 Setting Realistic Expectations
 Weight loss is a gradual process that depends on factors like metabolism, genetics, and lifestyle habits. Weight loss drugs are a part of weight management. It requires a combination of different strategies like a healthy diet, regular physical activities, and control over emotions. Considering weight loss drugs requires setting realistic expectations as everything takes time, and the individual needs to trust the process. This needs a complete understanding of weight loss drugs. By setting realistic goals and expectations, individuals can positively approach their weight loss journey and increase their likelihood of achieving sustainable results.
 
-## Article: Essential Considerations Before Taking Weight Loss Drugs
+# articles/drug-and-supplements/essential-considerations-before-taking-weight-loss-drugs
 
 
 Importance of BMI Before Considering Weight Loss Drugs
 The administration of weight loss drugs can be a successful approach toward a healthier lifestyle, but before starting, the body mass index plays an important role. Patients can be categorized by BMI - below 25 normal and above 25 to 30 obese. Weight-loss drugs are typically recommended for healthy individuals with a BMI of 30 or higher or those with a BMI between 27 and 30 who have health issues like hypertension or diabetes. It is also recognized that people with BMIs below 25 can have weight-related health problems, and weight loss can help improve these conditions. So, deciding whether weight-loss drugs are right for someone is based on individual health circumstances and BMI.
 
-## Article: Essential Considerations Before Taking Weight Loss Drugs
+# articles/drug-and-supplements/essential-considerations-before-taking-weight-loss-drugs
 
 
 When Should One Start Considering Weight Loss Medication?
@@ -1014,7 +1014,7 @@ A body mass index (BMI) equal to or greater than 30.
 A BMI equal to or greater than 27 and one or more obesity-related conditions, such as high blood pressure or diabetes.
 An inability to lose at least five percent of total body weight within three to six months solely through lifestyle changes.
 
-## Article: Essential Considerations Before Taking Weight Loss Drugs
+# articles/drug-and-supplements/essential-considerations-before-taking-weight-loss-drugs
 
 Criteria for Case Selection and Contraindicated Patients
 Healthcare providers consider several factors to ensure patient safety and treatment effectiveness when considering weight loss drugs. 
@@ -1028,23 +1028,23 @@ Patient Motivation and Compliance - Patients should be confident and motivated t
 Absence of Contraindications - Patients should not have any absolute contraindications to the specific weight loss medication being considered.
 
 
-## Article: Obesity and Its Impacts
+# articles/healthy-living-wellness-and-prevention/obesity-and-its-impacts
 
 Cost of Obesity 
 Obesity is a significant risk for chronic illnesses such as diabetes, heart disease, stroke, and cancer, which contribute significantly to healthcare spending in America. According to the Milken Institute, obesity had a total economic and social impact of nearly $1.4 trillion in 2018, which includes $370 billion in medical costs for obesity-related illnesses and $1 trillion in indirect costs such as lost workdays. A study by KFF found that people who have been diagnosed with obesity or are overweight spend more than twice the amount of money on healthcare costs as those who have not been diagnosed. On average, those diagnosed with obesity or being overweight have healthcare costs of $12,588 per year, while those without a diagnosis have healthcare costs of $4,699 per year. Those with a diagnosis of obesity have experienced an increase of 37 percent in out-of-pocket costs, while those without a diagnosis have experienced an increase of 25 percent. There are several reasons why people with obesity may have higher healthcare costs, including the direct cost of treating obesity and the cost of treating related conditions such as high cholesterol, hypertension, and high blood sugar.
 
 
-## Article:  No Article
+articles/no-article
 Obesity rates tend to be higher in the Midwest and Southern regions of the United States. Despite various efforts to combat obesity, Arkansas continues to report some of the highest obesity rates in the country, with 34.7 percent of adults and 23.8 percent of public school-age children affected. A report by the Arkansas Center for Health Improvement (ACHI) found that medical and drug expenses increase with the severity of obesity. Health plans in Arkansas spent an average of 31 percent more on individuals with obesity than on those without.
 
-## Article:  No Article
+articles/no-article
 Insurance Coverage Is a Challenge
 Many insurance companies may offer claims against anti-obesity treatment, but more than 70 percent of the insurance policies do not cover this treatment. Cost may affect the choice of treatment for a patient. It is seen that most of the coverage is determined state by state. So, some states have anti-obesity medication as part of their essential health benefits package, but most do not. For those without insurance coverage for weight-loss drugs, out-of-pocket costs in the U.S. can be over $1,300 a month for Wegovy or $1,060 for Zepbound.  Costs for these drugs are much lower in some other countries. For example, Wegovy is nearly four times more expensive in the United States than in Germany, where the drug list price is $328. 
 
-## Article:  No Article
+articles/no-article
 In the case of employment insurance, big companies may have such insurance that covers anti-obesity treatment but not all companies. However, there has been a bill in Congress for about a decade called TROA - the Treat and Reduce Obesity Act, to try to get Medicare to cover these medications. The Treat and Reduce Obesity Act (TROA) is a bipartisan law that helps Medicare beneficiaries get better access to safe and effective treatments for obesity. It allows Medicare to cover intensive behavioral therapy and FDA-approved anti-obesity medications for older Americans.
 
-## Article:  No Article
+articles/no-article
 
 Section 6 - Patient Questions About Weight Loss Drugs
 1. What Should One Expect When Taking Weight Loss Drugs?
@@ -1121,17 +1121,17 @@ Success Story:
 With the increasing popularity of weight-loss medications such as Ozempic, Wegovy, and Mounjaro, some women are investigating the possibility of the medications affecting their ability to conceive. In their quest for a child, Wynter Mitchell-Rohrbaugh revealed to ‘Good Morning America' that she and her husband had already experienced four miscarriages. In-vitro fertilization, or IVF, was the couple's next obstacle, according to Mitchell-Rohrbaugh, who said a doctor informed her she had to drop forty pounds before they could start the procedure. "I simply kept asking myself, Are you crazy? "I am not a petite person," she declared. "I am a plus-size woman."
 
 Mitchell-Rohrbaugh claimed that she used Ozempic, a member of the GLP-1 RAs medication class, to aid in her weight loss. This drug helps reduce blood sugar levels and promotes the production of insulin in the body. The medications reduce hunger and slow down the passage of food through the stomach, which results in weight reduction. Following a five-month use of Ozempic, Mitchell-Rohrbaugh reported losing forty pounds. She started fertility treatment and stopped taking the medicine. After that, Mitchell-Rohrbaugh claimed to have had a successful IVF cycle that resulted in healthy embryos. "To get to that call, 'Wynter, Hi, I have good news,' I just never thought I was going to hear that," said Mitchell-Rohrbaugh. 
-## Article:  No Article
+articles/no-article
 -------------------------------------------------------------------------------------------
 
-## Article: Nutritional Management and Risks of Long-Term Weight Loss Drug Use
+# articles/drug-and-supplements/nutritional-management-and-risks-of-long-term-weight-loss-drug-use
 Section 7 - Long-Term Use and Nutritional Consideration
 What Are the Potential Risks and Benefits of Long-Term Use of Weight Loss Drugs?
 Long-term use of weight loss drugs is a serious concern, as it has significant risks compared to the benefits. The individuals taking the medicines must be made aware of them beforehand. Side effects such as nausea, headaches, and, very commonly, gastrointestinal issues are reported. There is also the risk of increased blood pressure and heart rate. These can considerably affect the quality of life. Moreover, an increased risk of dependency and tolerance is an actual concern. The individuals might need higher doses over time to ensure they get the same weight loss outcome. There are reports of suicidal tendencies in individuals consuming weight loss drugs in the long term. For this reason, the authorities have recommended issuing a warning on the medication so it can be used cautiously.  Research is in progress regarding the long-term usage of the newer weight loss drugs. 
 
 Nutritional Management and Risks of Long-Term Weight Loss Drug Use
 
-## Article: Potential Side Effects of Weight loss Drugs
+# articles/drug-and-supplements/potential-side-effects-of-weight-loss-drugs
 
 Long-term usage potential risks include:
 |Hair loss.Nausea.
@@ -1218,7 +1218,7 @@ Drug abuse.
 Addiction.
 Mental depression. |
 
-## Article: Nutritional Management and Risks of Long-Term Weight Loss Drug Use
+# articles/drug-and-supplements/nutritional-management-and-risks-of-long-term-weight-loss-drug-use
 
 Many weight loss drugs that were previously very promising have now been taken off the market owing to their fatal side effects. Some of these include 
 Sibutramine - Myocardial infarction and stroke.
@@ -1229,11 +1229,11 @@ Phenylpropanolamine - Stroke.
 Rimonabant - Suicidal behavior.
 Lorcaserin - Cancer.
 
-## Article: Nutritional Management and Risks of Long-Term Weight Loss Drug Use
+# articles/drug-and-supplements/nutritional-management-and-risks-of-long-term-weight-loss-drug-use
 
 Despite all these risks, the individuals might feel these drugs are the only solution to lose weight and improve their self-esteem. These seem to be the only benefits of this regard. In clinical practice, a modest weight loss of ten percent may be achieved beyond four years of time. Additionally, it has been noted to be more effective when combined with a healthy lifestyle and exercise. A structured meal plan and behavior modification therapy is very beneficial. 
 
-## Article: Nutritional Management and Risks of Long-Term Weight Loss Drug Use
+# articles/drug-and-supplements/nutritional-management-and-risks-of-long-term-weight-loss-drug-use
 
 What Are the Nutritional Deficiencies Associated With Long-Term Use of Weight Loss Drugs, and How Can They Be Managed?
 There is an increased chance of severe deficiencies because of taking weight loss drugs in the long term. The deficiencies include:
@@ -1249,14 +1249,14 @@ Zinc deficiency.
 Usage of weight loss drugs results in a change in the pattern of nutrient absorption, leading to deficiencies. Therefore, individuals on weight loss medications are usually prescribed vitamin and mineral supplements, particularly fat-soluble vitamins like A, D, E, and K.  
 How Can Healthcare Providers and Individuals Work Together to Ensure Adequate Nutrition While 
 
-## Article: Nutritional Management and Risks of Long-Term Weight Loss Drug Use
+# articles/drug-and-supplements/nutritional-management-and-risks-of-long-term-weight-loss-drug-use
 
 Using Weight Loss Drugs for the Long Term?
 To have the best outcome while consuming weight loss medications, it is necessary to have a collaborative stance. From the healthcare provider's end, it is advised that regular assessments be conducted to monitor the individual's health and nutritional status. Any side effects must be promptly noted, and dosages adjusted as needed. The healthcare providers must also offer advice and recommendations based on the guidelines and should work towards making a personalized treatment plan. The plan must be focused on fulfilling the nutritional requirements. If there are nutritional deficiencies, appropriate supplements must be provided. Also, the individual must be referred to a nutritionist who can give extra support regarding portion control and balanced eating. Overall, healthcare providers must educate individuals with regard to the benefits and risks in the long term. They must also be available to support them in making informed choices with regard to choosing their foods when on weight loss drugs. All information resources must be made available. Healthcare providers must also keep regular follow-up appointments to assess the effectiveness of the intervention in the long run. Any concerns and challenges faced must be addressed and rectified. 
 
 Discussing challenges, doubts, and concerns is very important from the individual's side. There should be active participation in following the dietary recommendations and guidelines. If nutritional supplements are provided, it is the individual's responsibility to take them on time. This will help address the long-term issue of nutritional deficiencies. In case of any side effect or concern during weight loss supplementation, the individual must present it to the healthcare provider immediately so that the treatment can be modified as needed. Also, individuals need to seek support from healthcare providers and other support professionals whenever they encounter any challenges in the long term.
 
-## Article: Nutritional Management and Risks of Long-Term Weight Loss Drug Use
+# articles/drug-and-supplements/nutritional-management-and-risks-of-long-term-weight-loss-drug-use
 
 What Are Some Strategies for Maintaining a Balanced Diet and Addressing Nutritional Needs While Taking Extended Weight-Loss Drugs?
 It is important to maintain a healthy and balanced diet so as to meet the nutritional demands of the body, especially while on weight loss treatment. This is achieved by an active lifestyle accompanied by taking expert professional advice. A few strategies to attain this include:
@@ -1270,7 +1270,7 @@ Meal Preparation and Planning: It is highly encouraged to plan and prepare meals
 Supplementation: When associated deficiencies exist, the healthcare provider will prescribe supplements. It is recommended that the individual take them appropriately at the prescribed intervals. 
 Monitor on a Regular Basis: It is important to monitor mental and physical health on a regular basis while on a weight loss program. Any negative side effects must be promptly consulted by the doctor. 
 
-## Article: Weight Loss Drugs in Individuals With Pre-Existing Medical Conditions
+# articles/drug-and-supplements/weight-loss-drugs-in-individuals-with-pre-existing-medical-conditions
 
 Section 8 - Use and Impact of Weight Loss Drugs in Individuals With Pre-Existing Medical Conditions
 
@@ -1439,7 +1439,7 @@ Multiple endocrine neoplasia syndrome | Oral hypoglycemics
 Insulin
 Oral contraceptives |
 
-## Article: Weight Loss Drugs in Individuals With Pre-Existing Medical Conditions
+# articles/drug-and-supplements/weight-loss-drugs-in-individuals-with-pre-existing-medical-conditions
 
 Weight Loss Drugs and Pregnancy
 Pregnancy is a beautiful period in a woman's life and there is certainly no need to stress out on reducing weight during this period. The United States Food and Drug Administration completely contraindicates the use of any of the weight loss drugs during pregnancy. This is because there can be significant harm to the growing fetus. There is a huge risk of incidence of birth defects and developmental abnormalities after taking these drugs. Maternal risks of abnormal hemorrhage and heart rate are also seen after taking weight loss drugs. So, generally, weight loss drugs are discontinued at least two months before conceiving. People who are planning to get conceived should inform their doctor so that the drug will be stopped prior to conception.
@@ -1457,29 +1457,29 @@ Some weight loss drugs may affect the absorption, metabolism, or efficacy of ora
 
 
 Section 9 - Lifestyle Changes and Other Strategies for Managing Obesity 
-## Article: No Article
+# articles/no-article
 Importance of Diet and Exercise in Weight Loss:
 The health and well-being of a person significantly depends on lifestyle. Several studies have also highlighted the positive impact of lifestyle modifications on one's health. These changes may include quitting alcohol and smoking, diet modifications, and regular exercising, which can minimize the risk of various health-related issues, such as cardiovascular diseases, hypertension (increased blood pressure), diabetes (high blood glucose levels), and managing obesity. 
 Lifestyle Modifications Include:
 
-## Article: Importance of Diet and Exercise in Weight Loss
+# articles/fitness/importance-of-diet-and-exercise-in-weight-loss
 
 Healthy and Nutritious Diet: Adopting a balanced and nutritious diet that includes fruits, whole grains, vegetables, lean proteins, and healthy fats. Also, portion control and reducing the consumption of sugary and processed foods can be beneficial.
 Regular Physical Activity: Regular exercise or any other physical activity, such as jogging, walking, cycling, or strength training, helps manage weight. One should aim for at least 75 minutes of vigorous-intensity aerobic activity per week or 150 minutes of moderate-intensity aerobic activity.
 
-## Article: Importance of Diet and Exercise in Weight Loss
+# articles/fitness/importance-of-diet-and-exercise-in-weight-loss
 
 Sleep Quality: Adequate sleep quality and duration are also necessary, as sleep deprivation is also associated with weight gain. Therefore, improving sleep habits and addressing sleep disorders with a healthcare provider can support weight management.
 
-## Article: Importance of Diet and Exercise in Weight Loss
+# articles/fitness/importance-of-diet-and-exercise-in-weight-loss
 
 Behavior Modification: This approach uses goal setting, self-monitoring, stimulus control, cognitive restructuring, stress management, problem-solving, and social support to change unhealthy behaviors and develop healthier habits.
 
-## Article: Importance of Diet and Exercise in Weight Loss
+# articles/fitness/importance-of-diet-and-exercise-in-weight-loss
 
 Stress Management: Stress management involves implementing stress reduction techniques, such as deep breathing exercises, mindfulness, meditation, or engaging in activities that promote relaxation and mental well-being.
 
-## Article: No Article
+# articles/no-article
 
 When discussing lifestyle changes, such as diet modification and incorporating exercise for healthy and sustainable weight loss, people usually do not focus on their daily calorie intake and output, thus struggling to manage obesity effectively. For this reason, it is essential to know that losing weight is one aspect of a weight loss program, and the other important part is weight maintenance, which mainly depends on calorie input and output. The National Academy of Nutrition and Dietetics, American Academy of Clinical Endocrinologists (AACE), and American Diabetes Association (ADA) also recommend exercise as an integral part of weight management programs, along with other dietary changes and modifications. Therefore, one must know about the foods they are eating and the calorie content in them in detail to make their weight loss program effective in the long run. However, this does not mean one should become completely calorie deficient; that is, they consume less (lower than the actual body requirement for proper functioning) and burn more through physical activity and exercise.
 Furthermore, too much weight gain not only affects an individual's overall health but also makes them uncomfortable about their own body. The statistical data from the Centers for Disease Control and Prevention (CDC) show a skyrocketed increase in obesity rates throughout the United States. The World Health Organization (WHO) data reveals that around four million people die from obesity every year across the world. Adult obesity has almost doubled so far since 1980, and adolescent obesity has increased four times. Also, around 2.5 billion are currently overweight, and among them, nearly 840 million have been suffering from obesity since 2022. Moreover, the World  Obesity Prediction reveals that one in seven men and one in five women are expected to be obese by 2030. According to the Journal of American Health Association, the condition is linked to a 30 to 53 percent increase in new diabetes cases in the United States every year, thus increasing medical expenses by 30 to 40 percent higher than those who do not have obesity.
@@ -1489,7 +1489,7 @@ Talking about the benefits of incorporating exercise and diet in a weight loss p
 One must also limit the calories they drink and stick to tea, coffee, and water. Also, quit beverages with artificial sweeteners, including diet soda and drinks. Some of the exercises and diets, along with their benefits, are mentioned below:
 
 
-## Article: Effective Behavioral Strategies and Counseling for Obesity Management
+# articles/fitness/effective-behavioral-strategies-and-counseling-for-obesity-management
 
 Complementary Strategies for Managing Obesity, Such as Behavioral Modifications and Counseling
 Besides the lifestyle changes mentioned above, behavioral modification and counseling are principal complementary strategies for managing obesity. They mainly focus on changing one's habits and behaviors associated with physical activity, diet, and lifestyle. Thus, people suffering from obesity are given counseling to make behavioral changes to their lifestyle activities. Counseling can help them address their hurdles or barriers to staying dedicated to physical activity and diet goals. It also motivates them to practice various strategies and promote behavioral modifications. However, in some cases, these lifestyle changes and behavioral modifications alone are not enough to treat or manage obesity effectively. Several other factors contribute to unusual weight gain in a person, such as underlying health conditions, hormonal imbalance, or a family history of weight-related issues. One must approach the healthcare provider and share their dietary intake details without hesitation, along with fitness habits, to help them frame a personalized weight loss plan per the need and current status of one's body and overall health. Behavioral modifications for managing obesity involve:
@@ -1550,12 +1550,12 @@ Reflections: This means guiding individuals to express their feelings and though
 Summaries: This focuses on recapitulating the conversation with the individuals, thus focusing on change talk. It allows people to clear any misunderstandings. Also, the physician must end the discussion with an open-ended statement, such as "I am excited to know about your next step."
 
 
-## Article: No Article
+# articles/no-article
 
 Tips for Maintaining Weight Loss for Long-Term:
 One of the complex tasks is losing weight. However, maintaining weight loss for the long term is even more challenging, as most people often experience relapse after a few years of losing weight. Those who plan to lose weight should remember that whatever it took them to shed weight is the same recipe to continue maintaining weight loss. One of the theories behind this regaining of weight is that most people cut off their calorie intake to lose weight, and over time, this makes their body conditioned to burn fewer calories. Therefore, they start gaining weight after a few months due to a slow calorie-burning rate when they resume their regular diet. Thus, for this reason, healthcare professionals do not recommend rapid weight loss and an extremely low-calorie diet for a weight loss program. It is usually advised to lose around half or two pounds in a week, along with changing other lifestyle habits for the success of the weight loss program and long-term maintenance of healthy weight loss. However, individual strategies for weight loss and maintenance may vary from person to person, depending on their choices, preferences, body type, health status, and what works best for them.
 
-## Article: Weight Loss Drugs Vs Weight Loss Methods - Weighing the Pros and Cons
+# articles/drug-and-supplements/weight-loss-drugs-vs-weight-loss-methods
 
 A few tips to maintain weight loss include:
 Staying consistent with eating and exercising plans even after losing weight to prevent relapse. 
@@ -1590,7 +1590,7 @@ These methods require long-term motivation and commitment to sustain and prevent
 These options do not offer a one-size-fits-all approach; thus, the effectiveness of these weight loss reduction methods varies from person to person.
 Lifestyle modifications can often be challenging for many people, as long-term behavior cannot be changed overnight.
 
-## Article: Weight Loss Drugs Vs Weight Loss Methods - Weighing the Pros and Cons
+# articles/drug-and-supplements/weight-loss-drugs-vs-weight-loss-methods
 
 
 |P
@@ -1609,7 +1609,7 @@ S | Weight Loss Drugs | Other Weight Loss Methods |
 
 
 
-## Article: Weight Loss Drugs Vs Weight Loss Methods - Weighing the Pros and Cons
+# articles/drug-and-supplements/weight-loss-drugs-vs-weight-loss-methods
 
 
 
@@ -1643,7 +1643,7 @@ The safety and potency of weight loss drugs vary. It has been reported that some
 Obesity has become a serious global epidemic. The introduction of new-generation weight loss drugs like Semaglutide and Tirzepatide has revolutionized the therapeutic management of obesity.
 
 
-## Article: Potential Side Effects of Weight loss Drugs
+# articles/drug-and-supplements/potential-side-effects-of-weight-loss-drugs
 What Are the Adverse Effects of Common Weight Loss Drugs?
 
 1. Phentermine - It is the oldest and most popular weight loss drug. But it has its side effects. However, this medication is contraindicated in people suffering from:
@@ -1781,11 +1781,11 @@ How Can One Stay Motivated and Overcome Setbacks During Weight Loss Journey?
 There are certain tips that, if incorporated into the weight loss journey, can help overcome challenges and setbacks. We have tried to compile only those tips that have been tried and tested in the real world and have been effective in maintaining the weight loss journey. Before diving deep into the world of comprehensive weight loss, let us first understand the various factors that may negatively impact the weight loss journey.
 
 
-## Article: Overcoming Weight Loss Plateaus: Staying Motivated Through the Challenges
+# articles/fitness/overcoming-weight-loss-plateaus
 
 Weight Loss Plateaus - There are a few periods in the weight loss journey when the journey towards weight loss slows down remarkably or becomes static temporarily. This becomes a disappointing experience. 
 
-## Article: Overcoming Weight Loss Plateaus: Staying Motivated Through the Challenges
+# articles/fitness/overcoming-weight-loss-plateaus
 
 Factors that May Contribute to Weight Loss Plateaus - 
 
@@ -1795,7 +1795,7 @@ Exercise Adaptations - The body adapts to the exercises that have been incorpora
 Dietary Adaptations - The body can even adapt to the calorie-deficit diet. This further creates a hurdle for the ongoing weight loss journey. 
 Psychological Issues - The weight loss journey is emotionally, mentally, and physically draining. Mental stress, societal pressure, lack of sleep, and emotional eating can also negatively influence the weight loss journey.
 
-## Article: Overcoming Weight Loss Plateaus: Staying Motivated Through the Challenges
+# articles/fitness/overcoming-weight-loss-plateaus
 
 
 Here are some tips to keep oneself motivated during the weight loss plateaus.
@@ -1817,7 +1817,7 @@ Set Long-term Health Goals - Shift the focus from short-term success to long-ter
 Be Patient and Believe in Oneself - The weight loss journey can be overwhelming at times, but it is important to be patient and stay positive. Believe in the efforts and trust the process because that will make a difference in the long run.
 Therefore, following these simple tips and tricks with a determined mindset will help one overcome setbacks and achieve the desired weight loss goals.
 
-## Article: No Article
+# articles/no-article
 What Are Some Success Stories or Testimonials from Individuals Who Have Used Weight Loss Drugs?
 Losing weight is a challenging process. People suffering from obesity can find it more difficult to lose weight, as it might get frustrating at times. Therefore, we will share real stories of people who have used weight loss drugs to keep one motivated and keep going in this ongoing journey.
 Starting with some Hollywood celebrities who have openly talked about their experience of using weight loss drugs Ozempic (Semaglutide) and Tirzepatide. 
@@ -1827,14 +1827,14 @@ Oprah Winfrey - The media tycoon vocalized about the usage of medications Wegovy
 Elon Musk - The American business tycoon wittily replied to one of his followers on a Twitter chat when asked about a fitter and healthier version of himself. The user asked - “What is his secret of a ripped body- lifting weights? Eating healthy?” To which he replied - “ And Wegovy!” He said in an interview that he had lost about 20 pounds by using Wegovy (Semaglutide) and practicing intermittent fasting.
 Jimmy Kemmel - Oscars 2023 witnessed the mention of the weight loss drug - Ozempic when the presenter Jimmy Kimmel humorously talked about the widespread use of this drug. He spoke, “When I look around this room, I can not help but wonder, “Is Ozempic right for me?” This itself reinforces the popularity of this drug among American celebrities.
 Sharing a story of a real icliniq user who has shared their experiences about using weight loss drugs on our website.
-## Article: No Article
+# articles/no-article
 
 This is an actual conversation where an icliniq user confirmed taking 40 mg of Duromine, in which the active ingredient is Phentermine, for their weight loss. The patient admitted losing weight after taking Duromine and maintaining their weight loss journey.
 
 A lady named Sarah was struggling with obesity. She tried various diets, but nothing worked for her. Her doctor recommended Ozempic. She gave this drug a try, and she observed positive changes as her hunger cravings reduced, and she was able to reduce approximately 30 pounds within a period of three months. She claimed that Ozempic changed her life and helped boost her confidence. (https://www.quora.com/What-are-some-success-stories-from-people-who-have-used-Ozempic-for-weight-loss)
 Another user, who is 25 years old, claimed that she was going to the gym daily and eating clean food, but she could not see any progress. But when she tried Semaglutide, she was able to lose approximately 30 pounds within a period of six months. It helped her lose weight and regain her confidence. Now, she no longer has to hide behind oversized clothes and shy away from public gatherings. (https://www.rhettwomenscenter.com/blog/empowered-by-semaglutide-a-patients-weight
 -loss-testimonial/#:~:text=Notpercent20onlypercent20didpercent20Semaglutidepercent20help,orpercent20hidepercent20behindpercent20oversizedpercent20clothes)
-## Article: No Article
+# articles/no-article
 
 An African American female, aged 58 years, weighed around 270 lbs. Her doctor then suggested her Tirzepatide medicine. She was shocked after seeing the results. Over a period of eight weeks, she now weighs approximately 244 pounds. There is redness at the injection site, but apart from that, there is no headache or vomiting. https://www.drugs.com/comments/tirzepatide/for-obesity.html 
 
@@ -1846,14 +1846,14 @@ Another user commented she gained 60 pounds due to menopause, COVID-19, and a ma
 
 In the ongoing survey on Weight Loss Drugs, amidst the varied responses received, a peculiar feedback added an interesting twist to the narrative. The respondent, like many others, sought solutions for weight management and decided to give Wegovy a try.  Fortunately, Wegovy proved to be a game-changer for her. It helped her shed excess weight and regain confidence.  However, despite her personal success, she chose not to recommend it to others. Her decision, while intriguing, reflects the complex interplay of personal experiences and beliefs.
 
-## Article: The Future of Weight Loss Drugs
+# articles/drug-and-supplements/the-future-of-weight-loss-drugs
 
 
 Section 11 - The Future of Weight Loss Drugs 
 
 A chronic condition, obesity, is a major public concern linked to many health concerns like hypertension, hyperlipidemia (increased presence of fat in the blood), type 2 diabetes mellitus (a chronic condition where the regulation of blood sugar is impaired), stroke, metabolic syndrome (a group of conditions that increase the risk of heart conditions, diabetes, stroke, etc.), asthma, and cancer. Research is ongoing on finding medications that may help to reverse the ill effects of obesity or reduce obesity itself. Studies have been able to discover pharmacological agents that reduce the absorption of fats in food or stimulate the satiety hormones to create a feeling of fullness. Treating medical conditions that cause obesity also can be helpful in managing it. 
 
-## Article: The Future of Weight Loss Drugs
+# articles/drug-and-supplements/the-future-of-weight-loss-drugs
 
 Why Drugs Than Diet?
 Medications for weight loss might be suggested in some cases where the ill effects of obesity outweigh the risks associated with treating it using some medicines. Medicines work by any one of these mechanisms:
@@ -1861,11 +1861,11 @@ Reducing appetite by stimulating the satiety center and creating a feeling of fu
 Reducing absorption of nutrients.
 Increasing the metabolism, thereby burning more energy.
 
-## Article: The Future of Weight Loss Drugs
+# articles/drug-and-supplements/the-future-of-weight-loss-drugs
 
 When these medications are coupled with lifestyle and diet modifications under the able guidance of a healthcare professional, weight loss can be a cakewalk. Long-term prescription drugs for weight loss are drugs that one can use for more than 12 weeks and can cause major weight loss when compared to without any medicines. Studies show that these medicines help to lose weight three to twelve percent times faster than lifestyle modifications alone can do. It also helps to manage the comorbidities better.
 
-## Article: The Future of Weight Loss Drugs
+# articles/drug-and-supplements/the-future-of-weight-loss-drugs
 
 What Research Is Being Done on This?
 Initial Attempts: Early attempts to manage obesity include non-pharmacological approaches like behavioral therapy, like consuming a balanced calorie deficit diet in addition to thirty to fifty minutes of physical activity daily. Cognitive behavioral therapy is yet another strategy employed to reduce weight in obese. It includes overcoming emotional and psychological barriers in managing weight. Alternative approaches like acupuncture, vitamin D supplementation, and N-3 fatty acids supplementation have also been used in weight management. The pharmacological approach includes targeting the enzymes and hormones linked to the pathophysiology of obesity. Some of these targets include lipase (an enzyme that catalyzes the hydrolysis of fats), glucagon-like peptide 1 (a hormone released in response to food in the gut), leptin (a hormone that regulates average weight in the body), and  MC4R (a gene that codes for the enzyme leptin). 
@@ -1877,7 +1877,7 @@ According to research done by Washington University in St. Louis and St. Louis U
 In another research by the same team at St.Louis University, SLU-PP-332 was designed to activate ERRs. The research in mice also showed that it helped the mice with normal weight to run 70 percent longer than the mice that were not given the drug. The team later tested the drug on obese mice. They were given the drug twice a day and found that the weight gain was ten percent less, and weight loss was twelve percent faster than the mice that were not given the drug. The mice were given the same amount of food and did not do any exercise. The drug caused them to spend more energy just by living normally! In another research by the same team, the drug was found to strengthen the heart muscles in mice that had a weak heart. However, this aspect requires more research.
 The drug has, so far, shown no adverse effects. The next phase of the study is to use it on human beings with the set criteria. Before that, it has to be modified into an edible tablet instead of an injection. The oral product will be tested on animals for any adverse effects before starting its use for human trials. 
 
-## Article: The Future of Weight Loss Drugs
+# articles/drug-and-supplements/the-future-of-weight-loss-drugs
 
 
 What Are the Potential Barriers to Developing Weight-Loss Drugs?
@@ -1909,13 +1909,13 @@ How To Address: A proper understanding of how a drug can possibly work in the bo
 Patient Compliance: Patient compliance is essential for any drug research to be successful. Failure to adhere to the prescription may not give the proper result for the medication. In addition, it may give some additional adverse or undesirable effects.  
 How To Address: This is another factor that depends on the patient alone. Educating the patient properly and giving them an idea of the possible drawbacks if they do not adhere to the prescription can help increase compliance. 
 
-## Article: The Future of Weight Loss Drugs
+# articles/drug-and-supplements/the-future-of-weight-loss-drugs
 
 
 What Are the Future Prospects of Weight Loss Drugs?
 During the June 2023 American Diabetes Association (ADA) convention, Novo Nordisk and Eli Lilly presented updated information on two oral prospects, Semaglutide and Orforglipron, respectively. The efficacy readings of more than 15 percent demonstrated how rapidly the market is growing. As many trials are initiated across the globe, it not only helps to treat a wider range of people but also eliminates the lack of supply. 
 
-## Article: The Future of Weight Loss Drugs
+# articles/drug-and-supplements/the-future-of-weight-loss-drugs
 
 
 Route of Administration: Most of the drugs that have been developed so far are subcutaneous (injected under the skin). Hence, more trials are happening to find a better route of administration that is easy and comfortable. Research on drugs that can be administered orally is in its final stage. The majority of the drugs that are currently being used in weight loss were initially used in the management of type 2 diabetes. Hence, it is appreciated that the development of these weight-loss drugs can have dual or triple agonists. 
@@ -1924,7 +1924,7 @@ Muscle Mass: A study showed that another drug named Bimagrumab (which is an anti
 
 Timeline of Weight Loss Drugs
 
-## Article: No Article
+# articles/no-article
 
 Section 12 - Real User Experiences
 
@@ -1937,7 +1937,7 @@ Prescription for Progress: Unveiling Weight Loss Solutions: In discussion with a
 Puzzled by Phendimetrazine: The subscriber sought a second opinion on a telemedicine platform iCliniq, stating that he had taken thermogenic Phendimetrazine for two days and experienced shortness of breath, excessive yawning, and constant burping. Despite stopping the medication six days ago, the symptoms persisted. The doctor acknowledged these as common side effects of Phendimetrazine, an appetite suppressant. The doctor assured that these symptoms typically subside within 15 days but advised further evaluation if they persisted. The doctor recommended an MRI of the brain and a CT scan of the chest if the symptoms continued, suggesting that they could stem from brain stimulation. They also advised seeking immediate medical attention if difficulty breathing persisted.
 
 
-## Article: No Article
+# articles/no-article
 
 
 Testimonials
@@ -1965,7 +1965,7 @@ A slightly underweight female, standing 5 feet 5 inches tall and weighing 110 po
 A female between the ages of 28 and 35, standing 4 feet 10 inches tall and weighing 125 pounds, and normal BMI, shared her thoughts on weight loss. She had not tried any weight loss methods in the past 12 months. Although she had heard about weight loss drugs and believed that "if beneficial and pose limited side effects, they can be useful to help mitigate issues and ensure a healthy weight," she was not currently aware of their potential benefits and side effects. Interestingly, she was not keen on learning more about them right now. Her balanced view highlights a cautious optimism toward new solutions while prioritizing her current understanding and comfort zone.
 Another female respondant standing 5 feet 2 inches tall and weighing 190 pounds, had a BMI of 34.8, which is considered obese. Despite not trying any weight loss methods in the past 12 months, she was open to new possibilities. She had not heard about weight loss drugs before but was eager to discover more. Her curiosity and willingness to explore new options reflect a proactive and positive approach to managing her health and well-being.
 
-## Article: No Article
+# articles/no-article
 
 Conclusion 
 
