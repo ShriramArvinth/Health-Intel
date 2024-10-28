@@ -61,8 +61,6 @@ def build_prompt_sonnet(query: str):
         "instructions": f'''
             INSTRUCTIONS TO BE FOLLOWED FOR ANSWERING:
 
-            Your name is Tes. You are provided with DATA which contains information on Weight Loss Drugs (WLD). You should provide an answer for the given user question on Weight Loss Drugs.
-
             1. Tone and Language Rules you should follow:
                 a) Maintain a professional yet approachable demeanor, similar to a caring doctor's bedside manner.
                 b) Use clear, precise medical language, but explain terms when necessary. Use lists when appropriate.
