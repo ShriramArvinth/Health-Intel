@@ -11,15 +11,15 @@ from prompt_builder import (
     build_prompt_haiku_followup,
     build_prompt_haiku_chat_title
 )
-from infer import (
+from search_core.infer import (
     infer,
     infer_flash,
     infer_sonnet,
     infer_haiku
 )
-from api_helper import parse_streaming_response
+from search_core.api_helper import parse_streaming_response
 from contextlib import asynccontextmanager
-from dummy_calls import (run_dummy_calls, make_dummy_call)
+from search_core.dummy_calls import (run_dummy_calls, make_dummy_call)
 from fastapi import FastAPI, HTTPException, UploadFile, File, Request
 from fastapi.responses import StreamingResponse
 from fastapi.middleware.cors import CORSMiddleware

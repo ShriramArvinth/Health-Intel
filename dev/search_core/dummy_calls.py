@@ -1,6 +1,6 @@
 from datetime import datetime, timedelta
 from prompt_builder import build_prompt_sonnet
-from infer import infer_sonnet
+from search_core.infer import infer_sonnet
 import pytz
 from typing import Generator
 from threading import Event
