@@ -8,12 +8,6 @@ on:
       - "app/**"
       - ".github/workflows/deploy.yml"
   workflow_dispatch:
-    inputs:
-      deploy_to_prod:
-        description: 'Deploy to Production'
-        required: true
-        type: boolean
-        default: false
 
 env:
   PROJECT_ID: talk-to-your-records
@@ -22,6 +16,7 @@ env:
 
 jobs:
   build-deploy-dev:
+    if: github.event_name == 'push'
     runs-on: ubuntu-latest
     defaults:
       run:
@@ -89,8 +84,8 @@ jobs:
             --platform managed
 
   deploy-prod:
+    if: github.event_name == 'workflow_dispatch' && github.event.inputs.confirm_prod_deploy == 'yes'
     needs: build-deploy-dev
-    if: github.event.inputs.deploy_to_prod == 'true'
     runs-on: ubuntu-latest
     defaults:
       run:
