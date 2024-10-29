@@ -1,19 +1,6 @@
-name: Deploy to Dev and Prod
-
+name: Deploy to Production
 on:
-  push:
-    branches:
-      - main
-    paths:
-      - "app/**"
-      - ".github/workflows/deploy.yml"
   workflow_dispatch:
-    inputs:
-      confirm_prod_deploy:
-        description: 'Deploy to Production'
-        required: true
-        type: boolean
-        default: false
 
 env:
   PROJECT_ID: talk-to-your-records
@@ -21,117 +8,42 @@ env:
   GAR_LOCATION: us-central1-docker.pkg.dev/talk-to-your-records/icliniq-search
 
 jobs:
-  build-deploy-dev:
-    if: github.event_name == 'push'
+  promote-to-prod:
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: app/
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
-
-      - name: SonarQube Scan
-        uses: sonarsource/sonarqube-scan-action@master
-        env:
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-          SONAR_HOST_URL: ${{ secrets.SONAR_URL }}
-        with:
-          args: >
-            -Dsonar.projectKey=ai-chat-tes
-            -Dsonar.sources=app/
-
-      - name: secret-scanning
-        uses: trufflesecurity/trufflehog@main
-
-      - name: Store Service Account Credentials in JSON File
-        env:
-          GCP_SA_TALK_TO_YOUR_RECORDS: ${{ secrets.GCP_TALK_TO_YOUR_RECORDS }}
-        run: |
-          echo "$GCP_SA_TALK_TO_YOUR_RECORDS" > talk-to-your-records-1dd5074904a9.json
-
-      - name: Store Anthropic API Key in TXT File
-        env:
-          ANTHROPIC_KEY: ${{ secrets.anthropic_api_key }}
-        run: |
-          echo "$ANTHROPIC_KEY" > anthropic_key.txt
-
-      - id: 'auth'
-        name: 'Authenticate to Google Cloud'
+      - name: Authenticate with Google Cloud
         uses: 'google-github-actions/auth@v1'
         with:
           credentials_json: '${{ secrets.GCP_TALK_TO_YOUR_RECORDS }}'
 
-      - name: Get the commit SHA
-        id: vars
-        run: echo "sha=$(git rev-parse HEAD)" >> $GITHUB_OUTPUT
+      - name: Set up Cloud SDK
+        uses: google-github-actions/setup-gcloud@v1
 
-      - name: "Set up google cloud CLI"
-        uses: "google-github-actions/setup-gcloud@v1"
+      - name: Configure Docker Authentication
+        run: gcloud auth configure-docker ${{ env.REGION }}-docker.pkg.dev --quiet
 
-      - name: "Docker auth"
-        run: |-
-          gcloud auth configure-docker ${{ env.REGION }}-docker.pkg.dev --quiet
+      - name: Install jq
+        run: sudo apt-get install jq
 
-      - name: Build image
+      - name: Get latest dev image tag
+        id: get-latest-tag
         run: |
-          docker build . --file ./Dockerfile --tag ${{ env.GAR_LOCATION }}/icliniq-search:${{ steps.vars.outputs.sha }}
+          IMAGE_TAG=$(gcloud run services describe icliniq-search-dev \
+            --region=${{ env.REGION }} \
+            --format="json" | jq -r '.spec.template.spec.containers[0].image')
+          echo "Latest Image Tag: $IMAGE_TAG"
+          echo "::set-output name=image-tag::$IMAGE_TAG"
 
-      - name: Push image
-        run: docker push ${{ env.GAR_LOCATION }}/icliniq-search:${{ steps.vars.outputs.sha }}
-
-      - name: Deploy to Cloud Run Dev
+      - name: Extract commit hash
+        id: extract-hash
         run: |
-          gcloud run deploy icliniq-search-dev \
-            --image ${{ env.GAR_LOCATION }}/icliniq-search:${{ steps.vars.outputs.sha }} \
-            --port 8090 \
-            --memory 2Gi \
-            --region ${{ env.REGION }} \
-            --platform managed
+          COMMIT_HASH=$(echo "${{ steps.get-latest-tag.outputs.image-tag }}" | cut -d':' -f2)
+          echo "::set-output name=commit-sha::$COMMIT_HASH"
 
-      - name: Store image tag
-        run: echo "${{ steps.vars.outputs.sha }}" > image_tag.txt
-
-      - name: Upload image tag
-        uses: actions/upload-artifact@v3
-        with:
-          name: image-tag
-          path: app/image_tag.txt
-          retention-days: 7
-
-  deploy-prod:    
-    if: github.event_name == 'workflow_dispatch' && github.event.inputs.confirm_prod_deploy == true
-    runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: app/
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
-
-      - name: Download image tag
-        uses: actions/download-artifact@v3
-        with:
-          name: image-tag
-          path: app/
-
-      - name: Set image tag
-        id: vars
-        run: echo "sha=$(cat image_tag.txt)" >> $GITHUB_OUTPUT
-
-      - id: 'auth'
-        name: 'Authenticate to Google Cloud'
-        uses: 'google-github-actions/auth@v1'
-        with:
-          credentials_json: '${{ secrets.GCP_TALK_TO_YOUR_RECORDS }}'
-
-      - name: "Set up google cloud CLI"
-        uses: "google-github-actions/setup-gcloud@v1"
-
-      - name: Deploy to Cloud Run Prod
+      - name: Deploy to Production
         run: |
           gcloud run deploy icliniq-search \
-            --image ${{ env.GAR_LOCATION }}/icliniq-search:${{ steps.vars.outputs.sha }} \
+            --image ${{ env.GAR_LOCATION }}/icliniq-search:${{ steps.extract-hash.outputs.commit-sha }} \
             --port 8090 \
             --memory 2Gi \
             --region ${{ env.REGION }} \
