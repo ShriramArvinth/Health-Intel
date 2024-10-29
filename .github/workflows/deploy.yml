@@ -8,6 +8,14 @@ on:
       - "app/**"
       - ".github/workflows/deploy.yml"
   workflow_dispatch:
+    inputs:
+      confirm_prod_deploy:
+        description: 'Deploy to Production'
+        required: true
+        type: choice
+        options:
+          - yes
+          - no
 
 env:
   PROJECT_ID: talk-to-your-records
