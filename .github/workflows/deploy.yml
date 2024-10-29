@@ -66,7 +66,7 @@ jobs:
 
       - name: Get the commit SHA
         id: vars
-        run: echo ::set-output name=sha::$(git rev-parse HEAD)
+        run: echo "sha=$(git rev-parse HEAD)" >> $GITHUB_OUTPUT
 
       - name: "Set up google cloud CLI"
         uses: "google-github-actions/setup-gcloud@v1"
@@ -91,6 +91,16 @@ jobs:
             --region ${{ env.REGION }} \
             --platform managed
 
+      - name: Store image tag
+        run: echo "${{ steps.vars.outputs.sha }}" > image_tag.txt
+
+      - name: Upload image tag
+        uses: actions/upload-artifact@v3
+        with:
+          name: image-tag
+          path: app/image_tag.txt
+          retention-days: 7
+
   deploy-prod:
     if: github.event_name == 'workflow_dispatch' && github.event.inputs.confirm_prod_deploy == 'yes'
     needs: build-deploy-dev
@@ -102,15 +112,21 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
+      - name: Download image tag
+        uses: actions/download-artifact@v3
+        with:
+          name: image-tag
+          path: app/
+
+      - name: Set image tag
+        id: vars
+        run: echo "sha=$(cat image_tag.txt)" >> $GITHUB_OUTPUT
+
       - id: 'auth'
         name: 'Authenticate to Google Cloud'
         uses: 'google-github-actions/auth@v1'
         with:
           credentials_json: '${{ secrets.GCP_TALK_TO_YOUR_RECORDS }}'
-
-      - name: Get the commit SHA
-        id: vars
-        run: echo ::set-output name=sha::$(git rev-parse HEAD)
 
       - name: "Set up google cloud CLI"
         uses: "google-github-actions/setup-gcloud@v1"
