@@ -18,7 +18,7 @@ on:
 env:
   PROJECT_ID: talk-to-your-records
   REGION: us-central1
-  GAR_LOCATION: us-central1-docker.pkg.dev/talk-to-your-records
+  GAR_LOCATION: us-central1-docker.pkg.dev/talk-to-your-records/icliniq-search
 
 jobs:
   build-deploy-dev:
