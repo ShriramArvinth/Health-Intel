@@ -6,7 +6,7 @@ on:
       - main
     paths:
       - "app/**"
-      - ".github/workflows/dev-deploy.yml"
+      - ".github/workflows/deploy.yml"
   workflow_dispatch:
     inputs:
       deploy_to_prod:
