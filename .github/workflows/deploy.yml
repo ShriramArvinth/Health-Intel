@@ -12,10 +12,8 @@ on:
       confirm_prod_deploy:
         description: 'Deploy to Production'
         required: true
-        type: choice
-        options:
-          - yes
-          - no
+        type: boolean
+        default: false
 
 env:
   PROJECT_ID: talk-to-your-records
@@ -101,8 +99,8 @@ jobs:
           path: app/image_tag.txt
           retention-days: 7
 
-  deploy-prod:
-    if: github.event_name == 'workflow_dispatch' && github.event.inputs.confirm_prod_deploy == 'yes'
+  deploy-prod:    
+    if: github.event_name == 'workflow_dispatch' && github.event.inputs.confirm_prod_deploy == true
     needs: build-deploy-dev
     runs-on: ubuntu-latest
     defaults:
