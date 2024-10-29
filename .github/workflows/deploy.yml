@@ -101,7 +101,6 @@ jobs:
 
   deploy-prod:    
     if: github.event_name == 'workflow_dispatch' && github.event.inputs.confirm_prod_deploy == true
-    needs: build-deploy-dev
     runs-on: ubuntu-latest
     defaults:
       run:
