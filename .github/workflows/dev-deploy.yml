@@ -67,7 +67,7 @@ jobs:
 
       - name: Build image
         run: |
-          docker build . --file ./Dockerfile --tag ${{ env.GAR_LOCATION }}/icliniq-search:${{ steps.vars.outputs.sha }}
+          docker build . --file ./api/Dockerfile --tag ${{ env.GAR_LOCATION }}/icliniq-search:${{ steps.vars.outputs.sha }}
 
       - name: Push image
         run: docker push ${{ env.GAR_LOCATION }}/icliniq-search:${{ steps.vars.outputs.sha }}
