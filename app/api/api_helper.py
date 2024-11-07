@@ -1,5 +1,8 @@
+from typing import List
+from app.response_retriever import response_retriever
 import json
 import itertools
+import re
 
 def handle_streaming_response(response):
   collecting = False  # Flag to track if we're between the start and end markers
@@ -65,7 +68,7 @@ def handle_streaming_response(response):
         buffer = "" # clean buffer
 
   # handle the fact that the buffer might have something left over if the loop exits from the not collecting state
-  #(this can happen only if the collection done flag is not True -- meaning, the start marker is not found, or the end marker is not found even though the start marker
+  #(this can happen only if the collection done flag is not True -- meaning, the start marker is not found, or, the end marker is not found even though the start marker
   # has been found)
   if buffer:
     yield buffer
@@ -116,3 +119,50 @@ def parse_streaming_response(response):
     
     for _ in parsed_stream:
         yield(_)
+
+def ask_query_helper(all_queries: List[str], anthropic_client):
+    ans_ref_stream = response_retriever.ans_ref(
+        anthropic_client = anthropic_client,
+        query = all_queries[-1]
+    )
+    parsed_stream = parse_streaming_response(response = ans_ref_stream)
+
+    ans = ""
+    chunk_flag = True
+    for chunk in parsed_stream:
+        if "$relevant_articles_begin$" in chunk:
+            chunk_flag = not(chunk_flag)
+        elif "$relevant_articles_end$" in chunk:
+            chunk_flag = not(chunk_flag)
+        if chunk_flag:
+            ans += re.sub(r'\$.*?\$', '', chunk)
+        # print(chunk, end = "")
+        # print('\n')
+        yield chunk
+
+    yield "$end_of_answer_stream$"
+
+
+    followup_questions = response_retriever.followup(
+       anthropic_client = anthropic_client,
+       last_question = all_queries[-1], 
+       last_answer = ans
+    )
+    yield followup_questions
+
+    # return chat title, if its the first question in the chat window
+    if(len(all_queries) == 1):
+        yield "$end_of_followup_stream$"
+        chat_title = response_retriever.chat_title(
+            anthropic_client = anthropic_client,
+            first_question = all_queries[0], 
+        )
+        yield chat_title
+
+def ask_query_enable_dummy():
+    pre_def_file_path = "../datasource/pre_def_response.json"
+    with open(pre_def_file_path, 'r') as file:
+        json_data = json.load(file)
+
+    for key in json_data.keys():
+        yield json_data[key]
