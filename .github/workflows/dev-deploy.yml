@@ -1,12 +1,7 @@
 name: Deploy to Dev
 
 on:
-  push:
-    branches:
-      - main
-    paths:
-      - "app/**"
-      - ".github/workflows/dev-deploy.yml"
+  workflow_dispatch:
 
 env:
   PROJECT_ID: talk-to-your-records
