@@ -66,12 +66,11 @@ jobs:
           gcloud auth configure-docker ${{ env.REGION }}-docker.pkg.dev --quiet
 
       - name: Build image
-        run: docker build . --file ./Dockerfile --tag ${{ env.GAR_LOCATION }}/icliniq-search:${{ steps.vars.outputs.sha }}
-        working-directory: ../
+        run: docker build .. --file ../Dockerfile --tag ${{ env.GAR_LOCATION }}/icliniq-search:${{ steps.vars.outputs.sha }}
+        working-directory: app/
 
       - name: Push image
         run: docker push ${{ env.GAR_LOCATION }}/icliniq-search:${{ steps.vars.outputs.sha }}
-        working-directory: ../
 
       - name: Deploy to Cloud Run Dev
         run: |
