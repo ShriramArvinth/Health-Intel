@@ -1,0 +1,6 @@
+app/__pycache__/
+app/api/__pycache__/
+app/model_gateway/__pycache__/
+app/prompt_builder/__pycache__/
+app/response_retriever/__pycache__/
+app/secrets/
