@@ -29,7 +29,7 @@ class askquery(BaseModel):
     enable_dummy_response: bool
     queries: List[querycontent]
 
-class dummydata(BaseModel):
+class keep_alive_data(BaseModel):
     data: str 
 
 startup_variables = {
@@ -76,7 +76,7 @@ async def ask_query(data: askquery, request: Request):
 
         if (data.enable_dummy_response):
             return StreamingResponse(
-                api_helper.ask_query_enable_dummy()
+                api_helper.generate_dummy_response_for_testing()
             )
 
         else:
@@ -93,8 +93,8 @@ async def ask_query(data: askquery, request: Request):
     else:
         return "wrong api key"
 
-@app.post("/dummy-call")
-async def dummy_call(data: dummydata):
+@app.post("/keep-alive")
+async def keep_alive(data: keep_alive_data):
     current_time = datetime.now(pytz.timezone(startup_variables["timezone"]))
     last_cache_refresh = startup_variables["last_cache_refresh"]
 

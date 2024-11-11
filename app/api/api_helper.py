@@ -159,7 +159,7 @@ def ask_query_helper(all_queries: List[str], anthropic_client):
         )
         yield chat_title
 
-def ask_query_enable_dummy():
+def generate_dummy_response_for_testing():
     pre_def_file_path = "../datasource/pre_def_response.json"
     with open(pre_def_file_path, 'r') as file:
         json_data = json.load(file)

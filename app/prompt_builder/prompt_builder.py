@@ -1,10 +1,12 @@
 from textwrap import dedent
 
+# another function to define the sources paths (knowledge source, system prompt, user prompt ..)
+
 def ans_ref_prompts(query: str):
 
     # book data
-    book_file_path = '../datasource/Google_docs_extract_data.txt'
-    with open(book_file_path, 'r', encoding="utf8") as file:
+    knowlege_source_file_path = '../datasource/Google_docs_extract_data.txt'
+    with open(knowlege_source_file_path, 'r', encoding="utf8") as file:
         lines = file.readlines()
     book_data = ''.join(lines)
 
