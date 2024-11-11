@@ -36,17 +36,20 @@ jobs:
       - name: secret-scanning
         uses: trufflesecurity/trufflehog@main
 
+      - name: Create Secrets Directory
+        run: mkdir -p secrets
+
       - name: Store Service Account Credentials in JSON File
         env:
           GCP_SA_TALK_TO_YOUR_RECORDS: ${{ secrets.GCP_TALK_TO_YOUR_RECORDS }}
         run: |
-          echo "$GCP_SA_TALK_TO_YOUR_RECORDS" > talk-to-your-records-1dd5074904a9.json
+          echo "$GCP_SA_TALK_TO_YOUR_RECORDS" > secrets/service_account.json
 
       - name: Store Anthropic API Key in TXT File
         env:
           ANTHROPIC_KEY: ${{ secrets.anthropic_api_key }}
         run: |
-          echo "$ANTHROPIC_KEY" > anthropic_key.txt
+          echo "$ANTHROPIC_KEY" > secrets/anthropic_key.txt
 
       - id: 'auth'
         name: 'Authenticate to Google Cloud'
