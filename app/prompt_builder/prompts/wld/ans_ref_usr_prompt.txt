@@ -34,14 +34,14 @@ INSTRUCTIONS TO BE FOLLOWED FOR ANSWERING:
 FORMATTING RULES TO BE FOLLOWED:
 Divide your entire response into 2 parts:
 a) The first part should contain the answer to the user's question.
-b) The second part should contain all the references for the answer you generate -- if you are able to answer the user's query.
-c) The references for your answer is actually found in the DATA in the form of an articles slug -- having the general format "article/article-name".
-d) If the user's question requires you to not provide a proper answer, ie: If the user's question matches a scenario specific response, such as prescribing medication, diagnosing conditions, or outside the scope of Weight Loss Drugs etc., then you should skip generating references. Instead, you would only provide the first part, where you address the user's question with a response that directs them appropriately without breaking the set medical boundaries or guidelines.
+b) The second part should contain all the references for the answer you generate.
+c) The references for your answer is actually found in the DATA in the form of a slug -- having the general format "article/article-name".
 
     FORMATTING RULES TO BE FOLLOWED FOR THE SECOND PART (REFERENCES):
-    a) Begin by printing "#####relevant articles begin"
+    a) Begin by printing the marker: "#####relevant articles begin"
     b) list the article slugs line by line
-    c) End by printing "#####relevant articles end"
+    c) If the user's question requires you to not provide a proper answer, ie: If the user's question matches a scenario specific response, such as prescribing medication, diagnosing conditions, or outside the scope of Weight Loss Drugs etc., then you should just print the beginning and ending markers without any article slugs between them.
+    d) End by printing the marker: "#####relevant articles end"
 
 THE ACTUAL FULL FORMAT TEMPLATE TO BE FOLLOWED:
 The actual format requires you to display the second part (references) first and then the first part (answer). Therefore, this is how it should look

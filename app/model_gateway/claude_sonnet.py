@@ -1,6 +1,6 @@
 def infer(client, prompt):
     response = client.beta.prompt_caching.messages.create(
-        model = "claude-3-5-sonnet-20240620",
+        model = "claude-3-5-sonnet-20241022",
         max_tokens = 1024,
         system = prompt["system"],
         messages = prompt["messages"],

@@ -67,7 +67,7 @@ def handle_streaming_response(response):
         yield buffer # print(buffer, end = "")
         buffer = "" # clean buffer
 
-  # handle the fact that the buffer might have something left over if the loop exits from the not collecting state
+  # handle the fact that the buffer might have something left over if the loop exits from inside the not collecting "if condition"
   #(this can happen only if the collection done flag is not True -- meaning, the start marker is not found, or, the end marker is not found even though the start marker
   # has been found)
   if buffer:
@@ -75,8 +75,6 @@ def handle_streaming_response(response):
     buffer = ""
 
 def parse_streaming_response(response):
-    # file_path = './section_article_map.json'
-
     parsed_stream = handle_streaming_response(response = response)
     first_chunk = next(parsed_stream)
     question_exception = False
@@ -90,18 +88,6 @@ def parse_streaming_response(response):
         parsed_stream = itertools.chain([first_chunk], parsed_stream)
     else:
         relevant_articles = next(parsed_stream).split("\n")
-        # with open(file_path, 'r') as json_file:
-        #     map_obj = json.load(json_file)
-
-        # # map article name with slugs -- handle keyerror exceptions
-        # try:
-        #     relevant_articles = {
-        #         "relevant_articles": list(map(lambda x: map_obj[x], list(filter(lambda x: not(x == "Article: No Article"), relevant_articles))))
-        #     }
-        # except Exception:
-        #     relevant_articles = {
-        #         "relevant_articles": []
-        #     }
         relevant_articles = {
             "relevant_articles": list(filter(lambda x: not(x in ["", "articles/no-article"]), relevant_articles))
         }
