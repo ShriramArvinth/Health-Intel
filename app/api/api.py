@@ -36,7 +36,8 @@ class keep_alive_data(BaseModel):
 startup_variables = {
     "anthropic_client": None,
     "timezone": None,
-    "last_cache_refresh": None
+    "last_cache_refresh": None,
+    "global_resources": None
 }
 
 # define server lifespan events
@@ -51,6 +52,9 @@ async def lifespan(app: FastAPI):
     # initialize timezone and last cache refresh
     startup_variables["timezone"] = "America/New_York"
     startup_variables["last_cache_refresh"] = datetime.now(pytz.timezone(startup_variables["timezone"])) - timedelta(minutes=5)
+
+    # initialize global resources
+    startup_variables["global_resources"] = api_init.get_global_resources()
 
     yield
 
@@ -90,16 +94,6 @@ async def ask_query(data: askquery, request: Request):
                     anthropic_client = startup_variables["anthropic_client"]
                 )
             )
-
-        # all_queries = [query.question for query in data.queries]
-        # cache_timeout_refresh()
-        
-        # return StreamingResponse(
-        #     api_helper.ask_query_helper(
-        #         all_queries = all_queries,
-        #         anthropic_client = startup_variables["anthropic_client"]
-        #     )
-        # )
         
     else:
         return "wrong api key"

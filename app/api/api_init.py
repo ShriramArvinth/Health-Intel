@@ -1,6 +1,25 @@
 from anthropic import Anthropic
 from pathlib import Path
 import sys
+from google.cloud.storage import Client, transfer_manager
+from google.oauth2 import service_account
+import os
+import json
+import shutil
+
+class specialty():
+    def __init__(self):
+        self.ans_ref_system_prompt: str
+        self.ans_ref_usr_prompt: str
+        self.knowledge: str
+        self.pre_def_response: dict
+
+class global_resources():
+    def __init__(self):
+        self.chat_title: str
+        self.follow_up: str
+        self.wld = specialty()
+        self.t1d = specialty()
 
 def init_import_structure():
     sys.path[0] = str(Path(__file__).parent.parent.parent)
@@ -22,3 +41,76 @@ def anthropic_init():
     )
 
     return client
+
+def load_text_file(filepath):
+    with open(filepath, 'r') as file:
+        return file.read().strip()
+
+def get_gcp_resources():
+
+    # /app/api/
+    current_dir = os.getcwd()
+    service_account_file = os.path.join(current_dir, "../secrets/service_account.json")
+    creds = service_account.Credentials.from_service_account_file(filename = service_account_file)
+
+    storage_client = Client(
+        credentials=creds
+    )
+
+    """Downloads a blob from the bucket."""
+    # The ID of your GCS bucket
+    bucket_name = "ai_chat_tes_resources"
+
+    # The ID of your GCS object
+    max_results=1000
+
+    # The path to which the file should be downloaded
+    destination_directory = os.path.join(current_dir, "../gcp_download/")
+
+    workers = 8
+
+    bucket = storage_client.bucket(bucket_name)
+    blob_names = [blob.name for blob in bucket.list_blobs(max_results=max_results)]
+
+    results = transfer_manager.download_many_to_path(
+        bucket, blob_names, destination_directory=destination_directory, max_workers=workers
+    )
+
+    for name, result in zip(blob_names, results):
+        # The results list is either `None` or an exception for each blob in
+        # the input list, in order.
+
+        if isinstance(result, Exception):
+            print("created {} due to: {}".format(name, result))
+        else:
+            print("Downloaded {} to {}.".format(name, destination_directory + name))
+
+    return destination_directory
+
+def get_global_resources():
+    resources_directory = get_gcp_resources()
+    resources = global_resources()
+
+    # Load chat_title and follow_up
+    resources.chat_title = load_text_file(os.path.join(resources_directory, 'chat_title.txt'))
+    resources.follow_up = load_text_file(os.path.join(resources_directory, 'follow_up.txt'))
+
+    specialties = {
+        'wld': resources.wld
+    }
+
+    # Loop through each specialty to load data
+    for specialty_name, specialty_obj in specialties.items():
+        specialty_directory = os.path.join(resources_directory, specialty_name)
+
+        specialty_obj.ans_ref_system_prompt = load_text_file(os.path.join(specialty_directory, 'ans_ref_sys_prompt.txt'))
+        specialty_obj.ans_ref_usr_prompt = load_text_file(os.path.join(specialty_directory, 'ans_ref_usr_prompt.txt'))
+        specialty_obj.knowledge = load_text_file(os.path.join(specialty_directory, 'knowledge.txt'))
+        
+        with open(os.path.join(specialty_directory, 'pre_def_response.json'), 'r') as file:
+            specialty_obj.pre_def_response = json.load(file)
+
+    # delete ../gcp_download/
+    shutil.rmtree(resources_directory)
+
+    return resources
