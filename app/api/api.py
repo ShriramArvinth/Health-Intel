@@ -26,7 +26,7 @@ class querycontent(BaseModel):
 class askquery(BaseModel):
     userId: str
     timestamp: str
-    enable_dummy_response: bool
+    # enable_dummy_response: bool
     specialty: str
     queries: List[querycontent]
 
@@ -79,22 +79,32 @@ async def ask_query(data: askquery, request: Request):
     if (xapikey == 'Cp)L9dt)ACeZIAv(RDYX)V8NPx+dEFMh(eGFDd(sAxQvEMdZh4y(svKC(4mWCj'):
         # print(data)
 
-        if (data.enable_dummy_response):
-            return StreamingResponse(
-                api_helper.generate_dummy_response_for_testing()
-            )
+        # if (data.enable_dummy_response):
+        #     return StreamingResponse(
+        #         api_helper.generate_dummy_response_for_testing()
+        #     )
 
-        else:
-            all_queries = [query.question for query in data.queries]
-            cache_timeout_refresh()
+        # else:
+        #     all_queries = [query.question for query in data.queries]
+        #     cache_timeout_refresh()
             
-            return StreamingResponse(
-                api_helper.ask_query_helper(
-                    all_queries = all_queries,
-                    anthropic_client = startup_variables["anthropic_client"]
-                )
-            )
+        #     return StreamingResponse(
+        #         api_helper.ask_query_helper(
+        #             all_queries = all_queries,
+        #             anthropic_client = startup_variables["anthropic_client"]
+        #         )
+        #     )
+
+        all_queries = [query.question for query in data.queries]
+        cache_timeout_refresh()
         
+        return StreamingResponse(
+            api_helper.ask_query_helper(
+                all_queries = all_queries,
+                anthropic_client = startup_variables["anthropic_client"]
+            )
+        )
+    
     else:
         return "wrong api key"
 
