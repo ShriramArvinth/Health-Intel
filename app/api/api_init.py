@@ -18,8 +18,8 @@ class global_resources():
     def __init__(self):
         self.chat_title: str
         self.follow_up: str
-        self.wld = specialty()
-        self.t1d = specialty()
+        self.wld: specialty
+        self.t1d: specialty
 
 def init_import_structure():
     sys.path[0] = str(Path(__file__).parent.parent.parent)
@@ -95,20 +95,21 @@ def get_global_resources():
     resources.chat_title = load_text_file(os.path.join(resources_directory, 'chat_title.txt'))
     resources.follow_up = load_text_file(os.path.join(resources_directory, 'follow_up.txt'))
 
-    specialties = {
-        'wld': resources.wld
-    }
+    specialties = [
+        'wld',
+    ]
 
     # Loop through each specialty to load data
-    for specialty_name, specialty_obj in specialties.items():
+    for specialty_name in specialties:
         specialty_directory = os.path.join(resources_directory, specialty_name)
 
-        specialty_obj.ans_ref_system_prompt = load_text_file(os.path.join(specialty_directory, 'ans_ref_sys_prompt.txt'))
-        specialty_obj.ans_ref_usr_prompt = load_text_file(os.path.join(specialty_directory, 'ans_ref_usr_prompt.txt'))
-        specialty_obj.knowledge = load_text_file(os.path.join(specialty_directory, 'knowledge.txt'))
+        setattr(resources, specialty_name, specialty())
+        getattr(resources, specialty_name).ans_ref_system_prompt = load_text_file(os.path.join(specialty_directory, 'ans_ref_sys_prompt.txt'))
+        getattr(resources, specialty_name).ans_ref_usr_prompt = load_text_file(os.path.join(specialty_directory, 'ans_ref_usr_prompt.txt'))
+        getattr(resources, specialty_name).knowledge = load_text_file(os.path.join(specialty_directory, 'knowledge.txt'))
         
         with open(os.path.join(specialty_directory, 'pre_def_response.json'), 'r') as file:
-            specialty_obj.pre_def_response = json.load(file)
+            getattr(resources, specialty_name).pre_def_response = json.load(file)
 
     # delete ../gcp_download/
     shutil.rmtree(resources_directory)

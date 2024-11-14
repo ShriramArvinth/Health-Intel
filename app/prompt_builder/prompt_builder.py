@@ -104,7 +104,6 @@ def dummy_call_prompts():
     user_prompt_path = '../prompt_builder/prompts/wld/ans_ref_usr_prompt.txt'
     with open(user_prompt_path, 'r', encoding="utf8") as file:
         lines = file.readlines()
-    dummy_query = "dummy question"
     user_prompt = {
         "instructions": ''.join(lines),
         "user_question": dedent(f'''
