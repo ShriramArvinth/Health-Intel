@@ -7,6 +7,8 @@ on:
     paths:
       - "app/**"
       - ".github/workflows/dev-deploy.yml"
+      - "Dockerfile"
+      - "requirements.txt"
 
 env:
   PROJECT_ID: talk-to-your-records
