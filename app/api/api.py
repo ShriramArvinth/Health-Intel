@@ -98,7 +98,7 @@ async def ask_query(data: askquery, request: Request):
     else:
         return "wrong api key"
 
-@app.post("/keep-alive")
+@app.post("/dummy-calls") # /keep-alive
 async def keep_alive(data: keep_alive_data):
     current_time = datetime.now(pytz.timezone(startup_variables["timezone"]))
     last_cache_refresh = startup_variables["last_cache_refresh"]
