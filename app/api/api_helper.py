@@ -3,6 +3,7 @@ from app.response_retriever import response_retriever
 import json
 import itertools
 import re
+import random
 
 def handle_streaming_response(response):
   collecting = False  # Flag to track if we're between the start and end markers
@@ -134,6 +135,14 @@ def ask_query_helper(all_queries: List[str], anthropic_client):
        last_question = all_queries[-1], 
        last_answer = ans
     )
+
+    """
+    make the follouwp questions object temporarily return the ask_a_doctor: bool field along with the questions: List
+    """
+    followup_questions = json.loads(followup_questions)
+    followup_questions["ask_a_doctor"] = random.choice([True, False])
+    followup_questions = json.dumps(followup_questions)
+
     yield followup_questions
 
     # return chat title, if its the first question in the chat window
