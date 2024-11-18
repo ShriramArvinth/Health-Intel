@@ -107,10 +107,14 @@ def parse_streaming_response(response):
     for _ in parsed_stream:
         yield(_)
 
-def ask_query_helper(all_queries: List[str], anthropic_client):
+def ask_query_helper(all_queries: List[str], startup_variables, specialty):
+    anthropic_client = startup_variables["anthropic_client"]
+
     ans_ref_stream = response_retriever.ans_ref(
         anthropic_client = anthropic_client,
-        query = all_queries[-1]
+        all_prompts = startup_variables["global_resources"],
+        query = all_queries[-1],
+        specialty = specialty
     )
     parsed_stream = parse_streaming_response(response = ans_ref_stream)
 
@@ -135,14 +139,6 @@ def ask_query_helper(all_queries: List[str], anthropic_client):
        last_question = all_queries[-1], 
        last_answer = ans
     )
-
-    """
-    make the follouwp questions object temporarily return the ask_a_doctor: bool field along with the questions: List
-    """
-    followup_questions = json.loads(followup_questions)
-    followup_questions["askDoctorOnline"] = True
-    followup_questions = json.dumps(followup_questions)
-
     yield followup_questions
 
     # return chat title, if its the first question in the chat window
@@ -150,14 +146,13 @@ def ask_query_helper(all_queries: List[str], anthropic_client):
         yield "$end_of_followup_stream$"
         chat_title = response_retriever.chat_title(
             anthropic_client = anthropic_client,
+            all_prompts = startup_variables["global_resources"],
             first_question = all_queries[0], 
         )
         yield chat_title
 
-def generate_dummy_response_for_testing():
-    pre_def_file_path = "../datasource/pre_def_response.json"
-    with open(pre_def_file_path, 'r') as file:
-        json_data = json.load(file)
+def generate_dummy_response_for_testing(all_prompts, specialty):
+    json_data = getattr(all_prompts, specialty).pre_def_response
 
     for key in json_data.keys():
         yield json_data[key]

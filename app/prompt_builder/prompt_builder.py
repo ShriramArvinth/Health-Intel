@@ -2,26 +2,17 @@ from textwrap import dedent
 
 # another function to define the sources paths (knowledge source, system prompt, user prompt ..)
 
-def ans_ref_prompts(query: str):
+def ans_ref_prompts(query: str, specialty: str, all_prompts):
 
     # book data
-    knowlege_source_file_path = '../datasource/Google_docs_extract_data.txt'
-    with open(knowlege_source_file_path, 'r', encoding="utf8") as file:
-        lines = file.readlines()
-    book_data = ''.join(lines)
+    knowledge = ''.join(getattr(all_prompts, specialty).knowledge)
 
     # system
-    system_prompt_path = '../prompt_builder/prompts/wld/ans_ref_sys_prompt.txt'
-    with open(system_prompt_path, 'r', encoding="utf8") as file:
-        lines = file.readlines()
-    system_prompt = ''.join(lines)
+    system_prompt = ''.join(getattr(all_prompts, specialty).ans_ref_system_prompt)
 
     # user
-    user_prompt_path = '../prompt_builder/prompts/wld/ans_ref_usr_prompt.txt'
-    with open(user_prompt_path, 'r', encoding="utf8") as file:
-        lines = file.readlines()
     user_prompt = {
-        "instructions": ''.join(lines),
+        "instructions": ''.join(getattr(all_prompts, specialty).ans_ref_usr_prompt),
         "user_question": dedent(f'''
             -> User's Question:
             {query}
@@ -31,18 +22,15 @@ def ans_ref_prompts(query: str):
     return_obj = {
         "system_prompt": system_prompt,
         "user_query": user_prompt,
-        "book_data": book_data
+        "book_data": knowledge
     }
 
     return return_obj
 
-def followup_prompts(last_question: str, last_answer: str):
+def followup_prompts(all_prompts, last_question: str, last_answer: str):
 
     # system
-    system_prompt_path = '../prompt_builder/prompts/follow_up.txt'
-    with open(system_prompt_path, 'r', encoding="utf8") as file:
-        lines = file.readlines()
-    system_prompt = ''.join(lines)
+    system_prompt = ''.join(all_prompts.follow_up)
 
     # user
     user_prompt = dedent(f'''
@@ -63,13 +51,10 @@ def followup_prompts(last_question: str, last_answer: str):
 
     return response_obj
 
-def chat_title_prompts(first_question: str):
+def chat_title_prompts(all_prompts, first_question: str):
     
     # system
-    system_prompt_path = '../prompt_builder/prompts/chat_title.txt'
-    with open(system_prompt_path, 'r', encoding="utf8") as file:
-        lines = file.readlines()
-    system_prompt = ''.join(lines)
+    system_prompt = ''.join(all_prompts.chat_title)
 
     # user
     user_prompt = dedent(f'''

@@ -6,9 +6,11 @@ from app.response_retriever import (
 )
 from app.prompt_builder import prompt_builder
 
-def ans_ref(anthropic_client, query):
+def ans_ref(anthropic_client, specialty, all_prompts, query):
     ans_ref_prompts = prompt_builder.ans_ref_prompts(
-       query = query
+        specialty = specialty,
+        all_prompts = all_prompts,
+        query = query
     )
 
     response = ans_ref_retriever.retrieve(
@@ -18,10 +20,11 @@ def ans_ref(anthropic_client, query):
 
     return response
 
-def followup(anthropic_client, last_question, last_answer):
+def followup(anthropic_client, all_prompts, last_question, last_answer):
     followup_prompts = prompt_builder.followup_prompts(
-       last_question = last_question, 
-       last_answer = last_answer
+        all_prompts = all_prompts,
+        last_question = last_question, 
+        last_answer = last_answer
     )
 
     response = followup_questions_retriever.retrieve(
@@ -31,8 +34,11 @@ def followup(anthropic_client, last_question, last_answer):
 
     return response
 
-def chat_title(anthropic_client, first_question):
-    chat_title_prompts = prompt_builder.chat_title_prompts(first_question = first_question)
+def chat_title(anthropic_client, all_prompts, first_question):
+    chat_title_prompts = prompt_builder.chat_title_prompts(
+        all_prompts = all_prompts,
+        first_question = first_question
+    )
 
     response = chat_title_retriever.retrieve(
         anthropic_client = anthropic_client,

@@ -79,9 +79,15 @@ async def ask_query(data: askquery, request: Request):
     if (xapikey == 'Cp)L9dt)ACeZIAv(RDYX)V8NPx+dEFMh(eGFDd(sAxQvEMdZh4y(svKC(4mWCj'):
         # print(data)
 
+        if data.specialty == "weight-loss-drugs":
+            specialty = "wld"
+
         if (data.enable_dummy_response):
             return StreamingResponse(
-                api_helper.generate_dummy_response_for_testing()
+                api_helper.generate_dummy_response_for_testing(
+                    all_prompts = startup_variables["global_resources"],
+                    specialty = specialty
+                )
             )
 
         else:
@@ -91,7 +97,8 @@ async def ask_query(data: askquery, request: Request):
             return StreamingResponse(
                 api_helper.ask_query_helper(
                     all_queries = all_queries,
-                    anthropic_client = startup_variables["anthropic_client"]
+                    startup_variables = startup_variables,
+                    specialty = specialty
                 )
             )
         
