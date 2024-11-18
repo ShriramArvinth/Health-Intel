@@ -140,7 +140,7 @@ def ask_query_helper(all_queries: List[str], anthropic_client):
     make the follouwp questions object temporarily return the ask_a_doctor: bool field along with the questions: List
     """
     followup_questions = json.loads(followup_questions)
-    followup_questions["ask_a_doctor"] = random.choice([True, False])
+    followup_questions["askDoctorOnline"] = True
     followup_questions = json.dumps(followup_questions)
 
     yield followup_questions
