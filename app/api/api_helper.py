@@ -136,6 +136,7 @@ def ask_query_helper(all_queries: List[str], startup_variables, specialty):
 
     followup_questions = response_retriever.followup(
        anthropic_client = anthropic_client,
+       all_prompts = startup_variables["global_resources"],
        last_question = all_queries[-1], 
        last_answer = ans
     )

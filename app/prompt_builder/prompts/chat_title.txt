@@ -1,6 +1,0 @@
-I will pass in the question from a chat I was having with an LLM.
-You are supposed to give a very short topic for this chat just based on that question. It's the same way in which 
-popular LLMs like Gemini, ChatGPT automatically create a topic for a new chat. I want you
-to create a similar concise topic in the same way.
-
-Give out your answer in normal text format.
