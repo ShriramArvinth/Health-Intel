@@ -5,8 +5,9 @@ from app.response_retriever import (
     dummy_calls_retriever
 )
 from app.prompt_builder import prompt_builder
+from app.api.api_init import global_resources
 
-def ans_ref(anthropic_client, specialty, all_prompts, query):
+def ans_ref(anthropic_client, specialty: str, all_prompts: global_resources, query):
     ans_ref_prompts = prompt_builder.ans_ref_prompts(
         specialty = specialty,
         all_prompts = all_prompts,
@@ -20,7 +21,7 @@ def ans_ref(anthropic_client, specialty, all_prompts, query):
 
     return response
 
-def followup(anthropic_client, all_prompts, last_question, last_answer):
+def followup(anthropic_client, all_prompts: global_resources, last_question, last_answer):
     followup_prompts = prompt_builder.followup_prompts(
         all_prompts = all_prompts,
         last_question = last_question, 
@@ -34,7 +35,7 @@ def followup(anthropic_client, all_prompts, last_question, last_answer):
 
     return response
 
-def chat_title(anthropic_client, all_prompts, first_question):
+def chat_title(anthropic_client, all_prompts: global_resources, first_question):
     chat_title_prompts = prompt_builder.chat_title_prompts(
         all_prompts = all_prompts,
         first_question = first_question
@@ -47,8 +48,11 @@ def chat_title(anthropic_client, all_prompts, first_question):
 
     return response
 
-def dummy_call(anthropic_client):
-    dummy_call_prompts = prompt_builder.dummy_call_prompts()
+def dummy_call(anthropic_client, all_prompts: global_resources, specialty: str):
+    dummy_call_prompts = prompt_builder.dummy_call_prompts(
+        all_prompts = all_prompts,
+        specialty = specialty
+    )
 
     response = dummy_calls_retriever.retrieve(
         anthropic_client = anthropic_client,

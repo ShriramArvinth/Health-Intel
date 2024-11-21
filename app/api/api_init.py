@@ -1,3 +1,4 @@
+from dataclasses import dataclass
 from anthropic import Anthropic
 from pathlib import Path
 import sys
@@ -7,6 +8,8 @@ import os
 import json
 import shutil
 
+# type definitions
+@dataclass
 class specialty():
     def __init__(self):
         self.ans_ref_system_prompt: str
@@ -14,6 +17,7 @@ class specialty():
         self.knowledge: str
         self.pre_def_response: dict
 
+@dataclass
 class global_resources():
     def __init__(self):
         self.chat_title: str

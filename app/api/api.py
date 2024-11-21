@@ -109,12 +109,20 @@ async def ask_query(data: askquery, request: Request):
 async def keep_alive(data: keep_alive_data):
     current_time = datetime.now(pytz.timezone(startup_variables["timezone"]))
     last_cache_refresh = startup_variables["last_cache_refresh"]
+    
+    # if data.specialty == "weight-loss-drugs":
+    #     specialty = "wld"
+    specialty = "wld"
 
     dummy_call_text = ""
     if ((current_time - last_cache_refresh) > timedelta(minutes=4.5)):
         print("Last cache refresh at: ", last_cache_refresh)
         cache_timeout_refresh()
-        dummy_response = response_retriever.dummy_call(anthropic_client = startup_variables["anthropic_client"])
+        dummy_response = response_retriever.dummy_call(
+            anthropic_client = startup_variables["anthropic_client"],
+            all_prompts = startup_variables["global_resources"],
+            specialty = specialty
+        )
         for _ in dummy_response:
             dummy_call_text += _
     else:

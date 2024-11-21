@@ -1,8 +1,24 @@
+from dataclasses import dataclass
 from textwrap import dedent
+from app.api.api_init import (
+    global_resources
+)
+
+@dataclass
+class GeneralPrompt():
+    def __init__(self, system_prompt: str, user_query: str):
+        self.system_prompt = system_prompt
+        self.user_query = user_query
+
+@dataclass
+class AnswerPrompt(GeneralPrompt):
+    def __init__(self, system_prompt: str, user_query: str, knowledge: str):
+        super().__init__(system_prompt, user_query)
+        self.knowledge = knowledge
 
 # another function to define the sources paths (knowledge source, system prompt, user prompt ..)
 
-def ans_ref_prompts(query: str, specialty: str, all_prompts):
+def ans_ref_prompts(query: str, specialty: str, all_prompts: global_resources):
 
     # book data
     knowledge = ''.join(getattr(all_prompts, specialty).knowledge)
@@ -19,15 +35,15 @@ def ans_ref_prompts(query: str, specialty: str, all_prompts):
         ''').strip("\n")
     }
 
-    return_obj = {
-        "system_prompt": system_prompt,
-        "user_query": user_prompt,
-        "book_data": knowledge
-    }
+    response_obj = AnswerPrompt(
+        system_prompt = system_prompt,
+        user_query = user_prompt,
+        knowledge = knowledge
+    )
 
-    return return_obj
+    return response_obj
 
-def followup_prompts(all_prompts, last_question: str, last_answer: str):
+def followup_prompts(all_prompts: global_resources, last_question: str, last_answer: str):
 
     # system
     system_prompt = ''.join(all_prompts.follow_up)
@@ -44,14 +60,14 @@ def followup_prompts(all_prompts, last_question: str, last_answer: str):
         Output in JSON format with keys: "questions" (list).
     ''').strip("\n")
 
-    response_obj = {
-        "system_prompt": system_prompt,
-        "user_query": user_prompt 
-    }
+    response_obj = GeneralPrompt(
+        system_prompt = system_prompt,
+        user_query = user_prompt 
+    )
 
     return response_obj
 
-def chat_title_prompts(all_prompts, first_question: str):
+def chat_title_prompts(all_prompts: global_resources, first_question: str):
     
     # system
     system_prompt = ''.join(all_prompts.chat_title)
@@ -64,42 +80,34 @@ def chat_title_prompts(all_prompts, first_question: str):
         Respond with a concise topic for the chat.
     ''').strip("\n")
 
-    response_obj = {
-        "system_prompt": system_prompt,
-        "user_query": user_prompt 
-    }
+    response_obj = GeneralPrompt(
+        system_prompt = system_prompt,
+        user_query = user_prompt 
+    )
+
 
     return response_obj
 
-def dummy_call_prompts():
+def dummy_call_prompts(all_prompts: global_resources, specialty: str):
 
     # book data
-    book_file_path = '../datasource/Google_docs_extract_data.txt'
-    with open(book_file_path, 'r', encoding="utf8") as file:
-        lines = file.readlines()
-    book_data = ''.join(lines)
+    knowledge = ''.join(getattr(all_prompts, specialty).knowledge)
 
     # system
-    system_prompt_path = '../prompt_builder/prompts/wld/ans_ref_sys_prompt.txt'
-    with open(system_prompt_path, 'r', encoding="utf8") as file:
-        lines = file.readlines()
-    system_prompt = ''.join(lines)
+    system_prompt = ''.join(getattr(all_prompts, specialty).ans_ref_system_prompt)
 
     # user
-    user_prompt_path = '../prompt_builder/prompts/wld/ans_ref_usr_prompt.txt'
-    with open(user_prompt_path, 'r', encoding="utf8") as file:
-        lines = file.readlines()
     user_prompt = {
-        "instructions": ''.join(lines),
+        "instructions": ''.join(getattr(all_prompts, specialty).ans_ref_usr_prompt),
         "user_question": dedent(f'''
             This is just a test question. Just respond with "dummy" and nothing else.
         ''').strip("\n")
     }
 
-    response_obj = {
-        "system_prompt": system_prompt,
-        "user_query": user_prompt,
-        "book_data": book_data
-    }
+    response_obj = AnswerPrompt(
+        system_prompt = system_prompt,
+        user_query = user_prompt,
+        knowledge = knowledge
+    )
 
     return response_obj

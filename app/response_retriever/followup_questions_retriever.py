@@ -1,18 +1,21 @@
 from app.model_gateway import claude_haiku
+from app.prompt_builder.prompt_builder import (
+    GeneralPrompt
+)
 
-def retrieve(anthropic_client, prompt_obj):
+def retrieve(anthropic_client, prompt_obj: GeneralPrompt):
     prompt = {
         "system": [
             {
                 "type": "text",
-                "text": prompt_obj["system_prompt"] + "\n",
+                "text": prompt_obj.system_prompt + "\n",
                 "cache_control": {"type": "ephemeral"}
             }
         ],
         "messages": [
             {
             "role": "user",
-            "content": prompt_obj["user_query"]
+            "content": prompt_obj.user_query
             }
         ],
     }

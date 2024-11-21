@@ -1,15 +1,18 @@
 from app.model_gateway import claude_sonnet
+from app.prompt_builder.prompt_builder import (
+    AnswerPrompt
+)
 
-def retrieve(anthropic_client, prompt_obj):
+def retrieve(anthropic_client, prompt_obj: AnswerPrompt):
     prompt = {
         "system": [
             {
                 "type": "text",
-                "text": prompt_obj["system_prompt"] + "\n",
+                "text": prompt_obj.system_prompt + "\n",
             },
             {
                 "type": "text",
-                "text": "DATA: \n" + prompt_obj["book_data"],
+                "text": "DATA: \n" + prompt_obj.knowledge,
                 "cache_control": {"type": "ephemeral"}
             }
         ],
@@ -19,7 +22,7 @@ def retrieve(anthropic_client, prompt_obj):
                 "content": [
                     {
                         "type": "text",
-                        "text": prompt_obj["user_query"]["instructions"]
+                        "text": prompt_obj.user_query["instructions"]
                     }
                 ]
             },
@@ -39,7 +42,7 @@ def retrieve(anthropic_client, prompt_obj):
                 "content": [
                     {
                         "type": "text",
-                        "text": prompt_obj["user_query"]["user_question"]
+                        "text": prompt_obj.user_query["user_question"]
                     }
                 ]
             }
