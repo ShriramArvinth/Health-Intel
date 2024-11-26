@@ -29,7 +29,10 @@ slugs = [
 request_urls = []
 for _ in slugs:
     request_urls.append("https://dev-directus-gcp.icliniq.com/items/article?fields=title,body,slug&filter={\"slug\": {\"_eq\": \"" + _ + "\"}}")
-token = "***REMOVED***"# create all the article files in the required format
+with open("./directus_token.txt", "r") as f:
+    token = f.readline().strip()
+
+# create all the article files in the required format
 for url in request_urls:
 
     # (req, res)

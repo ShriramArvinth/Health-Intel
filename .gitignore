@@ -4,3 +4,6 @@ app/model_gateway/__pycache__/
 app/prompt_builder/__pycache__/
 app/response_retriever/__pycache__/
 app/secrets/
+data_prep/article_prep/directus_token.txt
+data_prep/ebook_prep/retrieve_ebook/client_secret_944564052622-39grtjmehc3c8kk9um4pbjtcnmamaash.apps.googleusercontent.com.json
+data_prep/ebook_prep/retrieve_ebook/token.json
