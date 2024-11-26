@@ -1,13 +1,13 @@
 import sys
 from pathlib import Path
 
-from app.model_gateway.src import claude_haiku
 sys.path[0] = str(Path(__file__).parent.parent.parent.parent)
 
 import unittest
 from anthropic import Anthropic
-from app.model_gateway.tests import (
-    claude_sonnet
+from app.model_gateway.src import (
+    claude_sonnet,
+    claude_haiku
 )
 
 class TestGateway(unittest.TestCase):
