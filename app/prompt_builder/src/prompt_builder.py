@@ -1,7 +1,8 @@
 from dataclasses import dataclass
 from textwrap import dedent
 from app.api.api_init import (
-    global_resources
+    global_resources,
+    specialty as spc
 )
 
 @dataclass
@@ -13,22 +14,28 @@ class GeneralPrompt():
 @dataclass
 class AnswerPrompt(GeneralPrompt):
     def __init__(self, system_prompt: str, user_query: str, knowledge: str):
-        super().__init__(system_prompt, user_query)
+        super().__init__(
+            system_prompt = system_prompt, 
+            user_query = user_query
+        )
         self.knowledge = knowledge
 
 # another function to define the sources paths (knowledge source, system prompt, user prompt ..)
 
 def ans_ref_prompts(query: str, specialty: str, all_prompts: global_resources):
 
+    # specialty specific prompts inside global_resources
+    specialty_obj: spc = getattr(all_prompts, specialty)
+
     # book data
-    knowledge = ''.join(getattr(all_prompts, specialty).knowledge)
+    knowledge = ''.join(specialty_obj.knowledge)
 
     # system
-    system_prompt = ''.join(getattr(all_prompts, specialty).ans_ref_system_prompt)
+    system_prompt = ''.join(specialty_obj.ans_ref_system_prompt)
 
     # user
     user_prompt = {
-        "instructions": ''.join(getattr(all_prompts, specialty).ans_ref_usr_prompt),
+        "instructions": ''.join(specialty_obj.ans_ref_usr_prompt),
         "user_question": dedent(f'''
             -> User's Question:
             {query}
@@ -90,15 +97,18 @@ def chat_title_prompts(all_prompts: global_resources, first_question: str):
 
 def dummy_call_prompts(all_prompts: global_resources, specialty: str):
 
+    # specialty specific prompts inside global_resources
+    specialty_obj: spc = getattr(all_prompts, specialty)
+
     # book data
-    knowledge = ''.join(getattr(all_prompts, specialty).knowledge)
+    knowledge = ''.join(specialty_obj.knowledge)
 
     # system
-    system_prompt = ''.join(getattr(all_prompts, specialty).ans_ref_system_prompt)
+    system_prompt = ''.join(specialty_obj.ans_ref_system_prompt)
 
     # user
     user_prompt = {
-        "instructions": ''.join(getattr(all_prompts, specialty).ans_ref_usr_prompt),
+        "instructions": ''.join(specialty_obj.ans_ref_usr_prompt),
         "user_question": dedent(f'''
             This is just a test question. Just respond with "dummy" and nothing else.
         ''').strip("\n")

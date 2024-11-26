@@ -1,5 +1,5 @@
 from typing import List
-from app.response_retriever import response_retriever
+from app.response_retriever.src import response_retriever
 import json
 import itertools
 import re

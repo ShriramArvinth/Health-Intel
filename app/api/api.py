@@ -12,7 +12,7 @@ from contextlib import asynccontextmanager
 
 from app.api import api_init
 from app.api import api_helper
-from app.response_retriever import response_retriever
+from app.response_retriever.src import response_retriever
 from datetime import datetime, timedelta
 import pytz
 

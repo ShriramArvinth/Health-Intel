@@ -1,10 +1,10 @@
-from app.response_retriever import (
+from app.response_retriever.src import (
     ans_ref_retriever,
     followup_questions_retriever,
     chat_title_retriever,
     dummy_calls_retriever
 )
-from app.prompt_builder import prompt_builder
+from app.prompt_builder.src import prompt_builder
 from app.api.api_init import global_resources
 
 def ans_ref(anthropic_client, specialty: str, all_prompts: global_resources, query):

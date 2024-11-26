@@ -1,5 +1,5 @@
-from app.model_gateway import claude_sonnet
-from app.prompt_builder.prompt_builder import (
+from app.model_gateway.tests import claude_sonnet
+from app.prompt_builder.src.prompt_builder import (
     AnswerPrompt
 )
 

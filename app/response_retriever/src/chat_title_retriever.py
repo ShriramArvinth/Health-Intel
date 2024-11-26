@@ -1,5 +1,5 @@
-from app.model_gateway import claude_haiku
-from app.prompt_builder.prompt_builder import (
+from app.model_gateway.src import claude_haiku
+from app.prompt_builder.src.prompt_builder import (
     GeneralPrompt
 )
 
@@ -8,8 +8,7 @@ def retrieve(anthropic_client, prompt_obj: GeneralPrompt):
         "system": [
             {
                 "type": "text",
-                "text": prompt_obj.system_prompt + "\n",
-                "cache_control": {"type": "ephemeral"}
+                "text": prompt_obj.system_prompt + "\n"
             }
         ],
         "messages": [

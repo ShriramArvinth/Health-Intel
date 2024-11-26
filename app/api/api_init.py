@@ -108,12 +108,14 @@ def get_global_resources():
         specialty_directory = os.path.join(resources_directory, specialty_name)
 
         setattr(resources, specialty_name, specialty())
-        getattr(resources, specialty_name).ans_ref_system_prompt = load_text_file(os.path.join(specialty_directory, 'ans_ref_sys_prompt.txt'))
-        getattr(resources, specialty_name).ans_ref_usr_prompt = load_text_file(os.path.join(specialty_directory, 'ans_ref_usr_prompt.txt'))
-        getattr(resources, specialty_name).knowledge = load_text_file(os.path.join(specialty_directory, 'knowledge.txt'))
+        specialty_obj: specialty = getattr(resources, specialty_name)
+
+        specialty_obj.ans_ref_system_prompt = load_text_file(os.path.join(specialty_directory, 'ans_ref_sys_prompt.txt'))
+        specialty_obj.ans_ref_usr_prompt = load_text_file(os.path.join(specialty_directory, 'ans_ref_usr_prompt.txt'))
+        specialty_obj.knowledge = load_text_file(os.path.join(specialty_directory, 'knowledge.txt'))
         
         with open(os.path.join(specialty_directory, 'pre_def_response.json'), 'r') as file:
-            getattr(resources, specialty_name).pre_def_response = json.load(file)
+            specialty_obj.pre_def_response = json.load(file)
 
     # delete ../gcp_download/
     shutil.rmtree(resources_directory)
