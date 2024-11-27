@@ -56,6 +56,12 @@ async def lifespan(app: FastAPI):
     # initialize global resources
     startup_variables["global_resources"] = api_init.get_global_resources()
 
+    # specialty map
+    startup_variables["specialty_map"] = {
+        "weight-loss-drugs": "wld",
+        "type-1-diabetes": "t1d"
+    }
+
     yield
 
     print("\n", "Stopping ai-chat-tes", "\n")
@@ -79,8 +85,7 @@ async def ask_query(data: askquery, request: Request):
     if (xapikey == 'Cp)L9dt)ACeZIAv(RDYX)V8NPx+dEFMh(eGFDd(sAxQvEMdZh4y(svKC(4mWCj'):
         # print(data)
 
-        if data.specialty == "weight-loss-drugs":
-            specialty = "wld"
+        specialty = startup_variables["specialty_map"][data.specialty]
 
         if (data.enable_dummy_response):
             return StreamingResponse(
