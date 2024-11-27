@@ -51,7 +51,10 @@ async def lifespan(app: FastAPI):
     
     # initialize timezone and last cache refresh
     startup_variables["timezone"] = "America/New_York"
-    startup_variables["last_cache_refresh"] = datetime.now(pytz.timezone(startup_variables["timezone"])) - timedelta(minutes=5)
+    startup_variables["last_cache_refresh"] = {
+        "wld": datetime.now(pytz.timezone(startup_variables["timezone"])) - timedelta(minutes=5),
+        "t1d": datetime.now(pytz.timezone(startup_variables["timezone"])) - timedelta(minutes=5)
+    }
 
     # initialize global resources
     startup_variables["global_resources"] = api_init.get_global_resources()
@@ -75,8 +78,8 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-def cache_timeout_refresh():
-    startup_variables["last_cache_refresh"] = datetime.now(pytz.timezone(startup_variables["timezone"]))
+def cache_timeout_refresh(specialty: str):
+    startup_variables["last_cache_refresh"][specialty] = datetime.now(pytz.timezone(startup_variables["timezone"]))
 
 @app.post("/ask-query")
 async def ask_query(data: askquery, request: Request):   
@@ -97,7 +100,7 @@ async def ask_query(data: askquery, request: Request):
 
         else:
             all_queries = [query.question for query in data.queries]
-            cache_timeout_refresh()
+            cache_timeout_refresh(specialty = specialty)
             
             return StreamingResponse(
                 api_helper.ask_query_helper(
@@ -113,16 +116,14 @@ async def ask_query(data: askquery, request: Request):
 @app.post("/keep-alive") # /keep-alive
 async def keep_alive(data: keep_alive_data):
     current_time = datetime.now(pytz.timezone(startup_variables["timezone"]))
-    last_cache_refresh = startup_variables["last_cache_refresh"]
     
-    # if data.specialty == "weight-loss-drugs":
-    #     specialty = "wld"
-    specialty = "wld"
+    specialty = startup_variables["specialty_map"][data.specialty]
+    last_cache_refresh_time = startup_variables["last_cache_refresh"][specialty]
 
     dummy_call_text = ""
-    if ((current_time - last_cache_refresh) > timedelta(minutes=4.5)):
-        print("Last cache refresh at: ", last_cache_refresh)
-        cache_timeout_refresh()
+    if ((current_time - last_cache_refresh_time) > timedelta(minutes=4.5)):
+        print(f"Last cache refresh for {specialty} at: ", last_cache_refresh_time)
+        cache_timeout_refresh(specialty = specialty)
         dummy_response = response_retriever.dummy_call(
             anthropic_client = startup_variables["anthropic_client"],
             all_prompts = startup_variables["global_resources"],

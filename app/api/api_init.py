@@ -14,6 +14,7 @@ class specialty():
     def __init__(self):
         self.ans_ref_system_prompt: str
         self.ans_ref_usr_prompt: str
+        self.follow_up_system_prompt: str
         self.knowledge: str
         self.pre_def_response: dict
 
@@ -21,7 +22,6 @@ class specialty():
 class global_resources():
     def __init__(self):
         self.chat_title: str
-        self.follow_up: str
         self.wld: specialty
         self.t1d: specialty
 
@@ -97,10 +97,9 @@ def get_global_resources():
 
     # Load chat_title and follow_up
     resources.chat_title = load_text_file(os.path.join(resources_directory, 'chat_title.txt'))
-    resources.follow_up = load_text_file(os.path.join(resources_directory, 'follow_up.txt'))
-
     specialties = [
         'wld',
+        't1d'
     ]
 
     # Loop through each specialty to load data
@@ -112,6 +111,7 @@ def get_global_resources():
 
         specialty_obj.ans_ref_system_prompt = load_text_file(os.path.join(specialty_directory, 'ans_ref_sys_prompt.txt'))
         specialty_obj.ans_ref_usr_prompt = load_text_file(os.path.join(specialty_directory, 'ans_ref_usr_prompt.txt'))
+        specialty_obj.follow_up_system_prompt = load_text_file(os.path.join(specialty_directory, 'follow_up_sys_prompt.txt'))
         specialty_obj.knowledge = load_text_file(os.path.join(specialty_directory, 'knowledge.txt'))
         
         with open(os.path.join(specialty_directory, 'pre_def_response.json'), 'r') as file:

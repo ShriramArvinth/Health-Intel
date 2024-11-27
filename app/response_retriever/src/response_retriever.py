@@ -21,8 +21,9 @@ def ans_ref(anthropic_client, specialty: str, all_prompts: global_resources, que
 
     return response
 
-def followup(anthropic_client, all_prompts: global_resources, last_question, last_answer):
+def followup(anthropic_client, specialty: str, all_prompts: global_resources, last_question, last_answer):
     followup_prompts = prompt_builder.followup_prompts(
+        specialty = specialty,
         all_prompts = all_prompts,
         last_question = last_question, 
         last_answer = last_answer

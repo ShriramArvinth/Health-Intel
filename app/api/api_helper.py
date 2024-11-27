@@ -1,9 +1,14 @@
 from typing import List
-from app.response_retriever.src import response_retriever
 import json
 import itertools
 import re
 import random
+
+from app.response_retriever.src import response_retriever
+from app.api.api_init import (
+    global_resources,
+    specialty as spc
+)
 
 def handle_streaming_response(response):
   collecting = False  # Flag to track if we're between the start and end markers
@@ -138,7 +143,8 @@ def ask_query_helper(all_queries: List[str], startup_variables, specialty):
        anthropic_client = anthropic_client,
        all_prompts = startup_variables["global_resources"],
        last_question = all_queries[-1], 
-       last_answer = ans
+       last_answer = ans,
+       specialty = specialty
     )
     yield followup_questions
 
@@ -152,8 +158,12 @@ def ask_query_helper(all_queries: List[str], startup_variables, specialty):
         )
         yield chat_title
 
-def generate_dummy_response_for_testing(all_prompts, specialty):
-    json_data = getattr(all_prompts, specialty).pre_def_response
+def generate_dummy_response_for_testing(all_prompts: global_resources, specialty: str):
+   
+    # specialty specific data inside global_resources
+    specialty_obj: spc = getattr(all_prompts, specialty)
+
+    json_data = specialty_obj.pre_def_response
 
     for key in json_data.keys():
         yield json_data[key]

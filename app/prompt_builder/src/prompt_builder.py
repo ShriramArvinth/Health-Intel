@@ -50,10 +50,13 @@ def ans_ref_prompts(query: str, specialty: str, all_prompts: global_resources):
 
     return response_obj
 
-def followup_prompts(all_prompts: global_resources, last_question: str, last_answer: str):
+def followup_prompts(specialty: str, all_prompts: global_resources, last_question: str, last_answer: str ):
+
+    # specialty specific prompts inside global_resources
+    specialty_obj: spc = getattr(all_prompts, specialty)
 
     # system
-    system_prompt = ''.join(all_prompts.follow_up)
+    system_prompt = ''.join(specialty_obj.follow_up_system_prompt)
 
     # user
     user_prompt = dedent(f'''
