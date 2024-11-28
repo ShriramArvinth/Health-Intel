@@ -60,14 +60,17 @@ def followup_prompts(specialty: str, all_prompts: global_resources, last_questio
 
     # user
     user_prompt = dedent(f'''
-        This is the last question the user has asked:
+        last_question:
         {last_question}
 
-        This is the answer provided for that question:
+        last_answer:
         {last_answer}
 
-        Respond with only 3 questions
-        Output in JSON format with keys: "questions" (list).
+        FORMATTING RULES TO BE FOLLOWED:
+        For Instruction 1, respond with 3 question.
+        For Instruction 2, respond with either "true" or "false"
+
+        output in JSON format with keys: "questions" (list), "askDoctorOnline" (bool).
     ''').strip("\n")
 
     response_obj = GeneralPrompt(
