@@ -113,7 +113,9 @@ def dummy_call_prompts(all_prompts: global_resources, specialty: str):
     user_prompt = {
         "instructions": ''.join(specialty_obj.ans_ref_usr_prompt),
         "user_question": dedent(f'''
-            This is just a test question. Just respond with "dummy" and nothing else.
+            This is just a test question. 
+            DO NOT FOLLOW THE RESPONSE FORMAT.
+            Just respond with "dummy" and nothing else.
         ''').strip("\n")
     }
 
