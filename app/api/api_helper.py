@@ -95,7 +95,7 @@ def parse_streaming_response(response):
     else:
         relevant_articles = next(parsed_stream).split("\n")
         relevant_articles = {
-            "relevant_articles": list(filter(lambda x: not(x in ["", "articles/no-article"]), relevant_articles))
+            "relevant_articles": list(filter(lambda x: not(x in ["", "articles/no-article"]), relevant_articles))[:3]
         }
         if relevant_articles["relevant_articles"]:
             yield first_chunk # start marker "$relevant_articles_begin$"
