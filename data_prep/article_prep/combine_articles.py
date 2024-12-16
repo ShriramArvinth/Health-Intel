@@ -4,6 +4,7 @@ import os
 import dicttoxml2
 from xml.dom.minidom import parseString
 import html
+from lxml import etree
 
 class Document:
     def __init__(self, slug: str = "", content: str = ""):
@@ -22,8 +23,11 @@ class JSONArticleTemplate:
 
     def to_dict(self):
         return {
-            "all_articles": [document.to_dict() for document in self.all_articles]
+            "all_articles": {
+                "item_name_article": [document.to_dict() for document in self.all_articles]
+            }
         }
+
 
 directory_path = "./formatted_articles/"
 article_paths = [os.path.join(directory_path, file) for file in os.listdir(directory_path) if os.path.isfile(os.path.join(directory_path, file))]
@@ -44,7 +48,7 @@ for _ in article_paths:
         )
 
 def item_func(x):
-    return "article"
+    return (x.split("_")[-1])
 combined_xml = dicttoxml2.dicttoxml(
     obj = combined_articles.to_dict(), 
     root = False, 
@@ -52,8 +56,15 @@ combined_xml = dicttoxml2.dicttoxml(
     item_func = item_func
 )
 
+proper_string = str(html.unescape(combined_xml.decode('utf-8', errors="ignore")))
+fragment = etree.fromstring(proper_string)
+etree.strip_tags(fragment,'item_name_article')
+xml_tree_string = etree.tostring(fragment, pretty_print = True)
+with open("./combined_articles.xml", "w") as file:
+    file.write(html.unescape(xml_tree_string.decode('utf-8', errors="ignore")))
+
 # dom = parseString(combined_xml)
-with open("combined_articles.xml", "w") as file:
-    file.write(html.unescape(combined_xml.decode('utf-8', errors="ignore")))
+# with open("combined_articles.xml", "w") as file:
+#     file.write(html.unescape(combined_xml.decode('utf-8', errors="ignore")))
     # file.write(dom.toprettyxml())
     # file.write(str(combined_xml))
