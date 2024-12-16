@@ -1,0 +1,2 @@
+first, prep induvidual datasoruces by using the scripts inside `./prep_induvidual_datasources` (whichever applicable)
+to combine the results of different datasources (only article + QnA is possible now), use the scripts inside `./combine_diff_datasources`.

@@ -23,9 +23,9 @@ else:
 
 
 # Set up the URL and the token
-slugs = [
-    "management-of-type-1-diabetes",
-]
+with open('./input_slugs.txt', 'r') as file:
+    slugs = [line.strip() for line in file]
+
 request_urls = []
 for _ in slugs:
     request_urls.append("https://dev-directus-gcp.icliniq.com/items/article?fields=title,body,slug&filter={\"slug\": {\"_eq\": \"" + _ + "\"}}")

@@ -28,8 +28,8 @@ class JSONArticleTemplate:
             }
         }
 
-directory_path_1 = "../article_prep/formatted_articles/"
-directory_path_2 = "../qna_prep/formatted_qna/"
+directory_path_1 = "../prep_induvidual_datasources/article_prep/formatted_articles/"
+directory_path_2 = "../prep_induvidual_datasources/qna_prep/formatted_qna/"
 
 article_paths = [os.path.join(directory_path_1, file) for file in os.listdir(directory_path_1) if os.path.isfile(os.path.join(directory_path_1, file))]
 article_paths.extend([os.path.join(directory_path_2, file) for file in os.listdir(directory_path_2) if os.path.isfile(os.path.join(directory_path_2, file))])

@@ -15,15 +15,17 @@ app/response_retriever/tests/__pycache__/
 
 app/secrets/
 
-data_prep/qna_prep/directus_token.txt
-data_prep/qna_prep/formatted_qna/*
-data_prep/qna_prep/combined_qna.xml
+data_prep/prep_induvidual_datasources/qna_prep/directus_token.txt
+data_prep/prep_induvidual_datasources/qna_prep/formatted_qna/*
+data_prep/prep_induvidual_datasources/qna_prep/combined_qna.xml
+data_prep/prep_induvidual_datasources/qna_prep/input_slugs.txt
 
-data_prep/article_prep/directus_token.txt
-data_prep/article_prep/formatted_articles/*
-data_prep/article_prep/combined_articles.xml
+data_prep/prep_induvidual_datasources/article_prep/directus_token.txt
+data_prep/prep_induvidual_datasources/article_prep/formatted_articles/*
+data_prep/prep_induvidual_datasources/article_prep/combined_articles.xml
+data_prep/prep_induvidual_datasources/article_prep/input_slugs.txt
 
 data_prep/combine_diff_datasources/combined_article_qna.xml
 
-data_prep/ebook_prep/retrieve_ebook/client_secret_944564052622-39grtjmehc3c8kk9um4pbjtcnmamaash.apps.googleusercontent.com.json
-data_prep/ebook_prep/retrieve_ebook/token.json
+data_prep/prep_induvidual_datasources/ebook_prep/retrieve_ebook/client_secret_944564052622-39grtjmehc3c8kk9um4pbjtcnmamaash.apps.googleusercontent.com.json
+data_prep/prep_induvidual_datasources/ebook_prep/retrieve_ebook/token.json

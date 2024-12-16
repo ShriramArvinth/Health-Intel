@@ -29,10 +29,9 @@ else:
 
 
 # Set up the URL and the token
-slugs = [
-    "i-am-planing-to-go-for-liposuction-for-weight-loss-my-weight-is-78kgs",
-    "what-can-be-the-reason-for-my-frequent-hunger-and-weight-loss"
-]
+with open('./input_slugs.txt', 'r') as file:
+    slugs = [line.strip() for line in file]
+    
 request_urls = []
 for _ in slugs:
     request_urls.append("https://dev-directus-gcp.icliniq.com/items/qa?fields=title,titleMeta,slug,questionAnswer&filter={\"slug\": {\"_eq\": \"" + _ + "\"}}")
