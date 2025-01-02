@@ -29,3 +29,5 @@ data_prep/combine_diff_datasources/combined_article_qna.xml
 
 data_prep/prep_induvidual_datasources/ebook_prep/retrieve_ebook/client_secret_944564052622-39grtjmehc3c8kk9um4pbjtcnmamaash.apps.googleusercontent.com.json
 data_prep/prep_induvidual_datasources/ebook_prep/retrieve_ebook/token.json
+data_prep/prep_induvidual_datasources/ebook_prep/knowledge.txt
+data_prep/prep_induvidual_datasources/ebook_prep/ebook1.xml

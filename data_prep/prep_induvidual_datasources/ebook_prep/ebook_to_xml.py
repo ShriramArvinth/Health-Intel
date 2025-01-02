@@ -25,7 +25,7 @@ class JSONEbookTemplate:
             }
         }
 
-file_path = './wld_knowledge.txt'
+file_path = './knowledge.txt'
 with open(file_path, 'r') as file:
     content = file.read()
 

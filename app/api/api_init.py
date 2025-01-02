@@ -99,7 +99,8 @@ def get_global_resources():
     resources.chat_title = load_text_file(os.path.join(resources_directory, 'chat_title.txt'))
     specialties = [
         'wld',
-        't1d'
+        't1d',
+        'gerd'
     ]
 
     # Loop through each specialty to load data

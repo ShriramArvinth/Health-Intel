@@ -62,7 +62,8 @@ async def lifespan(app: FastAPI):
     # specialty map
     startup_variables["specialty_map"] = {
         "weight-loss-drugs": "wld",
-        "type-1-diabetes": "t1d"
+        "type-1-diabetes": "t1d",
+        "gerd": "gerd"
     }
 
     yield
