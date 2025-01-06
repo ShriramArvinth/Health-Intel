@@ -161,10 +161,10 @@ def ask_query_helper(all_queries: List[str], startup_variables, specialty):
 def generate_dummy_response_for_testing(all_prompts: global_resources, specialty: str, all_queries: List[str]):
    
     # specialty specific data inside global_resources
-    try:
+    if specialty in ["wld", "t1d", "gerd"]:
         specialty_obj: spc = getattr(all_prompts, specialty)
         json_data = specialty_obj.pre_def_response
-    except Exception as e:
+    else:
         if specialty == "rx_next":
             if len(all_queries) == 1:
                 json_data = {
