@@ -2,7 +2,7 @@ from typing import List
 import json
 import itertools
 import re
-import random
+import asyncio
 
 from app.response_retriever.src import response_retriever
 from app.api.api_init import (
@@ -263,4 +263,5 @@ def generate_dummy_response_for_testing(all_prompts: global_resources, specialty
                             
 
     for key in json_data.keys():
+        asyncio.sleep(3)
         yield json_data[key]
