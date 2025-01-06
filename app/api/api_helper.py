@@ -158,12 +158,35 @@ def ask_query_helper(all_queries: List[str], startup_variables, specialty):
         )
         yield chat_title
 
-def generate_dummy_response_for_testing(all_prompts: global_resources, specialty: str):
+def generate_dummy_response_for_testing(all_prompts: global_resources, specialty: str, all_queries: List[str]):
    
     # specialty specific data inside global_resources
-    specialty_obj: spc = getattr(all_prompts, specialty)
-
-    json_data = specialty_obj.pre_def_response
+    try:
+        specialty_obj: spc = getattr(all_prompts, specialty)
+        json_data = specialty_obj.pre_def_response
+    except AttributeError:
+        if specialty == "rx_next":
+            if len(all_queries) == 1:
+                json_data = {
+                    "data": "Vyalev delivers continuous 24-hour relief via subcutaneous infusion. Chat with our bot for quick insights into its clinical benefits."
+                }
+            elif len(all_queries) == 2:
+                json_data = {
+                    "data": "By mapping FDA-approved treatments to patient conditions, our chatbot equips HCPs with tailored options in seconds."
+                }
+            elif len(all_queries) == 3:
+                json_data = {
+                    "data": "It's the first FDA-approved abuse-deterrent immediate-release Oxycodone formulation."
+                }
+            elif len(all_queries) == 4:
+                json_data = {
+                    "data": "In October 2024, the FDA approved several notable drugs, including Itovebi ( Inavolisib) and Scemblix (Asciminib), each projected to achieve peak sales exceeding $2 billion."
+                }
+            else:
+                json_data = {
+                    "data": "That's the last query -- query count for this chat has been exceeded!"
+                }
+                            
 
     for key in json_data.keys():
         yield json_data[key]
