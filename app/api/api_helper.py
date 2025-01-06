@@ -164,27 +164,47 @@ def generate_dummy_response_for_testing(all_prompts: global_resources, specialty
     try:
         specialty_obj: spc = getattr(all_prompts, specialty)
         json_data = specialty_obj.pre_def_response
-    except AttributeError:
+    except Exception as e:
         if specialty == "rx_next":
             if len(all_queries) == 1:
                 json_data = {
-                    "data": "Vyalev delivers continuous 24-hour relief via subcutaneous infusion. Chat with our bot for quick insights into its clinical benefits."
+                    "actual_answer": "Vyalev delivers continuous 24-hour relief via subcutaneous infusion. Chat with our bot for quick insights into its clinical benefits.",
+                    "end_of_answer_stream": "$end_of_answer_stream$",
+                    "followup_questions": "'{\n  \"questions\": [\n    \"What are the key highlights of the FDA-approved drugs in August 2024?\",\n    \"Which FDA-approved drug is making headlines for advanced breast cancer treatment?\",\n    \"What's the newest biosimilar for autoimmune conditions like psoriasis?\"\n  ],\n  \"askDoctorOnline\": false\n}'",
+                    "end_of_followup_stream": "$end_of_followup_stream$",
+                    "chat title": "iCliniq RxNext - AI Agent for Latest FDA Updates"
                 }
             elif len(all_queries) == 2:
                 json_data = {
-                    "data": "By mapping FDA-approved treatments to patient conditions, our chatbot equips HCPs with tailored options in seconds."
+                    "actual_answer": "By mapping FDA-approved treatments to patient conditions, our chatbot equips HCPs with tailored options in seconds.",
+                    "end_of_answer_stream": "$end_of_answer_stream$",
+                    "followup_questions": "'{\n  \"questions\": [\n    \"What are the key highlights of the FDA-approved drugs in August 2024?\",\n    \"Which FDA-approved drug is making headlines for advanced breast cancer treatment?\",\n    \"What's the newest biosimilar for autoimmune conditions like psoriasis?\"\n  ],\n  \"askDoctorOnline\": false\n}'",
+                    "end_of_followup_stream": "$end_of_followup_stream$",
+                    "chat title": "iCliniq RxNext - AI Agent for Latest FDA Updates"
                 }
             elif len(all_queries) == 3:
                 json_data = {
-                    "data": "It's the first FDA-approved abuse-deterrent immediate-release Oxycodone formulation."
+                    "actual_answer": "It's the first FDA-approved abuse-deterrent immediate-release Oxycodone formulation.",
+                    "end_of_answer_stream": "$end_of_answer_stream$",
+                    "followup_questions": "'{\n  \"questions\": [\n    \"What are the key highlights of the FDA-approved drugs in August 2024?\",\n    \"Which FDA-approved drug is making headlines for advanced breast cancer treatment?\",\n    \"What's the newest biosimilar for autoimmune conditions like psoriasis?\"\n  ],\n  \"askDoctorOnline\": false\n}'",
+                    "end_of_followup_stream": "$end_of_followup_stream$",
+                    "chat title": "iCliniq RxNext - AI Agent for Latest FDA Updates"
                 }
             elif len(all_queries) == 4:
                 json_data = {
-                    "data": "In October 2024, the FDA approved several notable drugs, including Itovebi ( Inavolisib) and Scemblix (Asciminib), each projected to achieve peak sales exceeding $2 billion."
+                    "actual_answer": "In October 2024, the FDA approved several notable drugs, including Itovebi ( Inavolisib) and Scemblix (Asciminib), each projected to achieve peak sales exceeding $2 billion.",
+                    "end_of_answer_stream": "$end_of_answer_stream$",
+                    "followup_questions": "'{\n  \"questions\": [\n    \"What are the key highlights of the FDA-approved drugs in August 2024?\",\n    \"Which FDA-approved drug is making headlines for advanced breast cancer treatment?\",\n    \"What's the newest biosimilar for autoimmune conditions like psoriasis?\"\n  ],\n  \"askDoctorOnline\": false\n}'",
+                    "end_of_followup_stream": "$end_of_followup_stream$",
+                    "chat title": "iCliniq RxNext - AI Agent for Latest FDA Updates"
                 }
             else:
                 json_data = {
-                    "data": "That's the last query -- query count for this chat has been exceeded!"
+                    "actual_answer": "That's the last query -- query count for this chat has been exceeded!",
+                    "end_of_answer_stream": "$end_of_answer_stream$",
+                    "followup_questions": "'{\n  \"questions\": [\n    \"What are the key highlights of the FDA-approved drugs in August 2024?\",\n    \"Which FDA-approved drug is making headlines for advanced breast cancer treatment?\",\n    \"What's the newest biosimilar for autoimmune conditions like psoriasis?\"\n  ],\n  \"askDoctorOnline\": false\n}'",
+                    "end_of_followup_stream": "$end_of_followup_stream$",
+                    "chat title": "iCliniq RxNext - AI Agent for Latest FDA Updates"
                 }
                             
 
