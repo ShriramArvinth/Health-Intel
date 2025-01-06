@@ -228,32 +228,18 @@ def generate_dummy_response_for_testing(all_prompts: global_resources, specialty
                     "chat title": "iCliniq MedPrep: AI Powered Training for Physicians"
                 },
                 {
-                    "actual_answer": str('The correct answer is Option (B) Perform a confirmatory HIV test.\n\nAfter a positive HIV screening test, it is essential to perform a confirmatory test to establish the diagnosis before initiating treatment.'),
+                    "actual_answer": str('The correct answer is Option (B) Perform a confirmatory HIV test.\n\nAfter a positive HIV screening test, it is essential to perform a confirmatory test to establish the diagnosis before initiating treatment.\n\nA 60-year-old male with a history of type 2 diabetes and hypertension presents with worsening renal function. His current medications include metformin and lisinopril. Which of the following is the most appropriate next step in management?\n\n**Option (A)**\nDiscontinue metformin\n___\n**Option (B)**\nIncrease the dose of lisinopril\n___\n**Option \\(C\\)**\nAdd a thiazide diuretic\n___\n**Option (D)**\nRefer for renal biopsy'),
                     "end_of_answer_stream": "$end_of_answer_stream$",
                     "followup_questions": "'{\n  \"questions\": [],\n  \"askDoctorOnline\": false\n}'",
                     "end_of_followup_stream": "$end_of_followup_stream$",
                     "chat title": "iCliniq MedPrep: AI Powered Training for Physicians"
                 },
                 {
-                    "actual_answer": str('A 60-year-old male with a history of type 2 diabetes and hypertension presents with worsening renal function. His current medications include metformin and lisinopril. Which of the following is the most appropriate next step in management?\n\n**Option (A)**\nDiscontinue metformin\n___\n**Option (B)**\nIncrease the dose of lisinopril\n___\n**Option \\(C\\)**\nAdd a thiazide diuretic\n___\n**Option (D)**\nRefer for renal biopsy'),
-                    "end_of_answer_stream": "$end_of_answer_stream$",
-                    "followup_questions": "'{\n  \"questions\": [],\n  \"askDoctorOnline\": false\n}'",
-                    "end_of_followup_stream": "$end_of_followup_stream$",
-                    "chat title": "iCliniq MedPrep: AI Powered Training for Physicians"
-                },
-                {
-                    "actual_answer": str('The correct answer is Option (A) Discontinue metformin.\n\nMetformin is contraindicated in patients with significant renal impairment due to the risk of lactic acidosis. Discontinuing metformin is appropriate in this scenario.'),
+                    "actual_answer": str('The correct answer is Option (A) Discontinue metformin.\n\nMetformin is contraindicated in patients with significant renal impairment due to the risk of lactic acidosis. Discontinuing metformin is appropriate in this scenario.\n\nA 68-year-old male with a history of heavy smoking presents with newly diagnosed stage IIIB non-small cell lung cancer (NSCLC). Molecular profiling reveals PD-L1 expression in 60% of tumor cells, and there are no actionable EGFR mutations or ALK rearrangements. Which of the following treatment regimens is most appropriate for this patient according to current guidelines?\n\n**Option (A)**\nCisplatin and pemetrexed\n___\n**Option (B)**\nCarboplatin and paclitaxel\n___\n**Option \\(C\\)**\nKeytruda (pembrolizumab) combined with platinum-doublet chemotherapy\n___\n**Option (D)** \nErlotinib monotherapy'),
                     "end_of_answer_stream": "$end_of_answer_stream$",
                     "followup_questions": "'{\n  \"questions\": [],\n  \"askDoctorOnline\": false\n}'",
                     "end_of_followup_stream": "$end_of_followup_stream$",
                     "chat title": "iCliniq MedPrep: AI Powered Training for Physicians"                
-                },
-                {
-                    "actual_answer": str('A 68-year-old male with a history of heavy smoking presents with newly diagnosed stage IIIB non-small cell lung cancer (NSCLC). Molecular profiling reveals PD-L1 expression in 60% of tumor cells, and there are no actionable EGFR mutations or ALK rearrangements. Which of the following treatment regimens is most appropriate for this patient according to current guidelines?\n\n**Option (A)**\nCisplatin and pemetrexed\n___\n**Option (B)**\nCarboplatin and paclitaxel\n___\n**Option \\(C\\)**\nKeytruda (pembrolizumab) combined with platinum-doublet chemotherapy\n___\n**Option (D)** \nErlotinib monotherapy'),
-                    "end_of_answer_stream": "$end_of_answer_stream$",
-                    "followup_questions": "'{\n  \"questions\": [],\n  \"askDoctorOnline\": false\n}'",
-                    "end_of_followup_stream": "$end_of_followup_stream$",
-                    "chat title": "iCliniq MedPrep: AI Powered Training for Physicians"  
                 },
                 {
                     "actual_answer": str('The correct answer is Option (C) Keytruda (pembrolizumab) combined with platinum-doublet chemotherapy.\n\nFor stage IIIB NSCLC with high PD-L1 expression (≥50%) and no EGFR mutations or ALK rearrangements, the recommended treatment is the combination of pembrolizumab (Keytruda) with platinum-doublet chemotherapy. This regimen has shown improved overall survival compared to chemotherapy alone in such patients.'),
