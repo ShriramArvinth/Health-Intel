@@ -89,10 +89,11 @@ async def ask_query(data: askquery, request: Request):
     if (xapikey == 'Cp)L9dt)ACeZIAv(RDYX)V8NPx+dEFMh(eGFDd(sAxQvEMdZh4y(svKC(4mWCj'):
         # print(data)
 
-        specialty = startup_variables["specialty_map"][data.specialty]
+        
         all_queries = [query.question for query in data.queries]
 
         if (data.enable_dummy_response):
+            specialty = data.specialty
             return StreamingResponse(
                 api_helper.generate_dummy_response_for_testing(
                     all_prompts = startup_variables["global_resources"],
@@ -102,6 +103,7 @@ async def ask_query(data: askquery, request: Request):
             )
 
         else:
+            specialty = startup_variables["specialty_map"][data.specialty]
             cache_timeout_refresh(specialty = specialty)
             
             return StreamingResponse(
