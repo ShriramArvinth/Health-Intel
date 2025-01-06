@@ -261,7 +261,6 @@ def generate_dummy_response_for_testing(all_prompts: global_resources, specialty
             elif (query_length % json_data_list_length) == 0:
                 json_data = json_data_list[3]
                             
-
+    asyncio.sleep(3)
     for key in json_data.keys():
-        asyncio.sleep(3)
         yield json_data[key]
