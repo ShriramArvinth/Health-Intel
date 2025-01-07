@@ -100,7 +100,8 @@ def get_global_resources():
     specialties = [
         'wld',
         't1d',
-        'gerd'
+        'gerd',
+        'empower'
     ]
 
     # Loop through each specialty to load data

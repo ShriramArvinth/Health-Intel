@@ -4,6 +4,7 @@ import itertools
 import re
 import asyncio
 
+from textwrap import dedent
 from app.response_retriever.src import response_retriever
 from app.api.api_init import (
     global_resources,
@@ -115,53 +116,180 @@ def parse_streaming_response(response):
 def ask_query_helper(all_queries: List[str], startup_variables, specialty):
     anthropic_client = startup_variables["anthropic_client"]
 
-    ans_ref_stream = response_retriever.ans_ref(
-        anthropic_client = anthropic_client,
-        all_prompts = startup_variables["global_resources"],
-        query = all_queries[-1],
-        specialty = specialty
-    )
-    parsed_stream = parse_streaming_response(response = ans_ref_stream)
-
-    ans = ""
-    chunk_flag = True
-    for chunk in parsed_stream:
-        if "$relevant_articles_begin$" in chunk:
-            chunk_flag = not(chunk_flag)
-        elif "$relevant_articles_end$" in chunk:
-            chunk_flag = not(chunk_flag)
-        if chunk_flag:
-            ans += re.sub(r'\$.*?\$', '', chunk)
-        # print(chunk, end = "")
-        # print('\n')
-        yield chunk
-
-    yield "$end_of_answer_stream$"
-
-
-    followup_questions = response_retriever.followup(
-       anthropic_client = anthropic_client,
-       all_prompts = startup_variables["global_resources"],
-       last_question = all_queries[-1], 
-       last_answer = ans,
-       specialty = specialty
-    )
-    yield followup_questions
-
-    # return chat title, if its the first question in the chat window
-    if(len(all_queries) == 1):
-        yield "$end_of_followup_stream$"
-        chat_title = response_retriever.chat_title(
+    # Tes
+    if specialty not in ["empower"]:
+        ans_ref_stream = response_retriever.ans_ref(
             anthropic_client = anthropic_client,
             all_prompts = startup_variables["global_resources"],
-            first_question = all_queries[0], 
+            query = all_queries[-1],
+            specialty = specialty
         )
-        yield chat_title
+        parsed_stream = parse_streaming_response(response = ans_ref_stream)
+
+        ans = ""
+        chunk_flag = True
+        for chunk in parsed_stream:
+            if "$relevant_articles_begin$" in chunk:
+                chunk_flag = not(chunk_flag)
+            elif "$relevant_articles_end$" in chunk:
+                chunk_flag = not(chunk_flag)
+            if chunk_flag:
+                ans += re.sub(r'\$.*?\$', '', chunk)
+            # print(chunk, end = "")
+            # print('\n')
+            yield chunk
+
+        yield "$end_of_answer_stream$"
+
+
+        followup_questions = response_retriever.followup(
+        anthropic_client = anthropic_client,
+        all_prompts = startup_variables["global_resources"],
+        last_question = all_queries[-1], 
+        last_answer = ans,
+        specialty = specialty
+        )
+        yield followup_questions
+
+        # return chat title, if its the first question in the chat window
+        if(len(all_queries) == 1):
+            yield "$end_of_followup_stream$"
+            chat_title = response_retriever.chat_title(
+                anthropic_client = anthropic_client,
+                all_prompts = startup_variables["global_resources"],
+                first_question = all_queries[0], 
+            )
+            yield chat_title
+    
+
+# ------------------------------------------------------------------------------------------------------------------------------------------------
+
+    # empower
+    else:
+        prompt_obj = getattr(startup_variables["global_resources"], specialty)
+
+        # ans
+        prompt = {
+            "system": [
+                {
+                    "type": "text",
+                    "text": "".join(prompt_obj.ans_ref_system_prompt) + "\n",
+                },
+                {
+                    "type": "text",
+                    "text": "DATA: \n" + "".join(prompt_obj.knowledge),
+                    "cache_control": {"type": "ephemeral"}
+                }
+            ],
+            "messages": [
+                {
+                    "role": "user",
+                    "content": [
+                        {
+                            "type": "text",
+                            "text": "".join(prompt_obj.ans_ref_usr_prompt)
+                        }
+                    ]
+                },
+                # we need the assistant block as a placeholder, as the anthropic API doesn't allow for messages of the same role consecutively.
+                {
+                    "role": "assistant",
+                    "content": [
+                        {
+                            "type": "text",
+                            "text": "Okay, I will follow your INSTRUCTIONS",
+                            "cache_control": {"type": "ephemeral"}
+                        }
+                    ]
+                },
+                {
+                    "role": "user",
+                    "content": [
+                        {
+                            "type": "text",
+                            "text": "-> User's Question:\n" + all_queries[-1]
+                        }
+                    ]
+                }
+            ],
+        }
+
+        response = anthropic_client.messages.create(
+                model = "claude-3-5-sonnet-latest",
+                max_tokens = 1024,
+                system = prompt["system"],
+                messages = prompt["messages"],
+                stream = True
+        )
+        
+        ans = ""
+        for event in response:
+            if event.type == "content_block_delta":
+                temp = event.delta.text
+                yield(temp)
+                ans += temp
+
+        yield "$end_of_answer_stream$"
+
+        # follow-up
+
+        prompt = {
+            "system": [
+                {
+                    "type": "text",
+                    "text": ''.join(prompt_obj.follow_up_system_prompt) + "\n",
+                    "cache_control": {"type": "ephemeral"}
+                }
+            ],
+            "messages": [
+                {
+                "role": "user",
+                "content": dedent(f'''
+                            last_question:
+                            {all_queries[-1]}
+
+                            last_answer:
+                            {ans}
+
+                            FORMATTING RULES TO BE FOLLOWED:
+                            Respond with 3 questions.
+
+                            output in JSON format with keys: "questions" (list).
+                        ''').strip("\n")
+                
+                }
+            ],
+        }
+
+        response = anthropic_client.messages.create(
+                model = "claude-3-5-haiku-latest",
+                max_tokens = 1024,
+                system = prompt["system"],
+                messages = prompt["messages"],
+                stream = False
+        )
+
+        yield json.dumps({
+            "questions": json.loads(response.content[0].text),
+            "askDoctorOnline": False
+        })
+
+        # chat title
+
+        # if(len(all_queries) == 1):
+        #     yield "$end_of_followup_stream$"
+        #     chat_title = response_retriever.chat_title(
+        #         anthropic_client = anthropic_client,
+        #         all_prompts = startup_variables["global_resources"],
+        #         first_question = all_queries[0], 
+        #     )
+        #     yield chat_title
+
 
 def generate_dummy_response_for_testing(all_prompts: global_resources, specialty: str, all_queries: List[str]):
    
     # specialty specific data inside global_resources
-    if specialty in ["wld", "t1d", "gerd"]:
+    if specialty in ["wld", "t1d", "gerd", "empower"]:
         specialty_obj: spc = getattr(all_prompts, specialty)
         json_data = specialty_obj.pre_def_response
     else:
