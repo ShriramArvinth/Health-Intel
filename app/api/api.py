@@ -9,6 +9,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 from typing import List
 from contextlib import asynccontextmanager
+import os
 
 from app.api import api_init
 from app.api import api_helper
@@ -86,7 +87,7 @@ def cache_timeout_refresh(specialty: str):
 async def ask_query(data: askquery, request: Request):   
     
     xapikey = request.headers.get("x-api-key")
-    if (xapikey == 'Cp)L9dt)ACeZIAv(RDYX)V8NPx+dEFMh(eGFDd(sAxQvEMdZh4y(svKC(4mWCj'):
+    if (xapikey == os.environ['AI_CHAT_API_KEY']):
         # print(data)
 
         
