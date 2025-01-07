@@ -81,9 +81,9 @@ jobs:
       - name: Deploy to Cloud Run Dev
         run: |
           gcloud run deploy icliniq-search-dev \
-          --image ${{ env.GAR_LOCATION }}/icliniq-search:${{ steps.vars.outputs.sha }} \
-          --port 8090 \
-          --memory 2Gi \
-          --region ${{ env.REGION }} \
-          --platform managed \
-          --set-env-vars AI_CHAT_API_KEY=${{ env.AI_CHAT_API_KEY }}
+            --image ${{ env.GAR_LOCATION }}/icliniq-search:${{ steps.vars.outputs.sha }} \
+            --port 8090 \
+            --memory 2Gi \
+            --region ${{ env.REGION }} \
+            --platform managed \
+            --set-env-vars AI_CHAT_API_KEY="${{ env.AI_CHAT_API_KEY }}"
