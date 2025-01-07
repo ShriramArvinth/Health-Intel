@@ -270,7 +270,7 @@ def ask_query_helper(all_queries: List[str], startup_variables, specialty):
         )
 
         yield json.dumps({
-            "questions": json.loads(response.content[0].text),
+            "questions": json.loads(response.content[0].text)["questions"],
             "askDoctorOnline": False
         })
 
@@ -289,7 +289,7 @@ def ask_query_helper(all_queries: List[str], startup_variables, specialty):
 def generate_dummy_response_for_testing(all_prompts: global_resources, specialty: str, all_queries: List[str]):
    
     # specialty specific data inside global_resources
-    if specialty in ["wld", "t1d", "gerd", "empower"]:
+    if specialty in ["wld", "t1d", "gerd"]:
         specialty_obj: spc = getattr(all_prompts, specialty)
         json_data = specialty_obj.pre_def_response
     else:
@@ -389,6 +389,5 @@ def generate_dummy_response_for_testing(all_prompts: global_resources, specialty
             elif (query_length % json_data_list_length) == 0:
                 json_data = json_data_list[3]
                             
-    asyncio.sleep(3)
     for key in json_data.keys():
         yield json_data[key]

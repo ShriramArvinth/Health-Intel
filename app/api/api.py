@@ -96,7 +96,10 @@ async def ask_query(data: askquery, request: Request):
         all_queries = [query.question for query in data.queries]
 
         if (data.enable_dummy_response):
-            specialty = data.specialty
+            if data.specialty in ["weight-loss-drugs", "type-1-diabetes", "gerd"]:
+                specialty = startup_variables["specialty_map"][data.specialty]
+            else:
+                specialty = data.specialty
             return StreamingResponse(
                 api_helper.generate_dummy_response_for_testing(
                     all_prompts = startup_variables["global_resources"],
