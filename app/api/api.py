@@ -54,7 +54,8 @@ async def lifespan(app: FastAPI):
     startup_variables["timezone"] = "America/New_York"
     startup_variables["last_cache_refresh"] = {
         "wld": datetime.now(pytz.timezone(startup_variables["timezone"])) - timedelta(minutes=5),
-        "t1d": datetime.now(pytz.timezone(startup_variables["timezone"])) - timedelta(minutes=5)
+        "t1d": datetime.now(pytz.timezone(startup_variables["timezone"])) - timedelta(minutes=5),
+        "gerd": datetime.now(pytz.timezone(startup_variables["timezone"])) - timedelta(minutes=5)
     }
 
     # initialize global resources
@@ -96,6 +97,7 @@ async def ask_query(data: askquery, request: Request):
         all_queries = [query.question for query in data.queries]
 
         if (data.enable_dummy_response):
+            # this was done due to empower(dummy response enabled) and empower1(dummy response switched off)'s existence
             if data.specialty in ["weight-loss-drugs", "type-1-diabetes", "gerd"]:
                 specialty = startup_variables["specialty_map"][data.specialty]
             else:
@@ -127,22 +129,26 @@ async def ask_query(data: askquery, request: Request):
 async def keep_alive(data: keep_alive_data):
     current_time = datetime.now(pytz.timezone(startup_variables["timezone"]))
     
-    specialty = startup_variables["specialty_map"][data.specialty]
-    last_cache_refresh_time = startup_variables["last_cache_refresh"][specialty]
+    if data.specialty in ["weight-loss-drugs", "type-1-diabetes", "gerd"]:
+        specialty = startup_variables["specialty_map"][data.specialty]
+        last_cache_refresh_time = startup_variables["last_cache_refresh"][specialty]
 
-    dummy_call_text = ""
-    if ((current_time - last_cache_refresh_time) > timedelta(minutes=4.5)):
-        print(f"Last cache refresh for {specialty} at: ", last_cache_refresh_time)
-        cache_timeout_refresh(specialty = specialty)
-        dummy_response = response_retriever.dummy_call(
-            anthropic_client = startup_variables["anthropic_client"],
-            all_prompts = startup_variables["global_resources"],
-            specialty = specialty
-        )
-        for _ in dummy_response:
-            dummy_call_text += _
+        dummy_call_text = ""
+        if ((current_time - last_cache_refresh_time) > timedelta(minutes=4.5)):
+            print(f"Last cache refresh for {specialty} at: ", last_cache_refresh_time)
+            cache_timeout_refresh(specialty = specialty)
+            dummy_response = response_retriever.dummy_call(
+                anthropic_client = startup_variables["anthropic_client"],
+                all_prompts = startup_variables["global_resources"],
+                specialty = specialty
+            )
+            for _ in dummy_response:
+                dummy_call_text += _
+        else:
+            dummy_call_text = "dummy call blocked"
+    
     else:
-        dummy_call_text = "dummy call blocked"
+        dummy_call_text = "dummy call blocked due to dummy specialty"
 
     response_obj = {
         "message": dummy_call_text
