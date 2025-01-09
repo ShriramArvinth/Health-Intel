@@ -48,5 +48,5 @@ jobs:
             --port 8090 \
             --memory 2Gi \
             --region ${{ env.REGION }} \
-            --platform managed
+            --platform managed \
             --set-env-vars AI_CHAT_API_KEY="${{ env.AI_CHAT_API_KEY }}"
