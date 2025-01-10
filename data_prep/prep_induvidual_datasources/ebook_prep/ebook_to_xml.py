@@ -29,9 +29,13 @@ file_path = './knowledge.txt'
 with open(file_path, 'r') as file:
     content = file.read()
 
-# remove >, < with text, as it will throw erros when converted to XML
+# replace >, < with their textual versions, as it will throw erros when converted to XML
 content = re.sub(r"<", "less than", content)
 content = re.sub(r">", "greater than", content)
+
+# replace unrecognizable characters with proper characters
+content = re.sub(r"’", "\'", content)
+content = re.sub(r"", "", content)
 
 ebook = JSONEbookTemplate(
     all_chapters = []
