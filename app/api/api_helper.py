@@ -275,15 +275,32 @@ def ask_query_helper(all_queries: List[str], startup_variables, specialty):
         })
 
         # chat title
+        if(len(all_queries) == 1):
+            yield "$end_of_followup_stream$"
+            prompt = {
+                "system": [
+                    {
+                        "type": "text",
+                        "text": ''.join(startup_variables["global_resources"].chat_title) + "\n"
+                    }
+                ],
+                "messages": [
+                    {
+                        "role": "user",
+                        "content": all_queries[0]
+                    }
+                ],
+            }
 
-        # if(len(all_queries) == 1):
-        #     yield "$end_of_followup_stream$"
-        #     chat_title = response_retriever.chat_title(
-        #         anthropic_client = anthropic_client,
-        #         all_prompts = startup_variables["global_resources"],
-        #         first_question = all_queries[0], 
-        #     )
-        #     yield chat_title
+            response = anthropic_client.messages.create(
+                    model = "claude-3-5-haiku-latest",
+                    max_tokens = 1024,
+                    system = prompt["system"],
+                    messages = prompt["messages"],
+                    stream = False
+            )
+
+            yield response.content[0].text
 
 
 def generate_dummy_response_for_testing(all_prompts: global_resources, specialty: str, all_queries: List[str]):

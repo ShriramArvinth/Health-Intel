@@ -67,7 +67,7 @@ def followup_prompts(specialty: str, all_prompts: global_resources, last_questio
         {last_answer}
 
         FORMATTING RULES TO BE FOLLOWED:
-        For Instruction 1, respond with 3 question.
+        For Instruction 1, respond with 3 questions.
         For Instruction 2, respond with either "true" or "false"
 
         output in JSON format with keys: "questions" (list), "askDoctorOnline" (bool).
