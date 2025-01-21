@@ -229,6 +229,36 @@ def ask_query_helper(all_queries: List[str], all_answers: List[str], startup_var
                         }
                     ]
                 }
+            ] if len(all_answers) > 1 else [
+                {
+                    "role": "user",
+                    "content": [
+                        {
+                            "type": "text",
+                            "text": "".join(prompt_obj.ans_ref_usr_prompt)
+                        }
+                    ]
+                },
+                # we need the assistant block as a placeholder, as the anthropic API doesn't allow for messages of the same role consecutively.
+                {
+                    "role": "assistant",
+                    "content": [
+                        {
+                            "type": "text",
+                            "text": "Okay, I will follow your INSTRUCTIONS",
+                            "cache_control": {"type": "ephemeral"}
+                        }
+                    ]
+                },
+                {
+                    "role": "user",
+                    "content": [
+                        {
+                            "type": "text",
+                            "text": "-> User's Question:\n" + all_queries[-1]
+                        }
+                    ]
+                }
             ],
         }
 
