@@ -21,7 +21,7 @@ import pytz
 class querycontent(BaseModel):
     questionNo: str
     question: str
-    answer:str
+    answer: str
     followupQuestions: List[str]
 
 class askquery(BaseModel):
@@ -95,6 +95,7 @@ async def ask_query(data: askquery, request: Request):
 
         
         all_queries = [query.question for query in data.queries]
+        all_answers = [query.answer for query in data.queries]
 
         if (data.enable_dummy_response):
             # this was done due to empower(dummy response enabled) and empower1(dummy response switched off)'s existence
@@ -117,6 +118,7 @@ async def ask_query(data: askquery, request: Request):
             return StreamingResponse(
                 api_helper.ask_query_helper(
                     all_queries = all_queries,
+                    all_answers = all_answers,
                     startup_variables = startup_variables,
                     specialty = specialty
                 )

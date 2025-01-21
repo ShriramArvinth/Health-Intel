@@ -113,7 +113,7 @@ def parse_streaming_response(response):
     for _ in parsed_stream:
         yield(_)
 
-def ask_query_helper(all_queries: List[str], startup_variables, specialty):
+def ask_query_helper(all_queries: List[str], all_answers: List[str], startup_variables, specialty):
     anthropic_client = startup_variables["anthropic_client"]
 
     # Tes
@@ -199,6 +199,24 @@ def ask_query_helper(all_queries: List[str], startup_variables, specialty):
                             "type": "text",
                             "text": "Okay, I will follow your INSTRUCTIONS",
                             "cache_control": {"type": "ephemeral"}
+                        }
+                    ]
+                },
+                {
+                    "role": "user",
+                    "content": [
+                        {
+                            "type": "text",
+                            "text": all_queries[-2]
+                        }
+                    ]
+                },
+                {
+                    "role": "assistant",
+                    "content":[
+                        {
+                            "type": "text",
+                            "text": all_answers[-2]
                         }
                     ]
                 },
