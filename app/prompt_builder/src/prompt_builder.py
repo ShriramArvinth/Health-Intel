@@ -88,7 +88,7 @@ def chat_title_prompts(all_prompts: global_resources, first_question: str):
     # user
     user_prompt = dedent(f'''
         This is the first question the user asked in the chat:
-        {first_question}
+        {first_question if (not (first_question == "")) else "empty query"}
 
         Respond with a concise topic for the chat.
     ''').strip("\n")
