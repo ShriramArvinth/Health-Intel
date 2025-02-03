@@ -101,7 +101,8 @@ def get_global_resources():
         'wld',
         't1d',
         'gerd',
-        'empower'
+        'empower',
+        'psoriasis'
     ]
 
     # Loop through each specialty to load data

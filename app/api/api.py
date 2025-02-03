@@ -55,7 +55,8 @@ async def lifespan(app: FastAPI):
     startup_variables["last_cache_refresh"] = {
         "wld": datetime.now(pytz.timezone(startup_variables["timezone"])) - timedelta(minutes=5),
         "t1d": datetime.now(pytz.timezone(startup_variables["timezone"])) - timedelta(minutes=5),
-        "gerd": datetime.now(pytz.timezone(startup_variables["timezone"])) - timedelta(minutes=5)
+        "gerd": datetime.now(pytz.timezone(startup_variables["timezone"])) - timedelta(minutes=5),
+        "psoriasis": datetime.now(pytz.timezone(startup_variables["timezone"])) - timedelta(minutes=5)
     }
 
     # initialize global resources
@@ -67,7 +68,8 @@ async def lifespan(app: FastAPI):
         "weight-loss-drugs": "wld",
         "type-1-diabetes": "t1d",
         "gerd": "gerd",
-        "empower1": "empower"
+        "empower1": "empower",
+        "psoriasis": "psoriasis"
     }
 
     yield
@@ -99,7 +101,7 @@ async def ask_query(data: askquery, request: Request):
 
         if (data.enable_dummy_response):
             # this was done due to empower(dummy response enabled) and empower1(dummy response switched off)'s existence
-            if data.specialty in ["weight-loss-drugs", "type-1-diabetes", "gerd"]:
+            if data.specialty in ["weight-loss-drugs", "type-1-diabetes", "gerd", "psoriasis"]:
                 specialty = startup_variables["specialty_map"][data.specialty]
             else:
                 specialty = data.specialty
@@ -131,7 +133,7 @@ async def ask_query(data: askquery, request: Request):
 async def keep_alive(data: keep_alive_data):
     current_time = datetime.now(pytz.timezone(startup_variables["timezone"]))
     
-    if data.specialty in ["weight-loss-drugs", "type-1-diabetes", "gerd"]:
+    if data.specialty in ["weight-loss-drugs", "type-1-diabetes", "gerd", "psoriasis"]:
         specialty = startup_variables["specialty_map"][data.specialty]
         last_cache_refresh_time = startup_variables["last_cache_refresh"][specialty]
 

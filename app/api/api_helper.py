@@ -319,7 +319,7 @@ def ask_query_helper(all_queries: List[str], all_answers: List[str], startup_var
 
         yield json.dumps({
             "questions": json.loads(response.content[0].text)["questions"],
-            "askDoctorOnline": False
+            "askDoctorOnline": False # it doesn't have this feature
         })
 
         # chat title
