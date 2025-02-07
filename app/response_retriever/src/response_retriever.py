@@ -7,22 +7,28 @@ from app.response_retriever.src import (
 from app.prompt_builder.src import prompt_builder
 from app.api.api_init import global_resources
 
-def ans_ref(anthropic_client, specialty: str, all_prompts: global_resources, query):
+def ans_ref(anthropic_client, specialty: str, all_prompts: global_resources, all_queries, all_answers, feature_flags):
     ans_ref_prompts = prompt_builder.ans_ref_prompts(
+        feature_flags = feature_flags,
         specialty = specialty,
         all_prompts = all_prompts,
-        query = query
+        all_queries = all_queries,
+        all_answers = all_answers
     )
 
     response = ans_ref_retriever.retrieve(
         anthropic_client = anthropic_client,
-        prompt_obj = ans_ref_prompts
+        feature_flags = feature_flags,
+        prompt_obj = ans_ref_prompts,
+        all_queries = all_queries,
+        all_answers = all_answers
     )
 
     return response
 
-def followup(anthropic_client, specialty: str, all_prompts: global_resources, last_question, last_answer):
+def followup(anthropic_client, specialty: str, all_prompts: global_resources, last_question, last_answer, feature_flags):
     followup_prompts = prompt_builder.followup_prompts(
+        feature_flags = feature_flags,
         specialty = specialty,
         all_prompts = all_prompts,
         last_question = last_question, 

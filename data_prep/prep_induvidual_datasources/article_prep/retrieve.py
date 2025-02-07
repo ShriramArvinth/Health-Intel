@@ -28,9 +28,19 @@ with open('./input_slugs.txt', 'r') as file:
 
 request_urls = []
 for _ in slugs:
-    request_urls.append("https://dev-directus-gcp.icliniq.com/items/article?fields=title,body,slug&filter={\"slug\": {\"_eq\": \"" + _ + "\"}}")
+    # for dev
+    # request_urls.append("https://dev-directus-gcp.icliniq.com/items/article?fields=title,body,slug&filter={\"slug\": {\"_eq\": \"" + _ + "\"}}") 
+
+    # for prod
+    request_urls.append("https://content-platform.icliniq.com/items/article?fields=title,body,slug&filter={\"slug\": {\"_eq\": \"" + _ + "\"}}")
+
+    # for graphql prod
+    # request_urls.append("https://content-platform.icliniq.com/items/article?fields=title,body,slug&filter={\"slug\": {\"_eq\": \"" + _ + "\"}}") 
+
 with open("./directus_token.txt", "r") as f:
-    token = f.readline().strip()
+    lines = [line.strip() for line in f]
+    # 2nd line is for prod directus bearer token
+    token = lines[1]
 
 # create all the article files in the required format
 for url in request_urls:

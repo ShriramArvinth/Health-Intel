@@ -101,8 +101,9 @@ def get_global_resources():
         'wld',
         't1d',
         'gerd',
-        'empower',
-        'psoriasis'
+        'empower_az_demo',
+        'psoriasis',
+        'empower_atopic_dermatitis'
     ]
 
     # Loop through each specialty to load data

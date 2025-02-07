@@ -1,5 +1,6 @@
 from dataclasses import dataclass
 from textwrap import dedent
+from typing import Union
 from app.api.api_init import (
     global_resources,
     specialty as spc
@@ -22,63 +23,122 @@ class AnswerPrompt(GeneralPrompt):
 
 # another function to define the sources paths (knowledge source, system prompt, user prompt ..)
 
-def ans_ref_prompts(query: str, specialty: str, all_prompts: global_resources):
+def ans_ref_prompts(all_queries: list, all_answers: list, specialty: str, all_prompts: global_resources, feature_flags: dict):
 
-    # specialty specific prompts inside global_resources
-    specialty_obj: spc = getattr(all_prompts, specialty)
+    if feature_flags["history_context"] == "last Q":
+        # specialty specific prompts inside global_resources
+        specialty_obj: spc = getattr(all_prompts, specialty)
 
-    # book data
-    knowledge = ''.join(specialty_obj.knowledge)
+        # book data
+        knowledge = ''.join(specialty_obj.knowledge)
 
-    # system
-    system_prompt = ''.join(specialty_obj.ans_ref_system_prompt)
+        # system
+        system_prompt = ''.join(specialty_obj.ans_ref_system_prompt)
 
-    # user
-    user_prompt = {
-        "instructions": ''.join(specialty_obj.ans_ref_usr_prompt),
-        "user_question": dedent(f'''
-            -> User's Question:
-            {query}
+        # user
+        user_prompt = {
+            "instructions": ''.join(specialty_obj.ans_ref_usr_prompt),
+            "user_question": dedent(f'''
+                -> User's Question:
+                {all_queries[-1]}
+            ''').strip("\n")
+        }
+
+        response_obj = AnswerPrompt(
+            system_prompt = system_prompt,
+            user_query = user_prompt,
+            knowledge = knowledge
+        )
+
+        return response_obj
+    
+    elif feature_flags["history_context"] == "last 2 Q+A+Q":
+        # specialty specific prompts inside global_resources
+        specialty_obj: spc = getattr(all_prompts, specialty)
+
+        # book data
+        knowledge = ''.join(specialty_obj.knowledge)
+
+        # system
+        system_prompt = ''.join(specialty_obj.ans_ref_system_prompt)
+
+        # user
+        user_prompt = {
+            "instructions": ''.join(specialty_obj.ans_ref_usr_prompt),
+            "user_question": dedent(f'''
+                -> User's Question:
+                {all_queries[-1]}
+            ''').strip("\n")
+        }
+
+        response_obj = AnswerPrompt(
+            system_prompt = system_prompt,
+            user_query = user_prompt,
+            knowledge = knowledge
+        )
+
+        return response_obj
+
+
+def followup_prompts(specialty: str, all_prompts: global_resources, last_question: str, last_answer: str, feature_flags: dict):
+
+    if feature_flags["ask_a_doctor"]:
+        # specialty specific prompts inside global_resources
+        specialty_obj: spc = getattr(all_prompts, specialty)
+
+        # system
+        system_prompt = ''.join(specialty_obj.follow_up_system_prompt)
+
+        # user
+        user_prompt = dedent(f'''
+            last_question:
+            {last_question}
+
+            last_answer:
+            {last_answer}
+
+            FORMATTING RULES TO BE FOLLOWED:
+            For Instruction 1, respond with 3 questions.
+            For Instruction 2, respond with either "true" or "false"
+
+            output in JSON format with keys: "questions" (list), "askDoctorOnline" (bool).
         ''').strip("\n")
-    }
 
-    response_obj = AnswerPrompt(
-        system_prompt = system_prompt,
-        user_query = user_prompt,
-        knowledge = knowledge
-    )
+        response_obj = GeneralPrompt(
+            system_prompt = system_prompt,
+            user_query = user_prompt 
+        )
 
-    return response_obj
+        return response_obj
 
-def followup_prompts(specialty: str, all_prompts: global_resources, last_question: str, last_answer: str ):
+    else:
+        # specialty specific prompts inside global_resources
+        specialty_obj: spc = getattr(all_prompts, specialty)
 
-    # specialty specific prompts inside global_resources
-    specialty_obj: spc = getattr(all_prompts, specialty)
+        # system
+        system_prompt = ''.join(specialty_obj.follow_up_system_prompt)
 
-    # system
-    system_prompt = ''.join(specialty_obj.follow_up_system_prompt)
+        # user
+        user_prompt = dedent(f'''
+            last_question:
+            {last_question}
 
-    # user
-    user_prompt = dedent(f'''
-        last_question:
-        {last_question}
+            last_answer:
+            {last_answer}
 
-        last_answer:
-        {last_answer}
+            FORMATTING RULES TO BE FOLLOWED:
+            respond with 3 questions.
 
-        FORMATTING RULES TO BE FOLLOWED:
-        For Instruction 1, respond with 3 questions.
-        For Instruction 2, respond with either "true" or "false"
+            output in JSON format with keys: "questions" (list).
+        ''').strip("\n")
 
-        output in JSON format with keys: "questions" (list), "askDoctorOnline" (bool).
-    ''').strip("\n")
+        response_obj = GeneralPrompt(
+            system_prompt = system_prompt,
+            user_query = user_prompt 
+        )
 
-    response_obj = GeneralPrompt(
-        system_prompt = system_prompt,
-        user_query = user_prompt 
-    )
+        return response_obj
 
-    return response_obj
 
 def chat_title_prompts(all_prompts: global_resources, first_question: str):
     

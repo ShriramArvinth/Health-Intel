@@ -38,7 +38,8 @@ startup_variables = {
     "anthropic_client": None,
     "timezone": None,
     "last_cache_refresh": None,
-    "global_resources": None
+    "global_resources": None,
+    "feature_flags": None
 }
 
 # define server lifespan events
@@ -53,10 +54,13 @@ async def lifespan(app: FastAPI):
     # initialize timezone and last cache refresh
     startup_variables["timezone"] = "America/New_York"
     startup_variables["last_cache_refresh"] = {
+        # timedelta(minutes=5) is needed for the first keep-alive call.
         "wld": datetime.now(pytz.timezone(startup_variables["timezone"])) - timedelta(minutes=5),
         "t1d": datetime.now(pytz.timezone(startup_variables["timezone"])) - timedelta(minutes=5),
         "gerd": datetime.now(pytz.timezone(startup_variables["timezone"])) - timedelta(minutes=5),
-        "psoriasis": datetime.now(pytz.timezone(startup_variables["timezone"])) - timedelta(minutes=5)
+        "psoriasis": datetime.now(pytz.timezone(startup_variables["timezone"])) - timedelta(minutes=5),
+        "empower_az_demo": datetime.now(pytz.timezone(startup_variables["timezone"])) - timedelta(minutes=5),
+        "empower_atopic_dermatitis": datetime.now(pytz.timezone(startup_variables["timezone"])) - timedelta(minutes=5)
     }
 
     # initialize global resources
@@ -68,8 +72,114 @@ async def lifespan(app: FastAPI):
         "weight-loss-drugs": "wld",
         "type-1-diabetes": "t1d",
         "gerd": "gerd",
-        "empower1": "empower",
+        "empower1": "empower_az_demo",
+        "atopic_dermatitis": "empower_atopic_dermatitis",
         "psoriasis": "psoriasis"
+    }
+
+    startup_variables["feature_flags"] = {
+        "wld": {
+            "ans_ref": [
+                True,
+                {
+                    "history_context": "last Q"
+                }
+            ],
+            "follow_up": [
+                True,
+                {
+                    "history_context": "last Q+A",
+                    "ask_a_doctor": True
+                }
+            ],
+            "chat_title": True,
+            "cache_persistence": True
+        },
+        "t1d": {
+            "ans_ref": [
+                True,
+                {
+                    "history_context": "last Q"
+                }
+            ],
+            "follow_up": [
+                True,
+                {
+                    "history_context": "last Q+A",
+                    "ask_a_doctor": True
+                }
+            ],
+            "chat_title": True,
+            "cache_persistence": True
+        },
+        "gerd": {
+            "ans_ref": [
+                True,
+                {
+                    "history_context": "last Q"
+                }
+            ],
+            "follow_up": [
+                True,
+                {
+                    "history_context": "last Q+A",
+                    "ask_a_doctor": True
+                }
+            ],
+            "chat_title": True,
+            "cache_persistence": True
+        },
+        "psoriasis": {
+            "ans_ref": [
+                True,
+                {
+                    "history_context": "last Q"
+                }
+            ],
+            "follow_up": [
+                True,
+                {
+                    "history_context": "last Q+A",
+                    "ask_a_doctor": True
+                }
+            ],
+            "chat_title": True,
+            "cache_persistence": True
+        },
+        "empower_az_demo": {
+            "ans_ref": [
+                True,
+                {
+                    "history_context": "last 2 Q+A+Q"
+                }
+            ],
+            "follow_up": [
+                True,
+                {
+                    "history_context": "last Q+A",
+                    "ask_a_doctor": False
+                }
+            ],
+            "chat_title": True,
+            "cache_persistence": True
+        },
+        "empower_atopic_dermatitis": {
+            "ans_ref": [
+                True,
+                {
+                    "history_context": "last 2 Q+A+Q"
+                }
+            ],
+            "follow_up": [
+                True,
+                {
+                    "history_context": "last Q+A",
+                    "ask_a_doctor": False
+                }
+            ],
+            "chat_title": True,
+            "cache_persistence": True
+        }
     }
 
     yield
@@ -94,7 +204,6 @@ async def ask_query(data: askquery, request: Request):
     xapikey = request.headers.get("x-api-key")
     if (xapikey == os.environ['AI_CHAT_API_KEY']):
         # print(data)
-
         
         all_queries = [query.question for query in data.queries]
         all_answers = [query.answer for query in data.queries]
@@ -133,7 +242,7 @@ async def ask_query(data: askquery, request: Request):
 async def keep_alive(data: keep_alive_data):
     current_time = datetime.now(pytz.timezone(startup_variables["timezone"]))
     
-    if data.specialty in ["weight-loss-drugs", "type-1-diabetes", "gerd", "psoriasis"]:
+    if data.specialty in ["weight-loss-drugs", "type-1-diabetes", "gerd", "psoriasis", "empower1", "atopic_dermatitis"]:
         specialty = startup_variables["specialty_map"][data.specialty]
         last_cache_refresh_time = startup_variables["last_cache_refresh"][specialty]
 

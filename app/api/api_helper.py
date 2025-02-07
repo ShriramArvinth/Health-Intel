@@ -115,13 +115,18 @@ def parse_streaming_response(response):
 
 def ask_query_helper(all_queries: List[str], all_answers: List[str], startup_variables, specialty):
     anthropic_client = startup_variables["anthropic_client"]
+    feature_flags = startup_variables["feature_flags"][specialty]
 
-    # Tes
-    if specialty not in ["empower"]:
+    # # Tes
+    # if specialty not in ["empower"]:
+
+    if feature_flags["ans_ref"][0]:
         ans_ref_stream = response_retriever.ans_ref(
             anthropic_client = anthropic_client,
             all_prompts = startup_variables["global_resources"],
-            query = all_queries[-1],
+            all_queries = all_queries,
+            all_answers = all_answers,
+            feature_flags = feature_flags["ans_ref"][1],
             specialty = specialty
         )
         parsed_stream = parse_streaming_response(response = ans_ref_stream)
@@ -141,17 +146,19 @@ def ask_query_helper(all_queries: List[str], all_answers: List[str], startup_var
 
         yield "$end_of_answer_stream$"
 
-
+    if feature_flags["follow_up"][0]:
         followup_questions = response_retriever.followup(
-        anthropic_client = anthropic_client,
-        all_prompts = startup_variables["global_resources"],
-        last_question = all_queries[-1], 
-        last_answer = ans,
-        specialty = specialty
+            anthropic_client = anthropic_client,
+            all_prompts = startup_variables["global_resources"],
+            last_question = all_queries[-1],
+            last_answer = ans,
+            feature_flags = feature_flags["follow_up"][1],
+            specialty = specialty
         )
         yield followup_questions
 
-        # return chat title, if its the first question in the chat window
+    # return chat title, if its the first question in the chat window
+    if feature_flags["chat_title"]:
         if(len(all_queries) == 1):
             yield "$end_of_followup_stream$"
             chat_title = response_retriever.chat_title(
@@ -164,191 +171,191 @@ def ask_query_helper(all_queries: List[str], all_answers: List[str], startup_var
 
 # ------------------------------------------------------------------------------------------------------------------------------------------------
 
-    # empower
-    else:
-        prompt_obj = getattr(startup_variables["global_resources"], specialty)
+    # # empower
+    # else:
+    #     prompt_obj = getattr(startup_variables["global_resources"], specialty)
 
-        # ans
-        prompt = {
-            "system": [
-                {
-                    "type": "text",
-                    "text": "".join(prompt_obj.ans_ref_system_prompt) + "\n",
-                },
-                {
-                    "type": "text",
-                    "text": "DATA: \n" + "".join(prompt_obj.knowledge),
-                    "cache_control": {"type": "ephemeral"}
-                }
-            ],
-            "messages": [
-                {
-                    "role": "user",
-                    "content": [
-                        {
-                            "type": "text",
-                            "text": "".join(prompt_obj.ans_ref_usr_prompt)
-                        }
-                    ]
-                },
-                # we need the assistant block as a placeholder, as the anthropic API doesn't allow for messages of the same role consecutively.
-                {
-                    "role": "assistant",
-                    "content": [
-                        {
-                            "type": "text",
-                            "text": "Okay, I will follow your INSTRUCTIONS",
-                            "cache_control": {"type": "ephemeral"}
-                        }
-                    ]
-                },
-                {
-                    "role": "user",
-                    "content": [
-                        {
-                            "type": "text",
-                            "text": all_queries[-2]
-                        }
-                    ]
-                },
-                {
-                    "role": "assistant",
-                    "content":[
-                        {
-                            "type": "text",
-                            "text": all_answers[-2]
-                        }
-                    ]
-                },
-                {
-                    "role": "user",
-                    "content": [
-                        {
-                            "type": "text",
-                            "text": "-> User's Question:\n" + all_queries[-1]
-                        }
-                    ]
-                }
-            ] if len(all_answers) > 1 else [
-                {
-                    "role": "user",
-                    "content": [
-                        {
-                            "type": "text",
-                            "text": "".join(prompt_obj.ans_ref_usr_prompt)
-                        }
-                    ]
-                },
-                # we need the assistant block as a placeholder, as the anthropic API doesn't allow for messages of the same role consecutively.
-                {
-                    "role": "assistant",
-                    "content": [
-                        {
-                            "type": "text",
-                            "text": "Okay, I will follow your INSTRUCTIONS",
-                            "cache_control": {"type": "ephemeral"}
-                        }
-                    ]
-                },
-                {
-                    "role": "user",
-                    "content": [
-                        {
-                            "type": "text",
-                            "text": "-> User's Question:\n" + all_queries[-1]
-                        }
-                    ]
-                }
-            ],
-        }
+    #     # ans
+    #     prompt = {
+    #         "system": [
+    #             {
+    #                 "type": "text",
+    #                 "text": "".join(prompt_obj.ans_ref_system_prompt) + "\n",
+    #             },
+    #             {
+    #                 "type": "text",
+    #                 "text": "DATA: \n" + "".join(prompt_obj.knowledge),
+    #                 "cache_control": {"type": "ephemeral"}
+    #             }
+    #         ],
+    #         "messages": [
+    #             {
+    #                 "role": "user",
+    #                 "content": [
+    #                     {
+    #                         "type": "text",
+    #                         "text": "".join(prompt_obj.ans_ref_usr_prompt)
+    #                     }
+    #                 ]
+    #             },
+    #             # we need the assistant block as a placeholder, as the anthropic API doesn't allow for messages of the same role consecutively.
+    #             {
+    #                 "role": "assistant",
+    #                 "content": [
+    #                     {
+    #                         "type": "text",
+    #                         "text": "Okay, I will follow your INSTRUCTIONS",
+    #                         "cache_control": {"type": "ephemeral"}
+    #                     }
+    #                 ]
+    #             },
+    #             {
+    #                 "role": "user",
+    #                 "content": [
+    #                     {
+    #                         "type": "text",
+    #                         "text": all_queries[-2]
+    #                     }
+    #                 ]
+    #             },
+    #             {
+    #                 "role": "assistant",
+    #                 "content":[
+    #                     {
+    #                         "type": "text",
+    #                         "text": all_answers[-2]
+    #                     }
+    #                 ]
+    #             },
+    #             {
+    #                 "role": "user",
+    #                 "content": [
+    #                     {
+    #                         "type": "text",
+    #                         "text": "-> User's Question:\n" + all_queries[-1]
+    #                     }
+    #                 ]
+    #             }
+    #         ] if len(all_answers) > 1 else [
+    #             {
+    #                 "role": "user",
+    #                 "content": [
+    #                     {
+    #                         "type": "text",
+    #                         "text": "".join(prompt_obj.ans_ref_usr_prompt)
+    #                     }
+    #                 ]
+    #             },
+    #             # we need the assistant block as a placeholder, as the anthropic API doesn't allow for messages of the same role consecutively.
+    #             {
+    #                 "role": "assistant",
+    #                 "content": [
+    #                     {
+    #                         "type": "text",
+    #                         "text": "Okay, I will follow your INSTRUCTIONS",
+    #                         "cache_control": {"type": "ephemeral"}
+    #                     }
+    #                 ]
+    #             },
+    #             {
+    #                 "role": "user",
+    #                 "content": [
+    #                     {
+    #                         "type": "text",
+    #                         "text": "-> User's Question:\n" + all_queries[-1]
+    #                     }
+    #                 ]
+    #             }
+    #         ],
+    #     }
 
-        response = anthropic_client.messages.create(
-                model = "claude-3-5-sonnet-latest",
-                max_tokens = 1024,
-                system = prompt["system"],
-                messages = prompt["messages"],
-                stream = True
-        )
+    #     response = anthropic_client.messages.create(
+    #             model = "claude-3-5-sonnet-latest",
+    #             max_tokens = 1024,
+    #             system = prompt["system"],
+    #             messages = prompt["messages"],
+    #             stream = True
+    #     )
         
-        ans = ""
-        for event in response:
-            if event.type == "content_block_delta":
-                temp = event.delta.text
-                yield(temp)
-                ans += temp
+    #     ans = ""
+    #     for event in response:
+    #         if event.type == "content_block_delta":
+    #             temp = event.delta.text
+    #             yield(temp)
+    #             ans += temp
 
-        yield "$end_of_answer_stream$"
+    #     yield "$end_of_answer_stream$"
 
-        # follow-up
+    #     # follow-up
 
-        prompt = {
-            "system": [
-                {
-                    "type": "text",
-                    "text": ''.join(prompt_obj.follow_up_system_prompt) + "\n",
-                    "cache_control": {"type": "ephemeral"}
-                }
-            ],
-            "messages": [
-                {
-                "role": "user",
-                "content": dedent(f'''
-                            last_question:
-                            {all_queries[-1]}
+    #     prompt = {
+    #         "system": [
+    #             {
+    #                 "type": "text",
+    #                 "text": ''.join(prompt_obj.follow_up_system_prompt) + "\n",
+    #                 "cache_control": {"type": "ephemeral"}
+    #             }
+    #         ],
+    #         "messages": [
+    #             {
+    #             "role": "user",
+    #             "content": dedent(f'''
+    #                         last_question:
+    #                         {all_queries[-1]}
 
-                            last_answer:
-                            {ans}
+    #                         last_answer:
+    #                         {ans}
 
-                            FORMATTING RULES TO BE FOLLOWED:
-                            Respond with 3 questions.
+    #                         FORMATTING RULES TO BE FOLLOWED:
+    #                         Respond with 3 questions.
 
-                            output in JSON format with keys: "questions" (list).
-                        ''').strip("\n")
+    #                         output in JSON format with keys: "questions" (list).
+    #                     ''').strip("\n")
                 
-                }
-            ],
-        }
+    #             }
+    #         ],
+    #     }
 
-        response = anthropic_client.messages.create(
-                model = "claude-3-5-haiku-latest",
-                max_tokens = 1024,
-                system = prompt["system"],
-                messages = prompt["messages"],
-                stream = False
-        )
+    #     response = anthropic_client.messages.create(
+    #             model = "claude-3-5-haiku-latest",
+    #             max_tokens = 1024,
+    #             system = prompt["system"],
+    #             messages = prompt["messages"],
+    #             stream = False
+    #     )
 
-        yield json.dumps({
-            "questions": json.loads(response.content[0].text)["questions"],
-            "askDoctorOnline": False # it doesn't have this feature
-        })
+    #     yield json.dumps({
+    #         "questions": json.loads(response.content[0].text)["questions"],
+    #         "askDoctorOnline": False # it doesn't have this feature
+    #     })
 
-        # chat title
-        if(len(all_queries) == 1):
-            yield "$end_of_followup_stream$"
-            prompt = {
-                "system": [
-                    {
-                        "type": "text",
-                        "text": ''.join(startup_variables["global_resources"].chat_title) + "\n"
-                    }
-                ],
-                "messages": [
-                    {
-                        "role": "user",
-                        "content": all_queries[0]
-                    }
-                ],
-            }
+    #     # chat title
+    #     if(len(all_queries) == 1):
+    #         yield "$end_of_followup_stream$"
+    #         prompt = {
+    #             "system": [
+    #                 {
+    #                     "type": "text",
+    #                     "text": ''.join(startup_variables["global_resources"].chat_title) + "\n"
+    #                 }
+    #             ],
+    #             "messages": [
+    #                 {
+    #                     "role": "user",
+    #                     "content": all_queries[0]
+    #                 }
+    #             ],
+    #         }
 
-            response = anthropic_client.messages.create(
-                    model = "claude-3-5-haiku-latest",
-                    max_tokens = 1024,
-                    system = prompt["system"],
-                    messages = prompt["messages"],
-                    stream = False
-            )
+    #         response = anthropic_client.messages.create(
+    #                 model = "claude-3-5-haiku-latest",
+    #                 max_tokens = 1024,
+    #                 system = prompt["system"],
+    #                 messages = prompt["messages"],
+    #                 stream = False
+    #         )
 
-            yield response.content[0].text
+    #         yield response.content[0].text
 
 
 def generate_dummy_response_for_testing(all_prompts: global_resources, specialty: str, all_queries: List[str]):
