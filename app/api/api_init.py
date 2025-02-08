@@ -63,7 +63,7 @@ def get_gcp_resources():
 
     """Downloads a blob from the bucket."""
     # The ID of your GCS bucket
-    bucket_name = "ai_chat_tes_resources"
+    bucket_name = os.getenv("STORAGE_BUCKET_NAME")
 
     # The ID of your GCS object
     max_results=1000

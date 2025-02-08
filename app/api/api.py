@@ -10,6 +10,7 @@ from pydantic import BaseModel
 from typing import List
 from contextlib import asynccontextmanager
 import os
+from dotenv import load_dotenv
 
 from app.api import api_init
 from app.api import api_helper
@@ -44,6 +45,8 @@ startup_variables = {
     "global_resources": None,
     "feature_flags": None
 }
+
+load_dotenv()
 
 # define server lifespan events
 @asynccontextmanager
