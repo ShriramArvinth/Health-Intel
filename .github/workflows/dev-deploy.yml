@@ -86,4 +86,4 @@ jobs:
             --memory 2Gi \
             --region ${{ env.REGION }} \
             --platform managed \
-            --set-env-vars AI_CHAT_API_KEY="${{ env.AI_CHAT_API_KEY }}"
+            --set-env-vars AI_CHAT_API_KEY="${{ env.AI_CHAT_API_KEY }}", STORAGE_BUCKET_NAME="ai_chat_tes_resources"
