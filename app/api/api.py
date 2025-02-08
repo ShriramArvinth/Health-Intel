@@ -260,7 +260,7 @@ async def keep_alive(data: keep_alive_data):
     try:
         current_time = datetime.now(pytz.timezone(startup_variables["timezone"]))
         
-        if data.specialty in ["weight-loss-drugs", "type-1-diabetes", "gerd", "psoriasis", "empower1", "atopic_dermatitis"]:
+        if data.specialty in ["weight-loss-drugs", "type-1-diabetes", "gerd", "psoriasis", "empower1", "atopic-dermatitis"]:
             specialty = startup_variables["specialty_map"][data.specialty]
             last_cache_refresh_time = startup_variables["last_cache_refresh"][specialty]
 
