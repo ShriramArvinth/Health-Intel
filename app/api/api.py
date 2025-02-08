@@ -63,7 +63,7 @@ async def lifespan(app: FastAPI):
             "t1d": datetime.now(pytz.timezone(startup_variables["timezone"])) - timedelta(minutes=5),
             "gerd": datetime.now(pytz.timezone(startup_variables["timezone"])) - timedelta(minutes=5),
             "psoriasis": datetime.now(pytz.timezone(startup_variables["timezone"])) - timedelta(minutes=5),
-            "empower_az_demo": datetime.now(pytz.timezone(startup_variables["timezone"])) - timedelta(minutes=5),
+            "empower": datetime.now(pytz.timezone(startup_variables["timezone"])) - timedelta(minutes=5),
             "empower_atopic_dermatitis": datetime.now(pytz.timezone(startup_variables["timezone"])) - timedelta(minutes=5)
         }
 
@@ -81,7 +81,7 @@ async def lifespan(app: FastAPI):
             "weight-loss-drugs": "wld",
             "type-1-diabetes": "t1d",
             "gerd": "gerd",
-            "empower1": "empower_az_demo",
+            "empower1": "empower",
             "atopic-dermatitis": "empower_atopic_dermatitis",
             "psoriasis": "psoriasis"
         }
@@ -156,7 +156,7 @@ async def lifespan(app: FastAPI):
                 "chat_title": True,
                 "cache_persistence": True
             },
-            "empower_az_demo": {
+            "empower": {
                 "ans_ref": [
                     True,
                     {
