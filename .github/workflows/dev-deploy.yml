@@ -78,7 +78,6 @@ jobs:
       - name: Push image
         run: docker push ${{ env.GAR_LOCATION }}/icliniq-search:${{ steps.vars.outputs.sha }}
 
-        
       - name: Deploy to Cloud Run Dev
         run: |
           gcloud run deploy icliniq-search-dev \
