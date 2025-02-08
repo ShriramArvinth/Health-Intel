@@ -17,6 +17,9 @@ from app.response_retriever.src import response_retriever
 from datetime import datetime, timedelta
 import pytz
 
+# import logging
+# from google.cloud import logging as gcp_logging  # GCP Logging Client
+
 # define request object structure
 class querycontent(BaseModel):
     questionNo: str
@@ -45,146 +48,157 @@ startup_variables = {
 # define server lifespan events
 @asynccontextmanager
 async def lifespan(app: FastAPI):
-    print("\n", "Starting ai-chat-tes", "\n")
-    
-    # initialize anthropic
-    startup_variables['anthropic_client'] = api_init.anthropic_init()
-    print("\t", "Anthropic client initialized", "\n")
-    
-    # initialize timezone and last cache refresh
-    startup_variables["timezone"] = "America/New_York"
-    startup_variables["last_cache_refresh"] = {
-        # timedelta(minutes=5) is needed for the first keep-alive call.
-        "wld": datetime.now(pytz.timezone(startup_variables["timezone"])) - timedelta(minutes=5),
-        "t1d": datetime.now(pytz.timezone(startup_variables["timezone"])) - timedelta(minutes=5),
-        "gerd": datetime.now(pytz.timezone(startup_variables["timezone"])) - timedelta(minutes=5),
-        "psoriasis": datetime.now(pytz.timezone(startup_variables["timezone"])) - timedelta(minutes=5),
-        "empower_az_demo": datetime.now(pytz.timezone(startup_variables["timezone"])) - timedelta(minutes=5),
-        "empower_atopic_dermatitis": datetime.now(pytz.timezone(startup_variables["timezone"])) - timedelta(minutes=5)
-    }
-
-    # initialize global resources
-    startup_variables["global_resources"] = api_init.get_global_resources()
-
-    # specialty map
-    startup_variables["specialty_map"] = {
-        # Client: GCP and code
-        "weight-loss-drugs": "wld",
-        "type-1-diabetes": "t1d",
-        "gerd": "gerd",
-        "empower1": "empower_az_demo",
-        "atopic_dermatitis": "empower_atopic_dermatitis",
-        "psoriasis": "psoriasis"
-    }
-
-    startup_variables["feature_flags"] = {
-        "wld": {
-            "ans_ref": [
-                True,
-                {
-                    "history_context": "last Q"
-                }
-            ],
-            "follow_up": [
-                True,
-                {
-                    "history_context": "last Q+A",
-                    "ask_a_doctor": True
-                }
-            ],
-            "chat_title": True,
-            "cache_persistence": True
-        },
-        "t1d": {
-            "ans_ref": [
-                True,
-                {
-                    "history_context": "last Q"
-                }
-            ],
-            "follow_up": [
-                True,
-                {
-                    "history_context": "last Q+A",
-                    "ask_a_doctor": True
-                }
-            ],
-            "chat_title": True,
-            "cache_persistence": True
-        },
-        "gerd": {
-            "ans_ref": [
-                True,
-                {
-                    "history_context": "last Q"
-                }
-            ],
-            "follow_up": [
-                True,
-                {
-                    "history_context": "last Q+A",
-                    "ask_a_doctor": True
-                }
-            ],
-            "chat_title": True,
-            "cache_persistence": True
-        },
-        "psoriasis": {
-            "ans_ref": [
-                True,
-                {
-                    "history_context": "last Q"
-                }
-            ],
-            "follow_up": [
-                True,
-                {
-                    "history_context": "last Q+A",
-                    "ask_a_doctor": True
-                }
-            ],
-            "chat_title": True,
-            "cache_persistence": True
-        },
-        "empower_az_demo": {
-            "ans_ref": [
-                True,
-                {
-                    "history_context": "last 2 Q+A+Q"
-                }
-            ],
-            "follow_up": [
-                True,
-                {
-                    "history_context": "last Q+A",
-                    "ask_a_doctor": False
-                }
-            ],
-            "chat_title": True,
-            "cache_persistence": True
-        },
-        "empower_atopic_dermatitis": {
-            "ans_ref": [
-                True,
-                {
-                    "history_context": "last 2 Q+A+Q"
-                }
-            ],
-            "follow_up": [
-                True,
-                {
-                    "history_context": "last Q+A",
-                    "ask_a_doctor": False
-                }
-            ],
-            "chat_title": True,
-            "cache_persistence": True
+    try:
+        print("\n", "Starting ai-chat-tes", "\n")
+        
+        # initialize anthropic
+        startup_variables['anthropic_client'] = api_init.anthropic_init()
+        print("\t", "Anthropic client initialized", "\n")
+        
+        # initialize timezone and last cache refresh
+        startup_variables["timezone"] = "America/New_York"
+        startup_variables["last_cache_refresh"] = {
+            # timedelta(minutes=5) is needed for the first keep-alive call.
+            "wld": datetime.now(pytz.timezone(startup_variables["timezone"])) - timedelta(minutes=5),
+            "t1d": datetime.now(pytz.timezone(startup_variables["timezone"])) - timedelta(minutes=5),
+            "gerd": datetime.now(pytz.timezone(startup_variables["timezone"])) - timedelta(minutes=5),
+            "psoriasis": datetime.now(pytz.timezone(startup_variables["timezone"])) - timedelta(minutes=5),
+            "empower_az_demo": datetime.now(pytz.timezone(startup_variables["timezone"])) - timedelta(minutes=5),
+            "empower_atopic_dermatitis": datetime.now(pytz.timezone(startup_variables["timezone"])) - timedelta(minutes=5)
         }
-    }
 
-    yield
+        # initialize global resources
+        startup_variables["global_resources"] = api_init.get_global_resources()
 
-    print("\n", "Stopping ai-chat-tes", "\n")
+        # initialize logging client
+        # gcp_log_client = gcp_logging.Client()
+        # gcp_log_client.setup_logging()
+
+
+        # specialty map
+        startup_variables["specialty_map"] = {
+            # Client: GCP and code
+            "weight-loss-drugs": "wld",
+            "type-1-diabetes": "t1d",
+            "gerd": "gerd",
+            "empower1": "empower_az_demo",
+            "atopic_dermatitis": "empower_atopic_dermatitis",
+            "psoriasis": "psoriasis"
+        }
+
+        # feature flags map
+        startup_variables["feature_flags"] = {
+            "wld": {
+                "ans_ref": [
+                    True,
+                    {
+                        "history_context": "last Q"
+                    }
+                ],
+                "follow_up": [
+                    True,
+                    {
+                        "history_context": "last Q+A",
+                        "ask_a_doctor": True
+                    }
+                ],
+                "chat_title": True,
+                "cache_persistence": True
+            },
+            "t1d": {
+                "ans_ref": [
+                    True,
+                    {
+                        "history_context": "last Q"
+                    }
+                ],
+                "follow_up": [
+                    True,
+                    {
+                        "history_context": "last Q+A",
+                        "ask_a_doctor": True
+                    }
+                ],
+                "chat_title": True,
+                "cache_persistence": True
+            },
+            "gerd": {
+                "ans_ref": [
+                    True,
+                    {
+                        "history_context": "last Q"
+                    }
+                ],
+                "follow_up": [
+                    True,
+                    {
+                        "history_context": "last Q+A",
+                        "ask_a_doctor": True
+                    }
+                ],
+                "chat_title": True,
+                "cache_persistence": True
+            },
+            "psoriasis": {
+                "ans_ref": [
+                    True,
+                    {
+                        "history_context": "last Q"
+                    }
+                ],
+                "follow_up": [
+                    True,
+                    {
+                        "history_context": "last Q+A",
+                        "ask_a_doctor": True
+                    }
+                ],
+                "chat_title": True,
+                "cache_persistence": True
+            },
+            "empower_az_demo": {
+                "ans_ref": [
+                    True,
+                    {
+                        "history_context": "last 2 Q+A+Q"
+                    }
+                ],
+                "follow_up": [
+                    True,
+                    {
+                        "history_context": "last Q+A",
+                        "ask_a_doctor": False
+                    }
+                ],
+                "chat_title": True,
+                "cache_persistence": True
+            },
+            "empower_atopic_dermatitis": {
+                "ans_ref": [
+                    True,
+                    {
+                        "history_context": "last 2 Q+A+Q"
+                    }
+                ],
+                "follow_up": [
+                    True,
+                    {
+                        "history_context": "last Q+A",
+                        "ask_a_doctor": False
+                    }
+                ],
+                "chat_title": True,
+                "cache_persistence": True
+            }
+        }
+
+        yield
+
+    except Exception as e:
+        print(f"Error during startup: {e}")
+
+    finally:
+        print("\n", "Stopping ai-chat-tes", "\n")
 
 app = FastAPI(lifespan=lifespan)
 app.add_middleware(
@@ -199,74 +213,81 @@ def cache_timeout_refresh(specialty: str):
     startup_variables["last_cache_refresh"][specialty] = datetime.now(pytz.timezone(startup_variables["timezone"]))
 
 @app.post("/ask-query")
-async def ask_query(data: askquery, request: Request):   
-    
-    xapikey = request.headers.get("x-api-key")
-    if (xapikey == os.environ['AI_CHAT_API_KEY']):
-        # print(data)
-        
-        all_queries = [query.question for query in data.queries]
-        all_answers = [query.answer for query in data.queries]
-
-        if (data.enable_dummy_response):
-            # this was done due to empower(dummy response enabled) and empower1(dummy response switched off)'s existence
-            if data.specialty in ["weight-loss-drugs", "type-1-diabetes", "gerd", "psoriasis"]:
-                specialty = startup_variables["specialty_map"][data.specialty]
-            else:
-                specialty = data.specialty
-            return StreamingResponse(
-                api_helper.generate_dummy_response_for_testing(
-                    all_prompts = startup_variables["global_resources"],
-                    specialty = specialty,
-                    all_queries = all_queries
-                )
-            )
-
-        else:
-            specialty = startup_variables["specialty_map"][data.specialty]
-            cache_timeout_refresh(specialty = specialty)
+async def ask_query(data: askquery, request: Request):
+    try:
+        xapikey = request.headers.get("x-api-key")
+        if xapikey == os.environ['AI_CHAT_API_KEY']:
+            # print(data)
             
-            return StreamingResponse(
-                api_helper.ask_query_helper(
-                    all_queries = all_queries,
-                    all_answers = all_answers,
-                    startup_variables = startup_variables,
-                    specialty = specialty
+            all_queries = [query.question for query in data.queries]
+            all_answers = [query.answer for query in data.queries]
+
+            if data.enable_dummy_response:
+                # this was done due to empower(dummy response enabled) and empower1(dummy response switched off)'s existence
+                if data.specialty in ["weight-loss-drugs", "type-1-diabetes", "gerd", "psoriasis"]:
+                    specialty = startup_variables["specialty_map"][data.specialty]
+                else:
+                    specialty = data.specialty
+                return StreamingResponse(
+                    api_helper.generate_dummy_response_for_testing(
+                        all_prompts = startup_variables["global_resources"],
+                        specialty = specialty,
+                        all_queries = all_queries
+                    )
                 )
-            )
-        
-    else:
-        return "wrong api key"
+
+            else:
+                specialty = startup_variables["specialty_map"][data.specialty]
+                cache_timeout_refresh(specialty = specialty)
+                
+                return StreamingResponse(
+                    api_helper.ask_query_helper(
+                        all_queries = all_queries,
+                        all_answers = all_answers,
+                        startup_variables = startup_variables,
+                        specialty = specialty
+                    )
+                )
+            
+        else:
+            return "wrong api key"
+    except Exception as e:
+        print(f"Error in ask_query: {e}")
+        raise HTTPException(status_code=500, detail="Internal Server Error")
 
 @app.post("/keep-alive") # /keep-alive
 async def keep_alive(data: keep_alive_data):
-    current_time = datetime.now(pytz.timezone(startup_variables["timezone"]))
-    
-    if data.specialty in ["weight-loss-drugs", "type-1-diabetes", "gerd", "psoriasis", "empower1", "atopic_dermatitis"]:
-        specialty = startup_variables["specialty_map"][data.specialty]
-        last_cache_refresh_time = startup_variables["last_cache_refresh"][specialty]
+    try:
+        current_time = datetime.now(pytz.timezone(startup_variables["timezone"]))
+        
+        if data.specialty in ["weight-loss-drugs", "type-1-diabetes", "gerd", "psoriasis", "empower1", "atopic_dermatitis"]:
+            specialty = startup_variables["specialty_map"][data.specialty]
+            last_cache_refresh_time = startup_variables["last_cache_refresh"][specialty]
 
-        dummy_call_text = ""
-        if ((current_time - last_cache_refresh_time) > timedelta(minutes=4.5)):
-            print(f"Last cache refresh for {specialty} at: ", last_cache_refresh_time)
-            cache_timeout_refresh(specialty = specialty)
-            dummy_response = response_retriever.dummy_call(
-                anthropic_client = startup_variables["anthropic_client"],
-                all_prompts = startup_variables["global_resources"],
-                specialty = specialty
-            )
-            for _ in dummy_response:
-                dummy_call_text += _
+            dummy_call_text = ""
+            if ((current_time - last_cache_refresh_time) > timedelta(minutes=4.5)):
+                print(f"Last cache refresh for {specialty} at: ", last_cache_refresh_time)
+                cache_timeout_refresh(specialty = specialty)
+                dummy_response = response_retriever.dummy_call(
+                    anthropic_client = startup_variables["anthropic_client"],
+                    all_prompts = startup_variables["global_resources"],
+                    specialty = specialty
+                )
+                for _ in dummy_response:
+                    dummy_call_text += _
+            else:
+                dummy_call_text = "dummy call blocked"
+        
         else:
-            dummy_call_text = "dummy call blocked"
-    
-    else:
-        dummy_call_text = "dummy call blocked due to dummy specialty"
+            dummy_call_text = "dummy call blocked due to dummy specialty"
 
-    response_obj = {
-        "message": dummy_call_text
-    }
-    return response_obj
+        response_obj = {
+            "message": dummy_call_text
+        }
+        return response_obj
+    except Exception as e:
+        print(f"Error in keep_alive: {e}")
+        raise HTTPException(status_code=500, detail="Internal Server Error")
 
 if __name__ == "__main__":
     import uvicorn

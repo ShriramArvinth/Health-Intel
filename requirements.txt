@@ -43,3 +43,4 @@ uvicorn==0.30.6
 vertexai==1.63.0
 Anthropic
 pytz
+google-cloud-logging

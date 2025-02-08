@@ -113,13 +113,36 @@ def get_global_resources():
         setattr(resources, specialty_name, specialty())
         specialty_obj: specialty = getattr(resources, specialty_name)
 
-        specialty_obj.ans_ref_system_prompt = load_text_file(os.path.join(specialty_directory, 'ans_ref_sys_prompt.txt'))
-        specialty_obj.ans_ref_usr_prompt = load_text_file(os.path.join(specialty_directory, 'ans_ref_usr_prompt.txt'))
-        specialty_obj.follow_up_system_prompt = load_text_file(os.path.join(specialty_directory, 'follow_up_sys_prompt.txt'))
-        specialty_obj.knowledge = load_text_file(os.path.join(specialty_directory, 'knowledge.txt'))
-        
-        with open(os.path.join(specialty_directory, 'pre_def_response.json'), 'r') as file:
-            specialty_obj.pre_def_response = json.load(file)
+        try:
+            specialty_obj.ans_ref_system_prompt = load_text_file(os.path.join(specialty_directory, 'ans_ref_sys_prompt.txt'))
+        except Exception as e:
+            print(f"Error loading ans_ref_system_prompt for {specialty_name}: {e}")
+            specialty_obj.ans_ref_system_prompt = None
+
+        try:
+            specialty_obj.ans_ref_usr_prompt = load_text_file(os.path.join(specialty_directory, 'ans_ref_usr_prompt.txt'))
+        except Exception as e:
+            print(f"Error loading ans_ref_usr_prompt for {specialty_name}: {e}")
+            specialty_obj.ans_ref_usr_prompt = None
+
+        try:
+            specialty_obj.follow_up_system_prompt = load_text_file(os.path.join(specialty_directory, 'follow_up_sys_prompt.txt'))
+        except Exception as e:
+            print(f"Error loading follow_up_system_prompt for {specialty_name}: {e}")
+            specialty_obj.follow_up_system_prompt = None
+
+        try:
+            specialty_obj.knowledge = load_text_file(os.path.join(specialty_directory, 'knowledge.txt'))
+        except Exception as e:
+            print(f"Error loading knowledge for {specialty_name}: {e}")
+            specialty_obj.knowledge = None
+
+        try:
+            with open(os.path.join(specialty_directory, 'pre_def_response.json'), 'r') as file:
+                specialty_obj.pre_def_response = json.load(file)
+        except Exception as e:
+            print(f"Error loading pre_def_response for {specialty_name}: {e}")
+            specialty_obj.pre_def_response = None
 
     # delete ../gcp_download/
     shutil.rmtree(resources_directory)
