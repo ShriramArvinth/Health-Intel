@@ -82,7 +82,7 @@ async def lifespan(app: FastAPI):
             "type-1-diabetes": "t1d",
             "gerd": "gerd",
             "empower1": "empower_az_demo",
-            "atopic_dermatitis": "empower_atopic_dermatitis",
+            "atopic-dermatitis": "empower_atopic_dermatitis",
             "psoriasis": "psoriasis"
         }
 
