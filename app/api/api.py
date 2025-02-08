@@ -66,7 +66,7 @@ async def lifespan(app: FastAPI):
             "t1d": datetime.now(pytz.timezone(startup_variables["timezone"])) - timedelta(minutes=5),
             "gerd": datetime.now(pytz.timezone(startup_variables["timezone"])) - timedelta(minutes=5),
             "psoriasis": datetime.now(pytz.timezone(startup_variables["timezone"])) - timedelta(minutes=5),
-            "empower": datetime.now(pytz.timezone(startup_variables["timezone"])) - timedelta(minutes=5),
+            "empower_az_demo": datetime.now(pytz.timezone(startup_variables["timezone"])) - timedelta(minutes=5),
             "empower_atopic_dermatitis": datetime.now(pytz.timezone(startup_variables["timezone"])) - timedelta(minutes=5)
         }
 
@@ -84,7 +84,7 @@ async def lifespan(app: FastAPI):
             "weight-loss-drugs": "wld",
             "type-1-diabetes": "t1d",
             "gerd": "gerd",
-            "empower1": "empower",
+            "empower1": "empower_az_demo",
             "atopic-dermatitis": "empower_atopic_dermatitis",
             "psoriasis": "psoriasis"
         }
@@ -159,7 +159,7 @@ async def lifespan(app: FastAPI):
                 "chat_title": True,
                 "cache_persistence": True
             },
-            "empower": {
+            "empower_az_demo": {
                 "ans_ref": [
                     True,
                     {
@@ -226,7 +226,7 @@ async def ask_query(data: askquery, request: Request):
             all_answers = [query.answer for query in data.queries]
 
             if data.enable_dummy_response:
-                # this was done due to empower(dummy response enabled) and empower1(dummy response switched off)'s existence
+                # this was done due to empower_az_demo(dummy response enabled) and empower1(dummy response switched off)'s existence
                 if data.specialty in ["weight-loss-drugs", "type-1-diabetes", "gerd", "psoriasis"]:
                     specialty = startup_variables["specialty_map"][data.specialty]
                 else:

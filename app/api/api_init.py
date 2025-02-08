@@ -101,7 +101,7 @@ def get_global_resources():
         'wld',
         't1d',
         'gerd',
-        'empower',
+        'empower_az_demo',
         'psoriasis',
         'empower_atopic_dermatitis'
     ]
