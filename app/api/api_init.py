@@ -22,8 +22,15 @@ class specialty():
 class global_resources():
     def __init__(self):
         self.chat_title: str
-        self.wld: specialty
-        self.t1d: specialty
+        self.drugsense: dict[str, specialty]
+        self.tes: dict[str, specialty]
+        # self.wld: specialty
+        # self.t1d: specialty
+
+    def __init__(self):
+        self.chat_title = ""
+        self.drugsense = {}
+        self.tes = {}
 
 def init_import_structure():
     sys.path[0] = str(Path(__file__).parent.parent.parent)
@@ -91,58 +98,97 @@ def get_gcp_resources():
 
     return destination_directory
 
-def get_global_resources():
+def get_global_resources(products_and_specialties: dict[str, list[str]]):
+    from app.error_logger import (
+        Error,
+        Severity,
+        log_error
+    )
     resources_directory = get_gcp_resources()
+    # name of the global resources object
     resources = global_resources()
 
     # Load chat_title and follow_up
     resources.chat_title = load_text_file(os.path.join(resources_directory, 'chat_title.txt'))
-    specialties = [
-        'wld',
-        't1d',
-        'gerd',
-        'empower_az_demo',
-        'psoriasis',
-        'empower_atopic_dermatitis'
-    ]
 
     # Loop through each specialty to load data
-    for specialty_name in specialties:
-        specialty_directory = os.path.join(resources_directory, specialty_name)
+    for product in products_and_specialties.keys():
 
-        setattr(resources, specialty_name, specialty())
-        specialty_obj: specialty = getattr(resources, specialty_name)
+        # handle case where the directory doesn't exist because of inconsistencies between product_specialty_map and the actual bucket content in gcp
+        product_directory = os.path.join(resources_directory, product)
 
-        try:
-            specialty_obj.ans_ref_system_prompt = load_text_file(os.path.join(specialty_directory, 'ans_ref_sys_prompt.txt'))
-        except Exception as e:
-            print(f"Error loading ans_ref_system_prompt for {specialty_name}: {e}")
-            specialty_obj.ans_ref_system_prompt = None
+        if hasattr(resources, product):
+            setattr(resources, product, dict())
+            product_obj = getattr(resources, product)
+            
+            for specialty_name in products_and_specialties[product]:
+                specialty_directory = os.path.join(product_directory, specialty_name)
+                product_obj[specialty_name] = specialty()
 
-        try:
-            specialty_obj.ans_ref_usr_prompt = load_text_file(os.path.join(specialty_directory, 'ans_ref_usr_prompt.txt'))
-        except Exception as e:
-            print(f"Error loading ans_ref_usr_prompt for {specialty_name}: {e}")
-            specialty_obj.ans_ref_usr_prompt = None
+                specialty_obj: specialty = product_obj[specialty_name]
 
-        try:
-            specialty_obj.follow_up_system_prompt = load_text_file(os.path.join(specialty_directory, 'follow_up_sys_prompt.txt'))
-        except Exception as e:
-            print(f"Error loading follow_up_system_prompt for {specialty_name}: {e}")
-            specialty_obj.follow_up_system_prompt = None
+                try:
+                    specialty_obj.ans_ref_system_prompt = load_text_file(os.path.join(specialty_directory, 'ans_ref_sys_prompt.txt'))
+                except Exception as e:
+                    print(f"Error loading ans_ref_system_prompt for {specialty_name}: {e}")
+                    specialty_obj.ans_ref_system_prompt = None
+                    log_error( Error (
+                            module="GCP Resources Download",
+                            code=1011,
+                            description="Error while downloading file",
+                            excpetion=e
+                    ), Severity.ERROR)
 
-        try:
-            specialty_obj.knowledge = load_text_file(os.path.join(specialty_directory, 'knowledge.txt'))
-        except Exception as e:
-            print(f"Error loading knowledge for {specialty_name}: {e}")
-            specialty_obj.knowledge = None
+                try:
+                    specialty_obj.ans_ref_usr_prompt = load_text_file(os.path.join(specialty_directory, 'ans_ref_usr_prompt.txt'))
+                except Exception as e:
+                    print(f"Error loading ans_ref_usr_prompt for {specialty_name}: {e}")
+                    specialty_obj.ans_ref_usr_prompt = None
+                    log_error( Error (
+                            module="GCP Resources Download",
+                            code=1012,
+                            description="Error while downloading file",
+                            excpetion=e
+                    ), Severity.ERROR)
 
-        try:
-            with open(os.path.join(specialty_directory, 'pre_def_response.json'), 'r') as file:
-                specialty_obj.pre_def_response = json.load(file)
-        except Exception as e:
-            print(f"Error loading pre_def_response for {specialty_name}: {e}")
-            specialty_obj.pre_def_response = None
+                try:
+                    specialty_obj.follow_up_system_prompt = load_text_file(os.path.join(specialty_directory, 'follow_up_sys_prompt.txt'))
+                except Exception as e:
+                    print(f"Error loading follow_up_system_prompt for {specialty_name}: {e}")
+                    specialty_obj.follow_up_system_prompt = None
+                    log_error( Error (
+                            module="GCP Resources Download",
+                            code=1013,
+                            description="Error while downloading file",
+                            excpetion=e
+                    ), Severity.ERROR)
+
+                try:
+                    specialty_obj.knowledge = load_text_file(os.path.join(specialty_directory, 'knowledge.txt'))
+                except Exception as e:
+                    print(f"Error loading knowledge for {specialty_name}: {e}")
+                    specialty_obj.knowledge = None
+                    log_error( Error (
+                            module="GCP Resources Download",
+                            code=1014,
+                            description="Error while downloading file",
+                            excpetion=e
+                    ), Severity.ERROR)
+
+                try:
+                    with open(os.path.join(specialty_directory, 'pre_def_response.json'), 'r') as file:
+                        specialty_obj.pre_def_response = json.load(file)
+                except Exception as e:
+                    print(f"Error loading pre_def_response for {specialty_name}: {e}")
+                    specialty_obj.pre_def_response = None
+                    log_error( Error (
+                            module="GCP Resources Download",
+                            code=1015,
+                            description="Error while downloading file",
+                            excpetion=e
+                    ), Severity.ERROR)
+        else:
+            print(f"Product {product} does not exist in global_resources.")
 
     # delete ../gcp_download/
     shutil.rmtree(resources_directory)

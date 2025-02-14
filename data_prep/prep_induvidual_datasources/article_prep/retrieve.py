@@ -32,7 +32,7 @@ for _ in slugs:
     # request_urls.append("https://dev-directus-gcp.icliniq.com/items/article?fields=title,body,slug&filter={\"slug\": {\"_eq\": \"" + _ + "\"}}") 
 
     # for prod
-    request_urls.append("https://content-platform.icliniq.com/items/article?fields=title,body,slug&filter={\"slug\": {\"_eq\": \"" + _ + "\"}}")
+    request_urls.append("https://content-platform.icliniq.com/items/article?fields=title,body,slug&filter={\"urlPath\": {\"_eq\": \"" + _ + "\"}}")
 
     # for graphql prod
     # request_urls.append("https://content-platform.icliniq.com/items/article?fields=title,body,slug&filter={\"slug\": {\"_eq\": \"" + _ + "\"}}") 
@@ -52,6 +52,7 @@ for url in request_urls:
     response = requests.get(url, headers=headers)
     if response.status_code == 200:
         data = response.json()["data"]
+        print(data)
     else:
         print(f"Request failed with status code {response.status_code}")
         print(response.text)

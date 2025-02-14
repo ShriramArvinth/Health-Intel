@@ -5,13 +5,12 @@ from app.response_retriever.src import (
     dummy_calls_retriever
 )
 from app.prompt_builder.src import prompt_builder
-from app.api.api_init import global_resources
+from app.api.api_init import specialty
 
-def ans_ref(anthropic_client, specialty: str, all_prompts: global_resources, all_queries, all_answers, feature_flags):
+def ans_ref(anthropic_client, resources_for_specialty: specialty, all_queries, all_answers, feature_flags):
     ans_ref_prompts = prompt_builder.ans_ref_prompts(
         feature_flags = feature_flags,
-        specialty = specialty,
-        all_prompts = all_prompts,
+        resources_for_specialty = resources_for_specialty,
         all_queries = all_queries,
         all_answers = all_answers
     )
@@ -26,11 +25,10 @@ def ans_ref(anthropic_client, specialty: str, all_prompts: global_resources, all
 
     return response
 
-def followup(anthropic_client, specialty: str, all_prompts: global_resources, last_question, last_answer, feature_flags):
+def followup(anthropic_client, resources_for_specialty: specialty, last_question, last_answer, feature_flags):
     followup_prompts = prompt_builder.followup_prompts(
         feature_flags = feature_flags,
-        specialty = specialty,
-        all_prompts = all_prompts,
+        resources_for_specialty = resources_for_specialty,
         last_question = last_question, 
         last_answer = last_answer
     )
@@ -42,9 +40,9 @@ def followup(anthropic_client, specialty: str, all_prompts: global_resources, la
 
     return response
 
-def chat_title(anthropic_client, all_prompts: global_resources, first_question):
+def chat_title(anthropic_client, chat_title_resource: str, first_question):
     chat_title_prompts = prompt_builder.chat_title_prompts(
-        all_prompts = all_prompts,
+        chat_title_resource = chat_title_resource,
         first_question = first_question
     )
 
@@ -55,10 +53,9 @@ def chat_title(anthropic_client, all_prompts: global_resources, first_question):
 
     return response
 
-def dummy_call(anthropic_client, all_prompts: global_resources, specialty: str):
+def dummy_call(anthropic_client, resources_for_specialty: specialty):
     dummy_call_prompts = prompt_builder.dummy_call_prompts(
-        all_prompts = all_prompts,
-        specialty = specialty
+        resources_for_specialty = resources_for_specialty
     )
 
     response = dummy_calls_retriever.retrieve(

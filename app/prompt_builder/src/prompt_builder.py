@@ -2,8 +2,7 @@ from dataclasses import dataclass
 from textwrap import dedent
 from typing import Union
 from app.api.api_init import (
-    global_resources,
-    specialty as spc
+    specialty
 )
 
 @dataclass
@@ -23,21 +22,20 @@ class AnswerPrompt(GeneralPrompt):
 
 # another function to define the sources paths (knowledge source, system prompt, user prompt ..)
 
-def ans_ref_prompts(all_queries: list, all_answers: list, specialty: str, all_prompts: global_resources, feature_flags: dict):
+def ans_ref_prompts(all_queries: list, all_answers: list, resources_for_specialty: specialty, feature_flags: dict):
 
     if feature_flags["history_context"] == "last Q":
-        # specialty specific prompts inside global_resources
-        specialty_obj: spc = getattr(all_prompts, specialty)
+        # specialty specific prompts inside global_resources is contained in resources_for_specialty
 
         # book data
-        knowledge = ''.join(specialty_obj.knowledge)
+        knowledge = ''.join(resources_for_specialty.knowledge)
 
         # system
-        system_prompt = ''.join(specialty_obj.ans_ref_system_prompt)
+        system_prompt = ''.join(resources_for_specialty.ans_ref_system_prompt)
 
         # user
         user_prompt = {
-            "instructions": ''.join(specialty_obj.ans_ref_usr_prompt),
+            "instructions": ''.join(resources_for_specialty.ans_ref_usr_prompt),
             "user_question": dedent(f'''
                 -> User's Question:
                 {all_queries[-1]}
@@ -53,18 +51,17 @@ def ans_ref_prompts(all_queries: list, all_answers: list, specialty: str, all_pr
         return response_obj
     
     elif feature_flags["history_context"] == "last 2 Q+A+Q":
-        # specialty specific prompts inside global_resources
-        specialty_obj: spc = getattr(all_prompts, specialty)
+        # specialty specific prompts inside global_resources is contained in resources_for_specialty
 
         # book data
-        knowledge = ''.join(specialty_obj.knowledge)
+        knowledge = ''.join(resources_for_specialty.knowledge)
 
         # system
-        system_prompt = ''.join(specialty_obj.ans_ref_system_prompt)
+        system_prompt = ''.join(resources_for_specialty.ans_ref_system_prompt)
 
         # user
         user_prompt = {
-            "instructions": ''.join(specialty_obj.ans_ref_usr_prompt),
+            "instructions": ''.join(resources_for_specialty.ans_ref_usr_prompt),
             "user_question": dedent(f'''
                 -> User's Question:
                 {all_queries[-1]}
@@ -80,14 +77,13 @@ def ans_ref_prompts(all_queries: list, all_answers: list, specialty: str, all_pr
         return response_obj
 
 
-def followup_prompts(specialty: str, all_prompts: global_resources, last_question: str, last_answer: str, feature_flags: dict):
+def followup_prompts(resources_for_specialty: specialty, last_question: str, last_answer: str, feature_flags: dict):
 
     if feature_flags["ask_a_doctor"]:
-        # specialty specific prompts inside global_resources
-        specialty_obj: spc = getattr(all_prompts, specialty)
+        # specialty specific prompts inside global_resources is contained in resources_for_specialty
 
         # system
-        system_prompt = ''.join(specialty_obj.follow_up_system_prompt)
+        system_prompt = ''.join(resources_for_specialty.follow_up_system_prompt)
 
         # user
         user_prompt = dedent(f'''
@@ -112,11 +108,10 @@ def followup_prompts(specialty: str, all_prompts: global_resources, last_questio
         return response_obj
 
     else:
-        # specialty specific prompts inside global_resources
-        specialty_obj: spc = getattr(all_prompts, specialty)
+        # specialty specific prompts inside global_resources is contained in resources_for_specialty
 
         # system
-        system_prompt = ''.join(specialty_obj.follow_up_system_prompt)
+        system_prompt = ''.join(resources_for_specialty.follow_up_system_prompt)
 
         # user
         user_prompt = dedent(f'''
@@ -140,10 +135,10 @@ def followup_prompts(specialty: str, all_prompts: global_resources, last_questio
         return response_obj
 
 
-def chat_title_prompts(all_prompts: global_resources, first_question: str):
+def chat_title_prompts(chat_title_resource: str, first_question: str):
     
     # system
-    system_prompt = ''.join(all_prompts.chat_title)
+    system_prompt = chat_title_resource
 
     # user
     user_prompt = dedent(f'''
@@ -158,23 +153,21 @@ def chat_title_prompts(all_prompts: global_resources, first_question: str):
         user_query = user_prompt 
     )
 
-
     return response_obj
 
-def dummy_call_prompts(all_prompts: global_resources, specialty: str):
+def dummy_call_prompts(resources_for_specialty: specialty):
 
-    # specialty specific prompts inside global_resources
-    specialty_obj: spc = getattr(all_prompts, specialty)
+    # specialty specific prompts inside global_resources is contained in resources_for_specialty
 
     # book data
-    knowledge = ''.join(specialty_obj.knowledge)
+    knowledge = ''.join(resources_for_specialty.knowledge)
 
     # system
-    system_prompt = ''.join(specialty_obj.ans_ref_system_prompt)
+    system_prompt = ''.join(resources_for_specialty.ans_ref_system_prompt)
 
     # user
     user_prompt = {
-        "instructions": ''.join(specialty_obj.ans_ref_usr_prompt),
+        "instructions": ''.join(resources_for_specialty.ans_ref_usr_prompt),
         "user_question": dedent(f'''
             This is just a test question. 
             DO NOT FOLLOW THE RESPONSE FORMAT.
