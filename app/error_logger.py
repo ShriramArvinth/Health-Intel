@@ -2,7 +2,7 @@ from dataclasses import dataclass
 import logging
 from enum import Enum
 import traceback
-from google.cloud import logging as cloud_logging
+# from google.cloud import logging as cloud_logging
 import os
 
 logging.basicConfig(level=logging.WARNING)
