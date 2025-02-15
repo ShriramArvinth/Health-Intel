@@ -2,8 +2,7 @@ from dataclasses import dataclass
 import logging
 from enum import Enum
 import traceback
-from google.cloud import logging as cloud_logging
-from google.oauth2 import service_account
+# from google.cloud import logging as cloud_logging
 import os
 
 logging.basicConfig(level=logging.WARNING)
@@ -39,24 +38,25 @@ def log_error(error: Error, severity: Severity):
     if is_running_in_gcp():
         print("Running in GCP")
         # Google Cloud Logging
+        # client = cloud_logging.Client()
+        # cloud_logger = client.logger(error.module)
 
-        #  /app/api/
-        current_dir = os.getcwd()
-        service_account_file = os.path.join(current_dir, "../secrets/service_account.json")
-        creds = service_account.Credentials.from_service_account_file(filename = service_account_file)
-        client = cloud_logging.Client(
-            credentials=creds
-        )
-        cloud_logger = client.logger(error.module)
-
+        # if severity == Severity.INFO:
+        #     cloud_logger.log_text(log_message, severity='INFO')
+        # elif severity == Severity.WARN:
+        #     cloud_logger.log_text(log_message, severity='WARNING')
+        # elif severity == Severity.ERROR:
+        #     cloud_logger.log_text(log_message, severity='ERROR')
+        # elif severity == Severity.CRITICAL:
+        #     cloud_logger.log_text(log_message, severity='CRITICAL')
         if severity == Severity.INFO:
-            cloud_logger.log_text(log_message, severity='INFO')
+            logger.info(log_message)
         elif severity == Severity.WARN:
-            cloud_logger.log_text(log_message, severity='WARNING')
+            logger.warning(log_message)
         elif severity == Severity.ERROR:
-            cloud_logger.log_text(log_message, severity='ERROR')
+            logger.error(log_message)
         elif severity == Severity.CRITICAL:
-            cloud_logger.log_text(log_message, severity='CRITICAL')
+            logger.critical(log_message)
     else:
         print("Running in Non-GCP")
         # Console Logging
