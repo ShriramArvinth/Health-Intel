@@ -134,7 +134,7 @@ def get_global_resources(products_and_specialties: dict[str, list[str]]):
                         print(f"Error loading ans_ref_system_prompt for {specialty_name}: {e}")
                         specialty_obj.ans_ref_system_prompt = None
                         log_error( Error (
-                                module="GCP Resources Download",
+                                module="GCP_Resources_Download",
                                 code=1011,
                                 description="Error while downloading file",
                                 excpetion=e
@@ -146,7 +146,7 @@ def get_global_resources(products_and_specialties: dict[str, list[str]]):
                         print(f"Error loading ans_ref_usr_prompt for {specialty_name}: {e}")
                         specialty_obj.ans_ref_usr_prompt = None
                         log_error( Error (
-                                module="GCP Resources Download",
+                                module="GCP_Resources_Download",
                                 code=1012,
                                 description="Error while downloading file",
                                 excpetion=e
@@ -158,7 +158,7 @@ def get_global_resources(products_and_specialties: dict[str, list[str]]):
                         print(f"Error loading follow_up_system_prompt for {specialty_name}: {e}")
                         specialty_obj.follow_up_system_prompt = None
                         log_error( Error (
-                                module="GCP Resources Download",
+                                module="GCP_Resources_Download",
                                 code=1013,
                                 description="Error while downloading file",
                                 excpetion=e
@@ -170,7 +170,7 @@ def get_global_resources(products_and_specialties: dict[str, list[str]]):
                         print(f"Error loading knowledge for {specialty_name}: {e}")
                         specialty_obj.knowledge = None
                         log_error( Error (
-                                module="GCP Resources Download",
+                                module="GCP_Resources_Download",
                                 code=1014,
                                 description="Error while downloading file",
                                 excpetion=e
@@ -183,7 +183,7 @@ def get_global_resources(products_and_specialties: dict[str, list[str]]):
                         print(f"Error loading pre_def_response for {specialty_name}: {e}")
                         specialty_obj.pre_def_response = None
                         log_error( Error (
-                                module="GCP Resources Download",
+                                module="GCP_Resources_Download",
                                 code=1015,
                                 description="Error while downloading file",
                                 excpetion=e
@@ -194,13 +194,14 @@ def get_global_resources(products_and_specialties: dict[str, list[str]]):
     except Exception as e:
         print(f"Error while downloading GCP resources: {e}")
         log_error( Error (
-                module="GCP Resources Download",
+                module="GCP_Resources_Download",
                 code=1015,
                 description="Error while downloading file",
                 excpetion=e
         ), Severity.ERROR)
 
-    # delete ../gcp_download/
-    shutil.rmtree(resources_directory)
+    finally:
+        # delete ../gcp_download/
+        shutil.rmtree(resources_directory)
 
     return resources

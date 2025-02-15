@@ -163,7 +163,7 @@ async def lifespan(app: FastAPI):
     except Exception as e:
         print(f"Error during startup: {e}")
         log_error( Error (
-                module="FastAPI Lifespan",
+                module="FastAPI_Lifespan",
                 code=1001,
                 description="App startup error",
                 excpetion=e
