@@ -66,7 +66,7 @@ async def lifespan(app: FastAPI):
 
         # initialize list of products and specialties under those products
         startup_variables["products_and_specialties"] = {
-            "tes": ["asd", "asthma", "breast_cancer", "copd", "covid_19", "epilepsy_and_seizures", "gerd", "hemophilia", "hiv_aids", "influenza_flu", "lung_cancer", "migraine", "multiple_sclerosis", "pcos", "prostate_cancer", "psoriasis", "rheumatoid_arthritis", "sti", "t1d", "t2d", "thyroid_disorders", "tuberculosis", "wld"],
+            "tes": ["asd", "asthma", "breast_cancer", "copd", "covid_19", "depression", "epilepsy_and_seizures", "gerd", "hemophilia", "hiv_aids", "influenza_flu", "lung_cancer", "migraine", "multiple_sclerosis", "pcos", "prostate_cancer", "psoriasis", "rheumatoid_arthritis", "sti", "t1d", "t2d", "thyroid_disorders", "tuberculosis", "wld"],
             "drugsense": ["empower_atopic_dermatitis", "empower_az_demo"]
         }
 
@@ -97,6 +97,7 @@ async def lifespan(app: FastAPI):
             "breast_cancer": ["tes", "breast_cancer"],
             "copd": ["tes", "copd"],
             "covid_19": ["tes", "covid_19"],
+            "depression": ["tes", "depression"],
             "epilepsy_and_seizures": ["tes", "epilepsy_and_seizures"],
             "gerd": ["tes", "gerd"],
             "hemophilia": ["tes", "hemophilia"],
