@@ -66,8 +66,8 @@ async def lifespan(app: FastAPI):
 
         # initialize list of products and specialties under those products
         startup_variables["products_and_specialties"] = {
-            "tes": ["wld", "t1d", "gerd", "psoriasis", "migraine", "multiple_sclerosis", "pcos", "rheumatoid_arthritis", "t2d", "ashtma", "breast_cancer", "copd", "hiv_aids", "influenza_flu", "prostate_cancer", "sti", "tuberculosis", "lung_cancer"],
-            "drugsense": ["empower_az_demo", "empower_atopic_dermatitis"]
+            "tes": ["asd", "asthma", "breast_cancer", "copd", "covid_19", "epilepsy_and_seizures", "gerd", "hemophilia", "hiv_aids", "influenza_flu", "lung_cancer", "migraine", "multiple_sclerosis", "pcos", "prostate_cancer", "psoriasis", "rheumatoid_arthritis", "sti", "t1d", "t2d", "thyroid_disorders", "tuberculosis", "wld"],
+            "drugsense": ["empower_atopic_dermatitis", "empower_az_demo"]
         }
 
         startup_variables["last_cache_refresh"] = {}
@@ -92,24 +92,28 @@ async def lifespan(app: FastAPI):
             #         "atopic-dermatitis": ["drugsense", "empower_atopic_dermatitis"]
             #     }
             # }
-            "weight-loss-drugs": ["tes", "wld"],
-            "type-1-diabetes": ["tes", "t1d"],
-            "gerd": ["tes", "gerd"],
-            "psoriasis": ["tes", "psoriasis"],
+            "asd": ["tes", "asd"],
             "asthma": ["tes", "asthma"],
+            "breast_cancer": ["tes", "breast_cancer"],
+            "copd": ["tes", "copd"],
+            "covid_19": ["tes", "covid_19"],
+            "epilepsy_and_seizures": ["tes", "epilepsy_and_seizures"],
+            "gerd": ["tes", "gerd"],
+            "hemophilia": ["tes", "hemophilia"],
+            "influenza_flu": ["tes", "influenza_flu"],
+            "lung_cancer": ["tes", "lung_cancer"],
             "migraine": ["tes", "migraine"],
             "multiple_sclerosis": ["tes", "multiple_sclerosis"],
             "pcos": ["tes", "pcos"],
-            "rheumatoid_arthritis": ["tes", "rheumatoid_arthritis"],
-            "type-2-diabetes": ["tes", "t2d"],
-            "breast_cancer": ["tes", "breast_cancer"],
-            "copd": ["tes", "copd"],
-            "hiv_aids": ["tes", "hiv_aids"],
-            "influenza_flu": ["tes", "influenza_flu"],
             "prostate_cancer": ["tes", "prostate_cancer"],
+            "psoriasis": ["tes", "psoriasis"],
+            "rheumatoid_arthritis": ["tes", "rheumatoid_arthritis"],
             "sti": ["tes", "sti"],
             "tuberculosis": ["tes", "tuberculosis"],
-            "lung_cancer": ["tes", "lung_cancer"],
+            "type-1-diabetes": ["tes", "t1d"],
+            "type-2-diabetes": ["tes", "t2d"],
+            "thyroid_disorders": ["tes", "thyroid_disorders"],
+            "weight-loss-drugs": ["tes", "wld"],
             "empower1": ["drugsense", "empower_az_demo"],
             "atopic_dermatitis": ["drugsense", "empower_atopic_dermatitis"],
         }
