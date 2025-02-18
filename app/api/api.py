@@ -88,8 +88,8 @@ async def lifespan(app: FastAPI):
             #         "weight-loss-drugs": ["wld", "weight-loss-drugs"],
             #     },
             #     "drugsense": {
-            #         "empower1": ["drugsense", "empower_az_demo"],
-            #         "atopic-dermatitis": ["drugsense", "empower_atopic_dermatitis"]
+            #         "asthma-drugsense": ["drugsense", "empower_az_demo"],
+            #         "atopic-dermatitis-drugsense": ["drugsense", "empower_atopic_dermatitis"]
             #     }
             # }
             "asd": ["tes", "asd"],
@@ -116,8 +116,8 @@ async def lifespan(app: FastAPI):
             "thyroid-disorders": ["tes", "thyroid_disorders"],
             "tuberculosis": ["tes", "tuberculosis"],
             "weight-loss-drugs": ["tes", "wld"],
-            "empower1": ["drugsense", "empower_az_demo"],
-            "atopic-dermatitis": ["drugsense", "empower_atopic_dermatitis"],
+            "asthma-drugsense": ["drugsense", "empower_az_demo"],
+            "atopic-dermatitis-drugsense": ["drugsense", "empower_atopic_dermatitis"],
         }
 
         # feature flags map
@@ -228,7 +228,7 @@ async def ask_query(data: askquery, request: Request):
             return "wrong api key"
     except Exception as e:
         log_error( Error (
-                module="/ask-query",
+                module="ask-query",
                 code=1002,
                 description="error in ask_query endpoint",
                 excpetion=e
@@ -265,7 +265,7 @@ async def keep_alive(data: keep_alive_data):
         return response_obj
     except Exception as e:
         log_error( Error (
-                module="/keep-alive",
+                module="keep-alive",
                 code=1003,
                 description="error in keep_alive endpoint",
                 excpetion=e

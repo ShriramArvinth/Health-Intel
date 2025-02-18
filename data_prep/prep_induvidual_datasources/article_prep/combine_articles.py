@@ -6,6 +6,7 @@ from xml.dom.minidom import parseString
 import html
 from lxml import etree
 
+
 class Document:
     def __init__(self, slug: str = "", content: str = ""):
         self.slug = slug
@@ -47,24 +48,17 @@ for _ in article_paths:
             )
         )
 
-def item_func(x):
-    return (x.split("_")[-1])
-combined_xml = dicttoxml2.dicttoxml(
-    obj = combined_articles.to_dict(), 
-    root = False, 
-    attr_type = False,
-    item_func = item_func
-)
+output_file = "knowledge.txt"
 
-proper_string = str(html.unescape(combined_xml.decode('utf-8', errors="ignore")))
-fragment = etree.fromstring(proper_string)
-etree.strip_tags(fragment,'item_name_article')
-xml_tree_string = etree.tostring(fragment, pretty_print = True)
-with open("./combined_articles.xml", "w") as file:
-    file.write(html.unescape(xml_tree_string.decode('utf-8', errors="ignore")))
+with open(output_file, "w", encoding="utf-8") as f:
+    f.write("<all-articles>\n")
+    for doc in combined_articles.all_articles:
+        f.write("  <article>\n")
+        f.write("    <slug>{}</slug>\n".format(doc.slug))
+        f.write("    <content>{}</content>\n".format(doc.content))
+        f.write("  </article>\n")
+    f.write("</all-articles>\n")
 
-# dom = parseString(combined_xml)
-# with open("combined_articles.xml", "w") as file:
-#     file.write(html.unescape(combined_xml.decode('utf-8', errors="ignore")))
-    # file.write(dom.toprettyxml())
-    # file.write(str(combined_xml))
+print(f"Formatted XML saved to {output_file}")
+
+
