@@ -48,7 +48,9 @@ for _ in article_paths:
             )
         )
 
-output_file = "knowledge.txt"
+output_file = "combined_articles.xml"
+if os.path.exists(output_file):
+    os.remove(output_file)
 
 with open(output_file, "w", encoding="utf-8") as f:
     f.write("<all-articles>\n")
@@ -60,5 +62,3 @@ with open(output_file, "w", encoding="utf-8") as f:
     f.write("</all-articles>\n")
 
 print(f"Formatted XML saved to {output_file}")
-
-

@@ -7,17 +7,21 @@ from app.response_retriever.src import (
 from app.prompt_builder.src import prompt_builder
 from app.api.api_init import specialty
 
-def ans_ref(anthropic_client, resources_for_specialty: specialty, all_queries, all_answers, feature_flags):
+def ans_ref(ans_ref_model_client, resources_for_specialty: specialty, all_queries, all_answers, feature_flags):
+    feature_flags_to_be_passed = {
+        "history_context": feature_flags["ans_ref"][1]["history_context"],
+        "model_ans_ref": feature_flags["model_ans_ref"]
+    }
     ans_ref_prompts = prompt_builder.ans_ref_prompts(
-        feature_flags = feature_flags,
+        feature_flags = feature_flags_to_be_passed,
         resources_for_specialty = resources_for_specialty,
         all_queries = all_queries,
         all_answers = all_answers
     )
 
     response = ans_ref_retriever.retrieve(
-        anthropic_client = anthropic_client,
-        feature_flags = feature_flags,
+        ans_ref_model_client = ans_ref_model_client,
+        feature_flags = feature_flags_to_be_passed,
         prompt_obj = ans_ref_prompts,
         all_queries = all_queries,
         all_answers = all_answers

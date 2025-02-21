@@ -113,21 +113,30 @@ def parse_streaming_response(response):
         yield(_)
 
 def ask_query_helper(all_queries: List[str], all_answers: List[str], startup_variables, specialty):
-    anthropic_client = startup_variables["anthropic_client"]
+
+    # define the feature flags for the current specialty
     feature_flags = startup_variables["feature_flags"][specialty[0]][specialty[1]]
 
-    # # Tes
-    # if specialty not in ["empower"]:
+    # decide the ans_ref model client here based upon the name of the product/specialty
+    ans_ref_model_client = None
+    if feature_flags["model_ans_ref"] == "gemini_pro":
+        ans_ref_model_client = startup_variables["model_client"]["google"]["gemini_pro"]
+    elif feature_flags["model_ans_ref"] == "anthropic":
+        ans_ref_model_client = startup_variables["model_client"]["anthropic"]
+
+    # but fix the small model client (for followup and chat title) to anthropic
+    anthropic_client = startup_variables["model_client"]["anthropic"]
 
     resources_for_all_products_and_specialties: global_resources = startup_variables["global_resources"]
 
+    print(feature_flags)
     if feature_flags["ans_ref"][0]:
         ans_ref_stream = response_retriever.ans_ref(
-            anthropic_client = anthropic_client,
+            ans_ref_model_client = ans_ref_model_client,
             resources_for_specialty = getattr(resources_for_all_products_and_specialties, specialty[0])[specialty[1]],
             all_queries = all_queries,
             all_answers = all_answers,
-            feature_flags = feature_flags["ans_ref"][1],
+            feature_flags = feature_flags,
         )
         parsed_stream = parse_streaming_response(response = ans_ref_stream)
 

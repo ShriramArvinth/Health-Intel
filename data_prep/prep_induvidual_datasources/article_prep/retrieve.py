@@ -15,11 +15,17 @@ class Document:
         }
 
 # set up induvidual articles directory
-if not os.path.exists("./formatted_articles"):
+if os.path.exists("./formatted_articles"):
+    for filename in os.listdir("./formatted_articles"):
+        file_path = os.path.join("./formatted_articles", filename)
+        if os.path.isfile(file_path):
+            os.unlink(file_path)
+        elif os.path.isdir(file_path):
+            os.rmdir(file_path)
+    print(f"Directory formatted_articles cleared.")
+else:
     os.makedirs("./formatted_articles")
     print(f"Directory formatted_articles created.")
-else:
-    print(f"Directory formatted_articles already exists.")
 
 
 # Set up the URL and the token
@@ -49,7 +55,12 @@ for url in request_urls:
     headers = {
         "Authorization": f"Bearer {token}"
     }
-    response = requests.get(url, headers=headers)
+    try:
+        response = requests.get(url, headers=headers)
+    except requests.exceptions.RequestException as e:
+        print(f"Request failed for slug: {url}")
+        print(e)
+        continue
     if response.status_code == 200:
         data = response.json()["data"]
         print(data)

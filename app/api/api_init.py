@@ -3,6 +3,8 @@ from anthropic import Anthropic
 from pathlib import Path
 import sys
 from google.cloud.storage import Client, transfer_manager
+import vertexai
+from vertexai.preview.generative_models import GenerativeModel
 from google.oauth2 import service_account
 import os
 import json
@@ -52,6 +54,31 @@ def anthropic_init():
     )
 
     return client
+
+def initialise_vertex_client() -> bool:
+
+    # /app/api/
+    current_dir = os.getcwd()
+    vertexai.init(project="talk-to-your-records", location="us-central1", credentials=service_account.Credentials.from_service_account_file(filename = os.path.join(os.path.join(current_dir, "../secrets/service_account.json"))))
+    return True
+
+def initialise_gemini_pro() -> GenerativeModel:
+    generative_multimodal_model = GenerativeModel(
+        model_name="gemini-2.0-flash-exp",
+        # system_instruction=[
+        #     "Your name is Tes. You represent a healthcare platform who always responds to our user's questions in a polite yet professional and jovial tone."
+        # ]
+    )
+    return generative_multimodal_model
+
+def initialise_gemini_flash() -> GenerativeModel:
+    generative_multimodal_model = GenerativeModel(
+        model_name="gemini-2.0-flash-exp",
+        # system_instruction=[
+        #     "Your name is Tes. You represent a healthcare platform who always responds to our user's questions in a polite yet professional and jovial tone."
+        # ]
+    )
+    return generative_multimodal_model
 
 def load_text_file(filepath):
     with open(filepath, 'r') as file:

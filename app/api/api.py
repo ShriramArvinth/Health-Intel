@@ -41,9 +41,21 @@ class askquery(BaseModel):
 class keep_alive_data(BaseModel):
     specialty: str 
 
+# create a class for feature flags
+# class feature_flags(BaseModel):
+#     ans_ref: List[bool]
+#     follow_up: List[bool]
+#     chat_title: bool
+#     cache_persistence: bool
+#     model_ans_ref: str
+#     model_follow_up: str
+
 startup_variables = {
+    "model_client": None,
+    "products_and_specialties": None,
     "anthropic_client": None,
     "timezone": None,
+    "product_specialty_map_btn_client_and_gcs": None,
     "last_cache_refresh": None,
     "global_resources": None,
     "feature_flags": None
@@ -57,9 +69,16 @@ async def lifespan(app: FastAPI):
     try:
         print("\n", "Starting ai-chat-tes", "\n")
         
-        # initialize anthropic
-        startup_variables['anthropic_client'] = api_init.anthropic_init()
-        print("\t", "Anthropic client initialized", "\n")
+        # initialize vertex ai
+        api_init.initialise_vertex_client()
+
+        # initialize models
+        startup_variables['model_client'] = {}      
+        startup_variables['model_client']['anthropic'] = api_init.anthropic_init()
+        startup_variables['model_client']['google'] = {}
+        startup_variables['model_client']['google']['gemini_pro'] = api_init.initialise_gemini_pro()
+        startup_variables['model_client']['google']['gemini_flash'] = api_init.initialise_gemini_flash()
+        print("\t", "Anthropic + GCP clients initialized", "\n")
         
         # initialize timezone and last cache refresh
         startup_variables["timezone"] = "America/New_York"
@@ -127,23 +146,45 @@ async def lifespan(app: FastAPI):
             startup_variables["feature_flags"][product] = {}
             for specialty in startup_variables["products_and_specialties"][product]:
                 if product == "tes":
-                    startup_variables["feature_flags"][product][specialty] = {
-                        "ans_ref": [
-                            True,
-                            {
-                                "history_context": "last Q"
-                            }
-                        ],
-                        "follow_up": [
-                            True,
-                            {
-                                "history_context": "last Q+A",
-                                "ask_a_doctor": True
-                            }
-                        ],
-                        "chat_title": True,
-                        "cache_persistence": True
-                    }
+                    if specialty in ["lung_cancer", "asd", "rheumatoid_arthritis", "depression", "hiv_aids"]:
+                        startup_variables["feature_flags"][product][specialty] = {
+                            "ans_ref": [
+                                True,
+                                {
+                                    "history_context": "last 2 Q+A+Q"
+                                }
+                            ],
+                            "follow_up": [
+                                True,
+                                {
+                                    "history_context": "last Q+A",
+                                    "ask_a_doctor": True
+                                }
+                            ],
+                            "chat_title": True,
+                            "cache_persistence": True,
+                            "model_ans_ref": "gemini_pro"
+                        }
+
+                    else:
+                        startup_variables["feature_flags"][product][specialty] = {
+                            "ans_ref": [
+                                True,
+                                {
+                                    "history_context": "last 2 Q+A+Q"
+                                }
+                            ],
+                            "follow_up": [
+                                True,
+                                {
+                                    "history_context": "last Q+A",
+                                    "ask_a_doctor": True
+                                }
+                            ],
+                            "chat_title": True,
+                            "cache_persistence": True,
+                            "model_ans_ref": "claude_sonnet"
+                        }
 
                 elif product == "drugsense":
                     startup_variables["feature_flags"][product][specialty] = {
@@ -161,7 +202,8 @@ async def lifespan(app: FastAPI):
                             }
                         ],
                         "chat_title": True,
-                        "cache_persistence": True
+                        "cache_persistence": True,
+                        "model_ans_ref": "claude_sonnet"
                     }
 
         yield
@@ -249,7 +291,7 @@ async def keep_alive(data: keep_alive_data):
             print(f"Last cache refresh for {specialty[1]} at: ", last_cache_refresh_time)
             cache_timeout_refresh(specialty = specialty)
             dummy_response = response_retriever.dummy_call(
-                anthropic_client = startup_variables["anthropic_client"],
+                anthropic_client = startup_variables["model_client"]["anthropic"],
                 resources_for_specialty = getattr(startup_variables["global_resources"], specialty[0])[specialty[1]]
             )
             for _ in dummy_response:
