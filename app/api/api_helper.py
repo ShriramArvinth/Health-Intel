@@ -121,7 +121,7 @@ def ask_query_helper(all_queries: List[str], all_answers: List[str], startup_var
     ans_ref_model_client = None
     if feature_flags["model_ans_ref"] == "gemini_pro":
         ans_ref_model_client = startup_variables["model_client"]["google"]["gemini_pro"]
-    elif feature_flags["model_ans_ref"] == "anthropic":
+    elif feature_flags["model_ans_ref"] == "claude_sonnet":
         ans_ref_model_client = startup_variables["model_client"]["anthropic"]
 
     # but fix the small model client (for followup and chat title) to anthropic
