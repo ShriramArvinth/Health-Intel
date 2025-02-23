@@ -26,6 +26,7 @@ class global_resources():
         self.chat_title: str
         self.drugsense: dict[str, specialty]
         self.tes: dict[str, specialty]
+        self.rxnext_basic: dict[str, specialty]
         # self.wld: specialty
         # self.t1d: specialty
 
@@ -33,6 +34,7 @@ class global_resources():
         self.chat_title = ""
         self.drugsense = {}
         self.tes = {}
+        self.rxnext_basic = {}
 
 def init_import_structure():
     sys.path[0] = str(Path(__file__).parent.parent.parent)

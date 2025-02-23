@@ -86,7 +86,8 @@ async def lifespan(app: FastAPI):
         # initialize list of products and specialties under those products
         startup_variables["products_and_specialties"] = {
             "tes": ["asd", "asthma", "breast_cancer", "copd", "covid_19", "depression", "epilepsy_and_seizures", "gerd", "hemophilia", "hiv_aids", "influenza_flu", "lung_cancer", "migraine", "multiple_sclerosis", "pcos", "prostate_cancer", "psoriasis", "rheumatoid_arthritis", "sti", "t1d", "t2d", "thyroid_disorders", "tuberculosis", "wld"],
-            "drugsense": ["empower_atopic_dermatitis", "empower_az_demo"]
+            "drugsense": ["empower_atopic_dermatitis", "empower_az_demo"],
+            "rxnext_basic": ["fda_ppt_1"]
         }
 
         startup_variables["last_cache_refresh"] = {}
@@ -137,6 +138,7 @@ async def lifespan(app: FastAPI):
             "weight-loss-drugs": ["tes", "wld"],
             "asthma-drugsense": ["drugsense", "empower_az_demo"],
             "atopic-dermatitis-drugsense": ["drugsense", "empower_atopic_dermatitis"],
+            "rxnext-basic": ["rxnext_basic", "fda_ppt_1"]
         }
 
         # feature flags map
@@ -205,6 +207,26 @@ async def lifespan(app: FastAPI):
                         "cache_persistence": True,
                         "model_ans_ref": "claude_sonnet"
                     }
+                
+                elif product == "rxnext_basic":
+                    startup_variables["feature_flags"][product][specialty] = {
+                            "ans_ref": [
+                                True,
+                                {
+                                    "history_context": "last Q"
+                                }
+                            ],
+                            "follow_up": [
+                                True,
+                                {
+                                    "history_context": "last Q+A",
+                                    "ask_a_doctor": True
+                                }
+                            ],
+                            "chat_title": True,
+                            "cache_persistence": True,
+                            "model_ans_ref": "gemini_pro"
+                        }
 
         yield
 
