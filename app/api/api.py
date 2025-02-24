@@ -280,7 +280,8 @@ async def ask_query(data: askquery, request: Request):
             else:
                 specialty = startup_variables["product_specialty_map_btn_client_and_gcs"][data.specialty]
                 print(specialty)
-                cache_timeout_refresh(specialty = specialty)
+                if startup_variables["feature_flags"][specialty[0]][specialty[1]]["cache_persistence"]:
+                    cache_timeout_refresh(specialty = specialty)
                 
                 return StreamingResponse(
                     api_helper.ask_query_helper(
