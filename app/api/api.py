@@ -90,13 +90,6 @@ async def lifespan(app: FastAPI):
             "rxnext_basic": ["fda_ppt_1"]
         }
 
-        startup_variables["last_cache_refresh"] = {}
-        for product in startup_variables["products_and_specialties"].keys():
-            startup_variables["last_cache_refresh"][product] = {}
-            for specialty in startup_variables["products_and_specialties"][product]:
-                # timedelta(minutes=5) is needed for the first keep-alive call.
-                startup_variables["last_cache_refresh"][product][specialty] = datetime.now(pytz.timezone(startup_variables["timezone"])) - timedelta(minutes=5)
-
         # initialize global resources
         startup_variables["global_resources"] = api_init.get_global_resources(startup_variables["products_and_specialties"])
 
@@ -164,7 +157,7 @@ async def lifespan(app: FastAPI):
                                 }
                             ],
                             "chat_title": True,
-                            "cache_persistence": True,
+                            "cache_persistence": False,
                             "model_ans_ref": "gemini_pro"
                         }
 
@@ -224,9 +217,19 @@ async def lifespan(app: FastAPI):
                                 }
                             ],
                             "chat_title": True,
-                            "cache_persistence": True,
+                            "cache_persistence": False,
                             "model_ans_ref": "gemini_pro"
                         }
+
+        # setup last cache refresh based on the feature_flag "cache_peristence"
+        startup_variables["last_cache_refresh"] = {}
+        for product in startup_variables["products_and_specialties"].keys():
+            startup_variables["last_cache_refresh"][product] = {}
+            for specialty in startup_variables["products_and_specialties"][product]:
+                # timedelta(minutes=5) is needed for the first keep-alive call.
+                if startup_variables["feature_flags"][product][specialty]["cache_persistence"]:
+                    startup_variables["last_cache_refresh"][product][specialty] = datetime.now(pytz.timezone(startup_variables["timezone"])) - timedelta(minutes=5)
+
 
         yield
 
@@ -307,25 +310,33 @@ async def keep_alive(data: keep_alive_data):
         current_time = datetime.now(pytz.timezone(startup_variables["timezone"]))
         
         specialty = startup_variables["product_specialty_map_btn_client_and_gcs"][data.specialty]
-        last_cache_refresh_time = startup_variables["last_cache_refresh"][specialty[0]][specialty[1]]
-        
-        if ((current_time - last_cache_refresh_time) > timedelta(minutes=4.5)):
-            print(f"Last cache refresh for {specialty[1]} at: ", last_cache_refresh_time)
-            cache_timeout_refresh(specialty = specialty)
-            dummy_response = response_retriever.dummy_call(
-                anthropic_client = startup_variables["model_client"]["anthropic"],
-                resources_for_specialty = getattr(startup_variables["global_resources"], specialty[0])[specialty[1]]
-            )
-            for _ in dummy_response:
-                continue
 
-            dummy_call_text = "Dummy call successful. Cache timeout has been reset."
+        if startup_variables["feature_flags"][specialty[0]][specialty[1]]["cache_persistence"]:
+            last_cache_refresh_time = startup_variables["last_cache_refresh"][specialty[0]][specialty[1]]
+
+            if ((current_time - last_cache_refresh_time) > timedelta(minutes=4.5)):
+                print(f"Last cache refresh for {specialty[1]} at: ", last_cache_refresh_time)
+                cache_timeout_refresh(specialty = specialty)
+                dummy_response = response_retriever.dummy_call(
+                    anthropic_client = startup_variables["model_client"]["anthropic"],
+                    resources_for_specialty = getattr(startup_variables["global_resources"], specialty[0])[specialty[1]]
+                )
+                for _ in dummy_response:
+                    continue
+
+                dummy_call_text = "Dummy call successful. Cache timeout has been reset."
+            else:
+                dummy_call_text = "Dummy call blocked as cache is not expired."
+
+            response_obj = {
+                "message": dummy_call_text
+            }
+            
         else:
-            dummy_call_text = "Dummy call blocked as cache is not expired."
-
-        response_obj = {
-            "message": dummy_call_text
-        }
+            print(f"Prompt caching is disabled for {specialty[0]} -> {specialty[1]}")
+            response_obj = {
+                "message": "Prompt caching is disabled!"
+            }
         return response_obj
     except Exception as e:
         log_error( Error (
