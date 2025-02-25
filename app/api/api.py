@@ -11,12 +11,14 @@ from typing import List
 from contextlib import asynccontextmanager
 import os
 from dotenv import load_dotenv
+from app.model_gateway.src import deep_research
 
 from app.api import api_init
 from app.api import api_helper
 from app.response_retriever.src import response_retriever
 from datetime import datetime, timedelta
 import pytz
+import json
 
 from app.error_logger import (
     Error,
@@ -40,6 +42,10 @@ class askquery(BaseModel):
 
 class keep_alive_data(BaseModel):
     specialty: str 
+    
+class deep_research_request(BaseModel):
+    initial_query: str
+    followup_questions: list[dict[str, str]]
 
 # create a class for feature flags
 # class feature_flags(BaseModel):
@@ -347,6 +353,48 @@ async def keep_alive(data: keep_alive_data):
                 excpetion=e
         ), Severity.ERROR)
         print(f"Error in keep_alive: {e}")
+        raise HTTPException(status_code=500, detail="Internal Server Error")
+    
+@app.post('/deep-research')
+async def serve_deep_research(data: deep_research_request, request: Request):
+    try:
+        xapikey = request.headers.get("x-api-key")
+        if xapikey == os.environ['AI_CHAT_API_KEY']:
+
+            # if first request
+            if data.followup_questions == []:
+                initial_query = data.initial_query
+                initial_response = deep_research.initial_request(query = initial_query)
+                followup_questions = initial_response["followUpQuestions"]
+                for followup_question in followup_questions:
+                    data.followup_questions.append({
+                        "question": followup_question,
+                        "answer": ""
+                    })
+                return data
+            
+            # if followup request (final request)
+            else:                
+                final_response = deep_research.final_request(
+                    query = data.initial_query,
+                    followup_obj = data.followup_questions
+                )
+                research_report = final_response["data"]
+                return {
+                    "research_report": research_report
+                }
+
+        else:
+            return "wrong api key"
+    
+    except Exception as e:
+        log_error( Error (
+                module="deep-research",
+                code=1004,
+                description="error in deep_research endpoint",
+                excpetion=e
+        ), Severity.ERROR)
+        print(f"Error in deep_research: {e}")
         raise HTTPException(status_code=500, detail="Internal Server Error")
 
 if __name__ == "__main__":
