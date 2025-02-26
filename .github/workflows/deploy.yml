@@ -7,6 +7,7 @@ env:
   REGION: us-central1
   GAR_LOCATION: us-central1-docker.pkg.dev/talk-to-your-records/icliniq-search
   AI_CHAT_API_KEY: ${{ secrets.AI_CHAT_API_KEY }}
+  DEEP_RESEARCH_API_KEY: ${{ secrets.DEEP_RESEARCH_API_KEY }}
 
 jobs:
   promote-to-prod:
@@ -49,4 +50,4 @@ jobs:
             --memory 2Gi \
             --region ${{ env.REGION }} \
             --platform managed \
-            --set-env-vars AI_CHAT_API_KEY="${{ env.AI_CHAT_API_KEY }}",STORAGE_BUCKET_NAME="ai_chat_tes_resources_prod"
+            --set-env-vars AI_CHAT_API_KEY="${{ env.AI_CHAT_API_KEY }}",STORAGE_BUCKET_NAME="ai_chat_tes_resources_prod",DEEP_RESEARCH_API_KEY=${{ env.DEEP_RESEARCH_API_KEY }}
