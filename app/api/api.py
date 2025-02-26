@@ -120,7 +120,7 @@ async def lifespan(app: FastAPI):
             "epilepsy-and-seizures": ["tes", "epilepsy_and_seizures"],
             "gerd": ["tes", "gerd"],
             "hemophilia": ["tes", "hemophilia"],
-            "hiv-aids": ["tes", "hiv_aids"],
+            "hiv": ["tes", "hiv_aids"],
             "influenza-flu": ["tes", "influenza_flu"],
             "lung-cancer": ["tes", "lung_cancer"],
             "migraine": ["tes", "migraine"],
