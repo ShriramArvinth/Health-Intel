@@ -110,7 +110,7 @@ def scan_and_guard_for_wrong_format(response):
                 module="api_helper",
                 code=1021,
                 description="wrong response format",
-                excpetion=Exception(f"Response format is wrong: {word}")
+                excpetion=e
         ), Severity.ERROR)
     
     # If we successfully collected 10 words, yield them one by one.
