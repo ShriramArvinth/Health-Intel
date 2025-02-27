@@ -2,12 +2,19 @@ from typing import List
 import json
 import itertools
 import re
+from app.api import api_init
 
 from textwrap import dedent
 from app.response_retriever.src import response_retriever
 from app.api.api_init import (
     global_resources,
     specialty
+)
+
+from app.error_logger import (
+    Error,
+    Severity,
+    log_error
 )
 
 def handle_streaming_response(response):
@@ -80,37 +87,73 @@ def handle_streaming_response(response):
     yield buffer
     buffer = ""
 
-def parse_streaming_response(response):
-    parsed_stream = handle_streaming_response(response = response)
-    first_chunk = next(parsed_stream)
-    question_exception = False
+def scan_and_guard_for_wrong_format(response):
+    collected = []
+    # Attempt to collect up to 10 words.
 
-    start_marker = "$relevant_articles_begin$"
-    relevant_articles = []
-    if start_marker not in first_chunk:
-        question_exception = True
-
-    if question_exception:
-        parsed_stream = itertools.chain([first_chunk], parsed_stream)
-    else:
-        relevant_articles = next(parsed_stream).split("\n")
-        relevant_articles = {
-            "relevant_articles": list(filter(lambda x: not(x in ["", "articles/no-article"]), relevant_articles))[:3]
-        }
-        if relevant_articles["relevant_articles"]:
-            yield first_chunk # start marker "$relevant_articles_begin$"
-            yield json.dumps(relevant_articles) # json.dumps() is needed here as everything in streaming response should be in string format. But in normal responses, json.dumps() is not needed.
-            yield next(parsed_stream) # end marker "$relevant_articles_end$"
-        else:
-            next(parsed_stream) # end marker "$relevant_articles_end$"
-
-        # handle \n at the start of the answer
-        answer_first_chunk = next(parsed_stream)
-        answer_first_chunk = answer_first_chunk.lstrip()
-        parsed_stream = itertools.chain([answer_first_chunk], parsed_stream)
+    try:
+        for i in range(10):
+            try:
+                word = next(response)
+                collected.append(word)
+            except StopIteration:
+                # Fewer than 10 words collected; yield them all as one string. Yield whatever was collected
+                break
     
-    for _ in parsed_stream:
-        yield(_)
+            # If any disallowed bracket is found, yield the error message.
+            if any(b in word for b in ['{', '}', '[', ']']):
+                yield "please try again"
+                raise Exception('Disallowed bracket found. The response might contain JSON data.')
+            
+    except Exception as e:
+        log_error( Error (
+                module="api_helper",
+                code=1021,
+                description="wrong response format",
+                excpetion=Exception(f"Response format is wrong: {word}")
+        ), Severity.ERROR)
+    
+    # If we successfully collected 10 words, yield them one by one.
+    for word in collected:
+        yield word
+
+def parse_streaming_response(response, format):
+    if format == "ans+ref":
+        parsed_stream = handle_streaming_response(response = response)
+        first_chunk = next(parsed_stream)
+        question_exception = False
+
+        start_marker = "$relevant_articles_begin$"
+        relevant_articles = []
+        if start_marker not in first_chunk:
+            question_exception = True
+
+        if question_exception:
+            parsed_stream = itertools.chain([first_chunk], parsed_stream)
+        else:
+            relevant_articles = next(parsed_stream).split("\n")
+            relevant_articles = {
+                "relevant_articles": list(filter(lambda x: not(x in ["", "articles/no-article"]), relevant_articles))[:3]
+            }
+            if relevant_articles["relevant_articles"]:
+                yield first_chunk # start marker "$relevant_articles_begin$"
+                yield json.dumps(relevant_articles) # json.dumps() is needed here as everything in streaming response should be in string format. But in normal responses, json.dumps() is not needed.
+                yield next(parsed_stream) # end marker "$relevant_articles_end$"
+            else:
+                next(parsed_stream) # end marker "$relevant_articles_end$"
+
+            # handle \n at the start of the answer
+            answer_first_chunk = next(parsed_stream)
+            answer_first_chunk = answer_first_chunk.lstrip()
+            parsed_stream = itertools.chain([answer_first_chunk], parsed_stream)
+        
+        for _ in parsed_stream:
+            yield(_)
+    
+    elif format == "ans":
+        scanned_stream = scan_and_guard_for_wrong_format(response = response)
+        for _ in scanned_stream:
+            yield(_)
 
 def ask_query_helper(all_queries: List[str], all_answers: List[str], startup_variables, specialty):
 
@@ -120,7 +163,13 @@ def ask_query_helper(all_queries: List[str], all_answers: List[str], startup_var
     # decide the ans_ref model client here based upon the name of the product/specialty
     ans_ref_model_client = None
     if feature_flags["model_ans_ref"] == "gemini_pro":
+
+        # fix the project initialization using different service accounts according to specialty.
+        api_init.initialise_vertex_client(service_acc = feature_flags["service_acc"])
+        startup_variables['model_client']['google']['gemini_pro'] = api_init.initialise_gemini_pro()
+        startup_variables['model_client']['google']['gemini_flash'] = api_init.initialise_gemini_flash()
         ans_ref_model_client = startup_variables["model_client"]["google"]["gemini_pro"]
+
     elif feature_flags["model_ans_ref"] == "claude_sonnet":
         ans_ref_model_client = startup_variables["model_client"]["anthropic"]
 
@@ -138,7 +187,10 @@ def ask_query_helper(all_queries: List[str], all_answers: List[str], startup_var
             all_answers = all_answers,
             feature_flags = feature_flags,
         )
-        parsed_stream = parse_streaming_response(response = ans_ref_stream)
+        parsed_stream = parse_streaming_response(
+            response = ans_ref_stream,
+            format = feature_flags["ans_ref"][1]["format"]
+        )
 
         ans = ""
         chunk_flag = True

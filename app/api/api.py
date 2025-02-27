@@ -76,7 +76,8 @@ async def lifespan(app: FastAPI):
         print("\n", "Starting ai-chat-tes", "\n")
         
         # initialize vertex ai
-        api_init.initialise_vertex_client()
+        # the service account is identified on an integer basis -> 0, 1, 2 ...
+        api_init.initialise_vertex_client(1)
 
         # initialize models
         startup_variables['model_client'] = {}      
@@ -152,7 +153,8 @@ async def lifespan(app: FastAPI):
                             "ans_ref": [
                                 True,
                                 {
-                                    "history_context": "last 2 Q+A+Q"
+                                    "history_context": "last 2 Q+A+Q",
+                                    "format": "ans+ref"
                                 }
                             ],
                             "follow_up": [
@@ -164,7 +166,8 @@ async def lifespan(app: FastAPI):
                             ],
                             "chat_title": True,
                             "cache_persistence": False,
-                            "model_ans_ref": "gemini_pro"
+                            "model_ans_ref": "gemini_pro",
+                            "service_acc": 0
                         }
 
                     else:
@@ -172,7 +175,8 @@ async def lifespan(app: FastAPI):
                             "ans_ref": [
                                 True,
                                 {
-                                    "history_context": "last 2 Q+A+Q"
+                                    "history_context": "last 2 Q+A+Q",
+                                    "format": "ans+ref"
                                 }
                             ],
                             "follow_up": [
@@ -192,7 +196,8 @@ async def lifespan(app: FastAPI):
                         "ans_ref": [
                             True,
                             {
-                                "history_context": "last 2 Q+A+Q"
+                                "history_context": "last 2 Q+A+Q",
+                                "format": "ans"
                             }
                         ],
                         "follow_up": [
@@ -212,7 +217,8 @@ async def lifespan(app: FastAPI):
                             "ans_ref": [
                                 True,
                                 {
-                                    "history_context": "last Q"
+                                    "history_context": "last Q",
+                                    "format": "ans"
                                 }
                             ],
                             "follow_up": [
@@ -224,7 +230,8 @@ async def lifespan(app: FastAPI):
                             ],
                             "chat_title": True,
                             "cache_persistence": False,
-                            "model_ans_ref": "gemini_pro"
+                            "model_ans_ref": "gemini_pro",
+                            "service_acc": 1
                         }
 
         # setup last cache refresh based on the feature_flag "cache_peristence"

@@ -57,11 +57,21 @@ def anthropic_init():
 
     return client
 
-def initialise_vertex_client() -> bool:
+def initialise_vertex_client(service_acc: int) -> bool:
 
     # /app/api/
     current_dir = os.getcwd()
-    vertexai.init(project="talk-to-your-records", location="us-central1", credentials=service_account.Credentials.from_service_account_file(filename = os.path.join(os.path.join(current_dir, "../secrets/service_account.json"))))
+    service_account_file_path = os.path.join(current_dir, "../secrets/service_account" + (str(service_acc) if service_acc else "") + ".json")
+
+    with open(service_account_file_path, 'r') as f:
+        service_account_info = json.load(f)
+        project_id = service_account_info.get("project_id")
+        
+    vertexai.init(
+        project=project_id, 
+        location="us-central1", 
+        credentials=service_account.Credentials.from_service_account_file(filename = service_account_file_path)
+    )
     return True
 
 def initialise_gemini_pro() -> GenerativeModel:
