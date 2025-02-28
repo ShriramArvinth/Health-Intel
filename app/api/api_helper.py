@@ -89,33 +89,32 @@ def handle_streaming_response(response):
 
 def scan_and_guard_for_wrong_format(response):
     collected = []
-    # Attempt to collect up to 10 words.
-
+    # Check only the first 10 words
     try:
         for i in range(10):
             try:
                 word = next(response)
-                collected.append(word)
             except StopIteration:
-                # Fewer than 10 words collected; yield them all as one string. Yield whatever was collected
                 break
-    
-            # If any disallowed bracket is found, yield the error message.
             if any(b in word for b in ['{', '}', '[', ']']):
                 yield "please try again"
                 raise Exception('Disallowed bracket found. The response might contain JSON data.')
-            
+            collected.append(word)
     except Exception as e:
-        log_error( Error (
-                module="api_helper",
-                code=1021,
-                description="wrong response format",
-                excpetion=e
+        log_error(Error(
+            module="api_helper",
+            code=1021,
+            description="wrong response format",
+            excpetion=e
         ), Severity.ERROR)
     
-    # If we successfully collected 10 words, yield them one by one.
+    # Yield the first 10 words that passed the check
     for word in collected:
         yield word
+
+    # Yield the remaining words without further checking
+    for _ in response:
+        yield _
 
 def parse_streaming_response(response, format):
     if format == "ans+ref":
