@@ -74,9 +74,9 @@ def initialise_vertex_client(service_acc: int) -> bool:
     )
     return True
 
-def initialise_gemini_pro() -> GenerativeModel:
+def initialise_gemini_pro(tag: str) -> GenerativeModel:
     generative_multimodal_model = GenerativeModel(
-        model_name="gemini-2.0-flash-exp",
+        model_name=tag,
         # system_instruction=[
         #     "Your name is Tes. You represent a healthcare platform who always responds to our user's questions in a polite yet professional and jovial tone."
         # ]

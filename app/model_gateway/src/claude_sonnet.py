@@ -1,8 +1,8 @@
 from anthropic import Anthropic
 
-def infer(client: Anthropic, prompt):
+def infer(client: Anthropic, prompt, tag: str):
     response = client.messages.create(
-        model = "claude-3-5-sonnet-latest",
+        model = tag,
         max_tokens = 1024,
         system = prompt["system"],
         messages = prompt["messages"],

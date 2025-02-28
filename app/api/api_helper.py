@@ -162,15 +162,15 @@ def ask_query_helper(all_queries: List[str], all_answers: List[str], startup_var
 
     # decide the ans_ref model client here based upon the name of the product/specialty
     ans_ref_model_client = None
-    if feature_flags["model_ans_ref"] == "gemini_pro":
+    if feature_flags["model_ans_ref"]["name"] == "gemini_pro":
 
         # fix the project initialization using different service accounts according to specialty.
-        api_init.initialise_vertex_client(service_acc = feature_flags["service_acc"])
-        startup_variables['model_client']['google']['gemini_pro'] = api_init.initialise_gemini_pro()
+        api_init.initialise_vertex_client(service_acc = feature_flags["model_ans_ref"]["service_acc"])
+        startup_variables['model_client']['google']['gemini_pro'] = api_init.initialise_gemini_pro(feature_flags["model_ans_ref"]["tag"])
         startup_variables['model_client']['google']['gemini_flash'] = api_init.initialise_gemini_flash()
         ans_ref_model_client = startup_variables["model_client"]["google"]["gemini_pro"]
 
-    elif feature_flags["model_ans_ref"] == "claude_sonnet":
+    elif feature_flags["model_ans_ref"]["name"] == "claude_sonnet":
         ans_ref_model_client = startup_variables["model_client"]["anthropic"]
 
     # but fix the small model client (for followup and chat title) to anthropic

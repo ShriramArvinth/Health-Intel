@@ -83,7 +83,7 @@ async def lifespan(app: FastAPI):
         startup_variables['model_client'] = {}      
         startup_variables['model_client']['anthropic'] = api_init.anthropic_init()
         startup_variables['model_client']['google'] = {}
-        startup_variables['model_client']['google']['gemini_pro'] = api_init.initialise_gemini_pro()
+        startup_variables['model_client']['google']['gemini_pro'] = api_init.initialise_gemini_pro("gemini-2.0-flash-exp")
         startup_variables['model_client']['google']['gemini_flash'] = api_init.initialise_gemini_flash()
         print("\t", "Anthropic + GCP clients initialized", "\n")
         
@@ -166,8 +166,12 @@ async def lifespan(app: FastAPI):
                             ],
                             "chat_title": True,
                             "cache_persistence": False,
-                            "model_ans_ref": "gemini_pro",
-                            "service_acc": 0
+                            "model_ans_ref": {
+                                "name": "gemini_pro",
+                                "tag": "gemini-2.0-flash-exp",
+                                "service_acc": 0
+                            },
+                            
                         }
 
                     else:
@@ -188,7 +192,10 @@ async def lifespan(app: FastAPI):
                             ],
                             "chat_title": True,
                             "cache_persistence": True,
-                            "model_ans_ref": "claude_sonnet"
+                            "model_ans_ref": {
+                                "name": "claude_sonnet",
+                                "tag": "claude-3-7-sonnet-latest",
+                            }
                         }
 
                 elif product == "drugsense":
@@ -209,7 +216,10 @@ async def lifespan(app: FastAPI):
                         ],
                         "chat_title": True,
                         "cache_persistence": True,
-                        "model_ans_ref": "claude_sonnet"
+                        "model_ans_ref": {
+                            "name": "claude_sonnet",
+                            "tag": "claude-3-5-sonnet-latest",
+                        }
                     }
                 
                 elif product == "rxnext_basic":
@@ -230,8 +240,10 @@ async def lifespan(app: FastAPI):
                             ],
                             "chat_title": True,
                             "cache_persistence": False,
-                            "model_ans_ref": "gemini_pro",
-                            "service_acc": 1
+                            "model_ans_ref": {
+                                "name": "claude_sonnet",
+                                "tag": "claude-3-5-sonnet-latest",
+                            }
                         }
 
         # setup last cache refresh based on the feature_flag "cache_peristence"

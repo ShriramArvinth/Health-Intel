@@ -10,7 +10,7 @@ from app.prompt_builder.src.prompt_builder import (
 
 def retrieve(ans_ref_model_client: Union[GenerativeModel, Anthropic], prompt_obj: AnswerPrompt, feature_flags: dict, all_queries: list, all_answers: list):
 
-    if feature_flags["model_ans_ref"] == "claude_sonnet":
+    if feature_flags["model_ans_ref"]['name'] == "claude_sonnet":
         if feature_flags["history_context"] == "last Q":
             prompt = {
                 "system": [
@@ -153,12 +153,13 @@ def retrieve(ans_ref_model_client: Union[GenerativeModel, Anthropic], prompt_obj
             
         response = claude_sonnet.infer(
             client = ans_ref_model_client,
-            prompt = prompt
+            prompt = prompt,
+            tag = feature_flags["model_ans_ref"]["tag"]
         )
 
         return response
     
-    elif feature_flags["model_ans_ref"] == "gemini_pro":
+    elif feature_flags["model_ans_ref"]["name"] == "gemini_pro":
         ans_ref_model_client._system_instruction = [
             prompt_obj.system_prompt,
             "DATA: " + prompt_obj.knowledge,
