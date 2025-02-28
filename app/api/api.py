@@ -239,7 +239,7 @@ async def lifespan(app: FastAPI):
                                 }
                             ],
                             "chat_title": True,
-                            "cache_persistence": False,
+                            "cache_persistence": True,
                             "model_ans_ref": {
                                 "name": "claude_sonnet",
                                 "tag": "claude-3-5-sonnet-latest",
@@ -345,7 +345,8 @@ async def keep_alive(data: keep_alive_data):
                 cache_timeout_refresh(specialty = specialty)
                 dummy_response = response_retriever.dummy_call(
                     anthropic_client = startup_variables["model_client"]["anthropic"],
-                    resources_for_specialty = getattr(startup_variables["global_resources"], specialty[0])[specialty[1]]
+                    resources_for_specialty = getattr(startup_variables["global_resources"], specialty[0])[specialty[1]],
+                    feature_flags = startup_variables["feature_flags"][specialty[0]][specialty[1]]
                 )
                 for _ in dummy_response:
                     continue

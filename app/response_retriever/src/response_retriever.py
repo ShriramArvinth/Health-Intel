@@ -57,14 +57,16 @@ def chat_title(anthropic_client, chat_title_resource: str, first_question):
 
     return response
 
-def dummy_call(anthropic_client, resources_for_specialty: specialty):
+def dummy_call(anthropic_client, resources_for_specialty: specialty, feature_flags):
     dummy_call_prompts = prompt_builder.dummy_call_prompts(
         resources_for_specialty = resources_for_specialty
     )
 
+    feature_flags_to_be_passed = feature_flags["model_ans_ref"]
     response = dummy_calls_retriever.retrieve(
         anthropic_client = anthropic_client,
-        prompt_obj = dummy_call_prompts
+        prompt_obj = dummy_call_prompts,
+        feature_flags = feature_flags_to_be_passed
     )
 
     return response

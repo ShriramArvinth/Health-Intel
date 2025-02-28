@@ -3,7 +3,7 @@ from app.prompt_builder.src.prompt_builder import (
     AnswerPrompt
 )
 
-def retrieve(anthropic_client, prompt_obj: AnswerPrompt):
+def retrieve(anthropic_client, prompt_obj: AnswerPrompt, feature_flags):
     prompt = {
         "system": [
             {
@@ -51,7 +51,8 @@ def retrieve(anthropic_client, prompt_obj: AnswerPrompt):
 
     response = claude_sonnet.infer(
         client = anthropic_client,
-        prompt = prompt
+        prompt = prompt,
+        tag = feature_flags["tag"]
     )
 
     return response
