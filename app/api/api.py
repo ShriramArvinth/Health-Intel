@@ -171,7 +171,8 @@ async def lifespan(app: FastAPI):
                             },
                             
                         }
-                    elif specialty in ["lung_cancer", "rheumatoid_arthritis"]: {
+                    elif specialty in ["lung_cancer", "rheumatoid_arthritis"]: 
+                        startup_variables["feature_flags"][product][specialty] = {
                             "ans_ref": [
                                 True,
                                 {
