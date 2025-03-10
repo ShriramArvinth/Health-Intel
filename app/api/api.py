@@ -166,9 +166,8 @@ async def lifespan(app: FastAPI):
                             "chat_title": True,
                             "cache_persistence": False,
                             "model_ans_ref": {
-                                "name": "gemini_pro",
-                                "tag": "gemini-2.0-flash-exp",
-                                "service_acc": 0
+                                "name": "claude_sonnet",
+                                "tag": "claude-3-5-sonnet-latest",
                             },
                             
                         }
