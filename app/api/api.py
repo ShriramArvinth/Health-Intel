@@ -16,7 +16,8 @@ from app.model_gateway.src import deep_research
 from app.api import api_init
 from app.api import api_helper
 from app.response_retriever.src import response_retriever
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, time
+from zoneinfo import ZoneInfo
 import pytz
 import json
 
@@ -402,15 +403,33 @@ async def keep_alive(data: keep_alive_data):
 @app.post('/deep-research')
 async def serve_deep_research(data: deep_research_request, request: Request):
     try:
-        xapikey = request.headers.get("x-api-key")
-        if xapikey == os.environ['AI_CHAT_API_KEY']:
+        # Print the current UTC time
+        utc_now = datetime.now(ZoneInfo("UTC"))
+        print("Current UTC time:", utc_now.strftime("%Y-%m-%d %H:%M:%S %Z"))
 
-            query = data.query
-            result_report = deep_research.initial_request(query = query)
-            return result_report
+        # Define the US timezone (here, Eastern Time is assumed; adjust if needed)
+        us_zone = ZoneInfo("America/New_York")
 
-        else:
-            return "wrong api key"
+        # Get today's date in US local time
+        us_today = datetime.now(us_zone).date()
+
+        # Define the allowed time window in US local time: 2:00 PM to 6:00 PM
+        allowed_start_local = datetime(us_today.year, us_today.month, us_today.day, 9, 0, 0, tzinfo=us_zone)
+        allowed_end_local = datetime(us_today.year, us_today.month, us_today.day, 20, 0, 0, tzinfo=us_zone)
+
+        # Convert the allowed times to UTC
+        allowed_start_utc = allowed_start_local.astimezone(ZoneInfo("UTC"))
+        allowed_end_utc = allowed_end_local.astimezone(ZoneInfo("UTC"))
+
+        # Check if the current UTC time is within the allowed window
+        if allowed_start_utc <= utc_now <= allowed_end_utc:
+            xapikey = request.headers.get("x-api-key")
+            if xapikey == os.environ['TEMP_FIX_API_KEY']:
+                query = data.query
+                result_report = deep_research.initial_request(query=query)
+                return result_report
+            else:
+                return "wrong api key"
     
     except Exception as e:
         log_error( Error (
