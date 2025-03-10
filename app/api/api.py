@@ -147,7 +147,7 @@ async def lifespan(app: FastAPI):
             startup_variables["feature_flags"][product] = {}
             for specialty in startup_variables["products_and_specialties"][product]:
                 if product == "tes":
-                    if specialty in ["lung_cancer", "asd", "rheumatoid_arthritis", "depression", "hiv_aids"]:
+                    if specialty in ["asd", "depression", "hiv_aids"]:
                         startup_variables["feature_flags"][product][specialty] = {
                             "ans_ref": [
                                 True,
@@ -171,6 +171,31 @@ async def lifespan(app: FastAPI):
                             },
                             
                         }
+                    elif specialty in ["lung_cancer", "rheumatoid_arthritis"]: {
+                            "ans_ref": [
+                                True,
+                                {
+                                    "history_context": "last 2 Q+A+Q",
+                                    "format": "ans+ref"
+                                }
+                            ],
+                            "follow_up": [
+                                True,
+                                {
+                                    "history_context": "last Q+A",
+                                    "ask_a_doctor": True
+                                }
+                            ],
+                            "chat_title": True,
+                            "cache_persistence": False,
+                            "model_ans_ref": {
+                                "name": "gemini_pro",
+                                "tag": "gemini-2.0-flash-exp",
+                                "service_acc": 0
+                            },
+                            
+                        }
+
 
                     else:
                         startup_variables["feature_flags"][product][specialty] = {
