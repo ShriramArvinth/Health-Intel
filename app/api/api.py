@@ -44,8 +44,7 @@ class keep_alive_data(BaseModel):
     specialty: str 
     
 class deep_research_request(BaseModel):
-    initial_query: str
-    followup_questions: list[dict[str, str]]
+    query: str
 
 # create a class for feature flags
 # class feature_flags(BaseModel):
@@ -381,28 +380,9 @@ async def serve_deep_research(data: deep_research_request, request: Request):
         xapikey = request.headers.get("x-api-key")
         if xapikey == os.environ['AI_CHAT_API_KEY']:
 
-            # if first request
-            if data.followup_questions == []:
-                initial_query = data.initial_query
-                initial_response = deep_research.initial_request(query = initial_query)
-                followup_questions = initial_response["followUpQuestions"]
-                for followup_question in followup_questions:
-                    data.followup_questions.append({
-                        "question": followup_question,
-                        "answer": ""
-                    })
-                return data
-            
-            # if followup request (final request)
-            else:                
-                final_response = deep_research.final_request(
-                    query = data.initial_query,
-                    followup_obj = data.followup_questions
-                )
-                research_report = final_response["data"]
-                return {
-                    "research_report": research_report
-                }
+            query = data.query
+            result_report = deep_research.initial_request(query = query)
+            return result_report
 
         else:
             return "wrong api key"

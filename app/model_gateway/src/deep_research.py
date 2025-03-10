@@ -3,58 +3,44 @@ import requests
 from dataclasses import dataclass
 
 @dataclass
-class InitialRequest:
-    def __init__(self, initial_query: str):
-        self.initial_query = initial_query
+class DeepResearchRequest:
+    def __init__(self, query: str):
+        self.query = query
     
     def convert_to_dict(self):
         return {
-            "initialQuery": self.initial_query
+            "model": "sonar-deep-research",
+            "messages": [
+                {
+                    "role": "user",
+                    "content": self.query
+                }
+            ],
+            "max_tokens": 2048,
+            "temperature": 0.2,
+            "top_p": 0.9,
+            "search_domain_filter": None,
+            "return_images": False,
+            "return_related_questions": False,
+            "search_recency_filter": "month",
+            "top_k": 0,
+            "stream": False,
+            "presence_penalty": 0,
+            "frequency_penalty": 1,
+            "response_format": None
         }
 
-@dataclass
-class FollowupRequest:
-    def __init__(self, initial_query: str, followup_questions: list[str], answers: list[str]):
-        self.initial_query = initial_query
-        self.followup_questions = followup_questions
-        self.answers = answers
-    
-    def convert_to_dict(self):
-        return {
-            "initialQuery": self.initial_query,
-            "followUpQuestions": self.followup_questions,
-            "answers": self.answers
-        }
 
 def initial_request(query: str):
-    url = 'https://deep-research-server-944564052622.us-central1.run.app/api/que'
+    url = 'https://api.perplexity.ai/chat/completions'
+
     headers = {
-        'x-api-key': os.getenv('DEEP_RESEARCH_API_KEY'),
-        'Content-Type': 'application/json'
+        "Authorization": "Bearer " + os.getenv("PERPLEXITY_API_KEY"),
+        "Content-Type": "application/json"
     }
     
-    data = InitialRequest(query).convert_to_dict()
+    data = DeepResearchRequest(query).convert_to_dict()
     
     response = requests.post(url, headers=headers, json=data)
-    print(response.json())
-    return response.json()['data']
-
-def final_request(query: str, followup_obj: list[dict[str, str]]):
-    url = "https://deep-research-server-944564052622.us-central1.run.app/api/flp"
-    headers = {
-        'x-api-key': os.getenv('DEEP_RESEARCH_API_KEY'),
-        'Content-Type': 'application/json'
-    }
-
-    ques_list = []
-    ans_list = []
-
-    for _ in followup_obj:
-        ques_list.append(_["question"])
-        ans_list.append(_["answer"])
-
-    data = FollowupRequest(query, ques_list, ans_list).convert_to_dict()
-
-    response = requests.post(url, headers=headers, json=data)
-    print(response.json())
+    
     return response.json()
