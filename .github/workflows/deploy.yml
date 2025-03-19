@@ -48,6 +48,7 @@ jobs:
           gcloud run deploy icliniq-search \
             --image ${{ env.GAR_LOCATION }}/icliniq-search:${{ steps.extract-hash.outputs.commit-sha }} \
             --port 8090 \
+            --cpu 4 \
             --memory 16Gi \
             --region ${{ env.REGION }} \
             --min=1 \
