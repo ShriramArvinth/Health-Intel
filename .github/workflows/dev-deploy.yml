@@ -87,7 +87,9 @@ jobs:
           gcloud run deploy icliniq-search-dev \
             --image ${{ env.GAR_LOCATION }}/icliniq-search:${{ steps.vars.outputs.sha }} \
             --port 8090 \
+            --cpu 2 \
             --memory 8Gi \
             --region ${{ env.REGION }} \
+            --allow-unauthenticated \
             --platform managed \
             --set-env-vars AI_CHAT_API_KEY="${{ env.AI_CHAT_API_KEY }}",STORAGE_BUCKET_NAME="ai_chat_tes_resources",DEEP_RESEARCH_API_KEY=${{ env.DEEP_RESEARCH_API_KEY }},PERPLEXITY_API_KEY=${{ env.PERPLEXITY_API_KEY }}
