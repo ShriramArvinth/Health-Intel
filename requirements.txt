@@ -45,3 +45,4 @@ Anthropic
 pytz
 google-cloud-logging
 python-dotenv
+aiohttp

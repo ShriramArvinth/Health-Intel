@@ -3,6 +3,8 @@ import json
 import itertools
 import re
 from app.api import api_init
+import asyncio
+
 
 from textwrap import dedent
 from app.response_retriever.src import response_retriever
@@ -10,6 +12,7 @@ from app.api.api_init import (
     global_resources,
     specialty
 )
+from app.model_gateway.src import deep_research
 
 from app.error_logger import (
     Error,
@@ -227,6 +230,22 @@ def ask_query_helper(all_queries: List[str], all_answers: List[str], startup_var
             )
             yield chat_title
 
+async def get_deepresearch_result(query: str):
+    # Start the API request as a task
+    result_report_task = asyncio.create_task(deep_research.initial_request(query))
+    
+    # While the task isn't complete, yield "waiting"
+    while not result_report_task.done():
+        print("waiting")
+        yield "waiting"
+        await asyncio.sleep(10)  # Pause before checking again
+    
+    # Once the task is complete, get the result and yield it
+    result_report = result_report_task.result()
+    print("received report")
+
+    yield json.dumps(result_report)
+        
 
 def generate_dummy_response_for_testing(resources_for_specialty: specialty): 
     # specialty specific prompts inside global_resources is contained in resources_for_specialty

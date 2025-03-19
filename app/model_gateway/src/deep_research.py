@@ -1,6 +1,6 @@
 import os
-import requests
 from dataclasses import dataclass
+import aiohttp
 
 @dataclass
 class DeepResearchRequest:
@@ -31,7 +31,7 @@ class DeepResearchRequest:
         }
 
 
-def initial_request(query: str):
+async def initial_request(query: str):
     url = 'https://api.perplexity.ai/chat/completions'
 
     headers = {
@@ -41,6 +41,6 @@ def initial_request(query: str):
     
     data = DeepResearchRequest(query).convert_to_dict()
     
-    response = requests.post(url, headers=headers, json=data)
-    
-    return response.json()
+    async with aiohttp.ClientSession() as session:
+        async with session.post(url, headers=headers, json=data) as response:
+            return await response.json()

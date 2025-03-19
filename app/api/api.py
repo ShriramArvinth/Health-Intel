@@ -3,7 +3,7 @@ from api_init import init_import_structure
 init_import_structure()
 
 # fastapi imports
-from fastapi import FastAPI, HTTPException, UploadFile, File, Request
+from fastapi import BackgroundTasks, FastAPI, HTTPException, UploadFile, File, Request
 from fastapi.responses import StreamingResponse
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
@@ -406,8 +406,8 @@ async def serve_deep_research(data: deep_research_request, request: Request):
         if xapikey == os.environ['AI_CHAT_API_KEY']:
 
             query = data.query
-            result_report = deep_research.initial_request(query = query)
-            return result_report
+            deep_research_response = api_helper.get_deepresearch_result(query)
+            return StreamingResponse(deep_research_response)
 
         else:
             return "wrong api key"
