@@ -1,10 +1,11 @@
-from typing import List
+from typing import List, Union
 import json
 import itertools
 import re
 from app.api import api_init
 import asyncio
-
+from google.cloud import storage
+import os
 
 from textwrap import dedent
 from app.response_retriever.src import response_retriever
@@ -230,22 +231,44 @@ def ask_query_helper(all_queries: List[str], all_answers: List[str], startup_var
             )
             yield chat_title
 
-async def get_deepresearch_result(query: str):
-    # Start the API request as a task
-    result_report_task = asyncio.create_task(deep_research.initial_request(query))
-    
-    # While the task isn't complete, yield "waiting"
-    while not result_report_task.done():
-        print("waiting")
-        yield "waiting"
-        await asyncio.sleep(10)  # Pause before checking again
-    
-    # Once the task is complete, get the result and yield it
-    result_report = result_report_task.result()
-    print("received report")
+def deepresearch_job(query: str, unique_identifier: str):
+    # Get GCP credentials from existing setup
+    current_dir = os.getcwd()
+    service_account_file = os.path.join(current_dir, "../secrets/service_account.json")
+    storage_client = storage.Client.from_service_account_json(service_account_file)
+    bucket = storage_client.bucket('deepresearch_results')
 
-    yield json.dumps(result_report)
-        
+    # Get the deep research results
+    result_report = deep_research.req(query)
+    
+    # Create a new blob and upload the result
+    blob = bucket.blob(f"{unique_identifier}.json")
+    blob.upload_from_string(
+        data=json.dumps(result_report),
+        content_type='application/json'
+    )
+
+def check_and_pull_deepresearch_results(unique_identifier: str) -> Union[dict, bool]:
+    # Authenticate to GCP and pull the file from the bucket
+    current_dir = os.getcwd()
+    service_account_file = os.path.join(current_dir, "../secrets/service_account.json")
+    storage_client = storage.Client.from_service_account_json(service_account_file)
+    bucket = storage_client.bucket('deepresearch_results')
+
+    # Get the blob from the bucket
+    blob = bucket.blob(f"{unique_identifier}.json")
+
+    # Check if the blob exists
+    if not blob.exists():
+        return False
+
+    # Download the content of the blob
+    content = blob.download_as_string()
+
+    # Parse the JSON content
+    result_report = json.loads(content)
+
+    return result_report
 
 def generate_dummy_response_for_testing(resources_for_specialty: specialty): 
     # specialty specific prompts inside global_resources is contained in resources_for_specialty

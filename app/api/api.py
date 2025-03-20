@@ -3,7 +3,7 @@ from api_init import init_import_structure
 init_import_structure()
 
 # fastapi imports
-from fastapi import BackgroundTasks, FastAPI, HTTPException, UploadFile, File, Request
+from fastapi import BackgroundTasks, FastAPI, HTTPException, Request, Response, status
 from fastapi.responses import StreamingResponse
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
@@ -11,14 +11,13 @@ from typing import List
 from contextlib import asynccontextmanager
 import os
 from dotenv import load_dotenv
-from app.model_gateway.src import deep_research
+import uuid
 
 from app.api import api_init
 from app.api import api_helper
 from app.response_retriever.src import response_retriever
 from datetime import datetime, timedelta
 import pytz
-import json
 
 from app.error_logger import (
     Error,
@@ -45,6 +44,7 @@ class keep_alive_data(BaseModel):
     
 class deep_research_request(BaseModel):
     query: str
+    query_id: str
 
 # create a class for feature flags
 # class feature_flags(BaseModel):
@@ -388,7 +388,9 @@ async def keep_alive(data: keep_alive_data):
             response_obj = {
                 "message": "Prompt caching is disabled!"
             }
+
         return response_obj
+    
     except Exception as e:
         log_error( Error (
                 module="keep-alive",
@@ -399,17 +401,36 @@ async def keep_alive(data: keep_alive_data):
         print(f"Error in keep_alive: {e}")
         raise HTTPException(status_code=500, detail="Internal Server Error")
     
-@app.post('/deep-research')
-async def serve_deep_research(data: deep_research_request, request: Request):
+@app.post('/deep-research', status_code=status.HTTP_200_OK)
+async def serve_deep_research(data: deep_research_request, request: Request, background_tasks: BackgroundTasks, response: Response):
     try:
         xapikey = request.headers.get("x-api-key")
         if xapikey == os.environ['AI_CHAT_API_KEY']:
+            if data.query_id == "":
+                query = data.query
+                query_id = str(uuid.uuid4())
+                background_tasks.add_task(api_helper.deepresearch_job, query, query_id)
+                response.status_code = status.HTTP_201_CREATED
+                return {
+                    "status": "processing",
+                    "query_id": query_id,
+                    "message": "Deep research job has been initiated"
+                }
 
-            query = data.query
-            deep_research_response = api_helper.get_deepresearch_result(query)
-            return StreamingResponse(deep_research_response)
+            else:
+                result_report = api_helper.check_and_pull_deepresearch_results(data.query_id)
+                if result_report:
+                    return result_report
+                else:
+                    response.status_code = status.HTTP_202_ACCEPTED
+                    return {
+                        "status": "processing",
+                        "query_id": data.query_id,
+                        "message": "Deep research job is still processing"
+                    }
 
         else:
+            response.status_code = status.HTTP_401_UNAUTHORIZED
             return "wrong api key"
     
     except Exception as e:
