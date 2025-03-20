@@ -10,6 +10,7 @@ on:
       - "Dockerfile"
       - "requirements.txt"
 
+
 env:
   PROJECT_ID: talk-to-your-records
   REGION: us-central1
