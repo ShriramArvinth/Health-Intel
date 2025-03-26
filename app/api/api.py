@@ -12,9 +12,13 @@ from contextlib import asynccontextmanager
 import os
 from dotenv import load_dotenv
 import uuid
+import threading
 
-from app.api import api_init
-from app.api import api_helper
+from app.api import (
+    api_init, 
+    api_helper,
+    custom_threads
+)
 from app.response_retriever.src import response_retriever
 from datetime import datetime, timedelta
 import pytz
@@ -46,22 +50,14 @@ class deep_research_request(BaseModel):
     query: str
     query_id: str
 
-# create a class for feature flags
-# class feature_flags(BaseModel):
-#     ans_ref: List[bool]
-#     follow_up: List[bool]
-#     chat_title: bool
-#     cache_persistence: bool
-#     model_ans_ref: str
-#     model_follow_up: str
-
 startup_variables = {
     "model_client": None,
     "products_and_specialties": None,
     "anthropic_client": None,
     "timezone": None,
     "product_specialty_map_btn_client_and_gcs": None,
-    "last_cache_refresh": None,
+    "specialty_keep_alive_threads": None,
+    "thread_lock": None,
     "global_resources": None,
     "feature_flags": None
 }
@@ -270,15 +266,17 @@ async def lifespan(app: FastAPI):
                             }
                         }
 
-        # setup last cache refresh based on the feature_flag "cache_peristence"
-        startup_variables["last_cache_refresh"] = {}
+        # setup keep alive threads for each product and specialty
+        startup_variables["specialty_keep_alive_threads"] = {}
         for product in startup_variables["products_and_specialties"].keys():
-            startup_variables["last_cache_refresh"][product] = {}
+            startup_variables["specialty_keep_alive_threads"][product] = {}
             for specialty in startup_variables["products_and_specialties"][product]:
-                # timedelta(minutes=5) is needed for the first keep-alive call.
                 if startup_variables["feature_flags"][product][specialty]["cache_persistence"]:
-                    startup_variables["last_cache_refresh"][product][specialty] = datetime.now(pytz.timezone(startup_variables["timezone"])) - timedelta(minutes=5)
+                    startup_variables["specialty_keep_alive_threads"][product][specialty] = {}
+                    startup_variables["specialty_keep_alive_threads"][product][specialty]["thread"] = None
 
+                    # lock for each specialty's thread set in startup variables keep alive threads to access the lock and update
+                    startup_variables["specialty_keep_alive_threads"][product][specialty]["thread_lock"] = threading.Lock()
 
         yield
 
@@ -292,6 +290,14 @@ async def lifespan(app: FastAPI):
         ), Severity.ERROR)
 
     finally:
+        for product_threads in startup_variables["specialty_keep_alive_threads"].values():
+            for specialty_thread in product_threads.values():
+                with specialty_thread.get("thread_lock"):
+                    thread = specialty_thread.get("thread")
+                    if thread and thread.is_alive():
+                        if not thread.is_stopped():
+                            thread.stop()
+                        thread.join()
         print("\n", "Stopping ai-chat-tes", "\n")
 
 
@@ -303,9 +309,6 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
-
-def cache_timeout_refresh(specialty: list[str]):
-    startup_variables["last_cache_refresh"][specialty[0]][specialty[1]] = datetime.now(pytz.timezone(startup_variables["timezone"]))
 
 @app.post("/ask-query")
 async def ask_query(data: askquery, request: Request):
@@ -330,16 +333,37 @@ async def ask_query(data: askquery, request: Request):
                 specialty = startup_variables["product_specialty_map_btn_client_and_gcs"][data.specialty]
                 print(specialty)
                 if startup_variables["feature_flags"][specialty[0]][specialty[1]]["cache_persistence"]:
-                    cache_timeout_refresh(specialty = specialty)
-                
-                return StreamingResponse(
-                    api_helper.ask_query_helper(
-                        all_queries = all_queries,
-                        all_answers = all_answers,
-                        startup_variables = startup_variables,
-                        specialty = specialty
+                    specialty_thread_lock = startup_variables["specialty_keep_alive_threads"][specialty[0]][specialty[1]]["thread_lock"]
+                    with specialty_thread_lock:
+                        existing_thread: custom_threads.StoppableThread = startup_variables["specialty_keep_alive_threads"][specialty[0]][specialty[1]]["thread"]
+                        
+                        if existing_thread is None or not existing_thread.is_alive():
+                            print(f"Starting keep-alive thread for {specialty[0]} -> {specialty[1]}")
+
+                        else:
+                            if not existing_thread.is_stopped():
+                                existing_thread.stop()
+
+                        new_thread = custom_threads.StoppableThread(
+                            target=api_helper.keep_alive_thread_runner,
+                            args=(12, 270),  # Positional arguments: break_even, interval
+                            kwargs={
+                                "anthropic_client": startup_variables["model_client"]["anthropic"],
+                                "resources_for_specialty": getattr(startup_variables["global_resources"], specialty[0])[specialty[1]],
+                                "feature_flags": startup_variables["feature_flags"][specialty[0]][specialty[1]]
+                            }
+                        )
+                        startup_variables["specialty_keep_alive_threads"][specialty[0]][specialty[1]]["thread"] = new_thread
+                        new_thread.start()
+                    
+                    return StreamingResponse(
+                        api_helper.ask_query_helper(
+                            all_queries = all_queries,
+                            all_answers = all_answers,
+                            startup_variables = startup_variables,
+                            specialty = specialty
+                        )
                     )
-                )
             
         else:
             return "wrong api key"
@@ -351,54 +375,6 @@ async def ask_query(data: askquery, request: Request):
                 excpetion=e
         ), Severity.ERROR)
         print(f"Error in ask_query: {e}")
-        raise HTTPException(status_code=500, detail="Internal Server Error")
-    
-
-@app.post("/keep-alive") # /keep-alive
-async def keep_alive(data: keep_alive_data):
-    try:
-        current_time = datetime.now(pytz.timezone(startup_variables["timezone"]))
-        
-        specialty = startup_variables["product_specialty_map_btn_client_and_gcs"][data.specialty]
-
-        if startup_variables["feature_flags"][specialty[0]][specialty[1]]["cache_persistence"]:
-            last_cache_refresh_time = startup_variables["last_cache_refresh"][specialty[0]][specialty[1]]
-
-            if ((current_time - last_cache_refresh_time) > timedelta(minutes=4.5)):
-                print(f"Last cache refresh for {specialty[1]} at: ", last_cache_refresh_time)
-                cache_timeout_refresh(specialty = specialty)
-                dummy_response = response_retriever.dummy_call(
-                    anthropic_client = startup_variables["model_client"]["anthropic"],
-                    resources_for_specialty = getattr(startup_variables["global_resources"], specialty[0])[specialty[1]],
-                    feature_flags = startup_variables["feature_flags"][specialty[0]][specialty[1]]
-                )
-                for _ in dummy_response:
-                    continue
-
-                dummy_call_text = "Dummy call successful. Cache timeout has been reset."
-            else:
-                dummy_call_text = "Dummy call blocked as cache is not expired."
-
-            response_obj = {
-                "message": dummy_call_text
-            }
-            
-        else:
-            print(f"Prompt caching is disabled for {specialty[0]} -> {specialty[1]}")
-            response_obj = {
-                "message": "Prompt caching is disabled!"
-            }
-
-        return response_obj
-    
-    except Exception as e:
-        log_error( Error (
-                module="keep-alive",
-                code=1003,
-                description="error in keep_alive endpoint",
-                excpetion=e
-        ), Severity.ERROR)
-        print(f"Error in keep_alive: {e}")
         raise HTTPException(status_code=500, detail="Internal Server Error")
     
 @app.post('/deep-research', status_code=status.HTTP_200_OK)

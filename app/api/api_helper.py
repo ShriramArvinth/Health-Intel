@@ -1,8 +1,12 @@
 from typing import List, Union
+import threading
 import json
 import itertools
 import re
-from app.api import api_init
+from app.api import (
+    api_init,
+    custom_threads
+)
 import asyncio
 from google.cloud import storage
 import os
@@ -269,6 +273,29 @@ def check_and_pull_deepresearch_results(unique_identifier: str) -> Union[dict, b
     result_report = json.loads(content)
 
     return result_report
+
+def keep_alive_thread_runner(break_even: int, interval: int, **kwargs) -> None:
+    current_thread = threading.current_thread()
+    if not isinstance(current_thread, custom_threads.StoppableThread):
+        raise RuntimeError("Must run in a StoppableThread")
+
+    # initially wait as an actual call has just been made
+    current_thread.stop_event.wait(timeout=interval)
+
+    for _ in range(break_even):
+        if current_thread.is_stopped():
+            print(f"Thread stopped early: {current_thread.ident}, flags {kwargs.get('feature_flags')}")
+            break
+        # Perform dummy call and wait
+        dummy_response = response_retriever.dummy_call(**kwargs)
+        for _ in dummy_response:
+            print(_)
+            pass
+        current_thread.stop_event.wait(timeout=interval)
+    
+    current_thread.stop()
+    print(f"Exiting thread {current_thread.ident}, flags {kwargs.get('feature_flags')}")
+
 
 def generate_dummy_response_for_testing(resources_for_specialty: specialty): 
     # specialty specific prompts inside global_resources is contained in resources_for_specialty

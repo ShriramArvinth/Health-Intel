@@ -167,11 +167,10 @@ def dummy_call_prompts(resources_for_specialty: specialty):
 
     # user
     user_prompt = {
-        "instructions": ''.join(resources_for_specialty.ans_ref_usr_prompt),
+        "instructions": 'This is just a test question.',
         "user_question": dedent(f'''
-            This is just a test question. 
-            DO NOT FOLLOW THE RESPONSE FORMAT.
-            Just respond with "dummy" and nothing else.
+            This is just a test question to check you status. Respond with "dummy" and that will signal to us that you are up and running.
+            Just say "dummy". Okay? Thank You.
         ''').strip("\n")
     }
 

@@ -33,7 +33,7 @@ def retrieve(anthropic_client, prompt_obj: AnswerPrompt, feature_flags):
                     {
                         "type": "text",
                         "text": "Okay, I will follow your INSTRUCTIONS",
-                        "cache_control": {"type": "ephemeral"}
+                        # "cache_control": {"type": "ephemeral"}
                     }
                 ]
             },

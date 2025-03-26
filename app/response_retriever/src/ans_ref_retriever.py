@@ -41,7 +41,7 @@ def retrieve(ans_ref_model_client: Union[GenerativeModel, Anthropic], prompt_obj
                             {
                                 "type": "text",
                                 "text": "Okay, I will follow your INSTRUCTIONS",
-                                "cache_control": {"type": "ephemeral"}
+                                # "cache_control": {"type": "ephemeral"}
                             }
                         ]
                     },
@@ -87,7 +87,7 @@ def retrieve(ans_ref_model_client: Union[GenerativeModel, Anthropic], prompt_obj
                             {
                                 "type": "text",
                                 "text": "Okay, I will follow your INSTRUCTIONS",
-                                "cache_control": {"type": "ephemeral"}
+                                # "cache_control": {"type": "ephemeral"}
                             }
                         ]
                     },
@@ -135,7 +135,7 @@ def retrieve(ans_ref_model_client: Union[GenerativeModel, Anthropic], prompt_obj
                             {
                                 "type": "text",
                                 "text": "Okay, I will follow your INSTRUCTIONS",
-                                "cache_control": {"type": "ephemeral"}
+                                # "cache_control": {"type": "ephemeral"}
                             }
                         ]
                     },
