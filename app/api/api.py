@@ -356,14 +356,14 @@ async def ask_query(data: askquery, request: Request):
                         startup_variables["specialty_keep_alive_threads"][specialty[0]][specialty[1]]["thread"] = new_thread
                         new_thread.start()
                     
-                    return StreamingResponse(
-                        api_helper.ask_query_helper(
-                            all_queries = all_queries,
-                            all_answers = all_answers,
-                            startup_variables = startup_variables,
-                            specialty = specialty
-                        )
+                return StreamingResponse(
+                    api_helper.ask_query_helper(
+                        all_queries = all_queries,
+                        all_answers = all_answers,
+                        startup_variables = startup_variables,
+                        specialty = specialty
                     )
+                )
             
         else:
             return "wrong api key"
