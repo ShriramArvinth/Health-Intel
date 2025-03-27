@@ -389,8 +389,9 @@ async def serve_deep_research(data: deep_research_request, request: Request, bac
                 response.status_code = status.HTTP_201_CREATED
                 return {
                     "status": "processing",
+                    "citations": [],
                     "query_id": query_id,
-                    "message": "Deep research job has been initiated"
+                    "message": ""
                 }
 
             else:
@@ -403,7 +404,8 @@ async def serve_deep_research(data: deep_research_request, request: Request, bac
                     return {
                         "status": "processing",
                         "query_id": data.query_id,
-                        "message": "Deep research job is still processing"
+                        "citations": [],
+                        "message": ""
                     }
 
         else:
