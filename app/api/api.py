@@ -396,6 +396,7 @@ async def serve_deep_research(data: deep_research_request, request: Request, bac
             else:
                 result_report = api_helper.check_and_pull_deepresearch_results(data.query_id)
                 if result_report:
+                    result_report["status"] = "completed"
                     return result_report
                 else:
                     response.status_code = status.HTTP_202_ACCEPTED

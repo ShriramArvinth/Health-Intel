@@ -272,7 +272,10 @@ def check_and_pull_deepresearch_results(unique_identifier: str) -> Union[dict, b
     # Parse the JSON content
     result_report = json.loads(content)
 
-    return result_report
+    return {
+        "citations": result_report["citations"],
+        "message": result_report['choices'][0]["message"]['content']
+    }
 
 def keep_alive_thread_runner(break_even: int, interval: int, **kwargs) -> None:
     current_thread = threading.current_thread()
