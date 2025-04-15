@@ -143,7 +143,7 @@ async def lifespan(app: FastAPI):
             startup_variables["feature_flags"][product] = {}
             for specialty in startup_variables["products_and_specialties"][product]:
                 if product == "tes":
-                    if specialty in ["asd", "depression", "hiv_aids"]:
+                    if specialty in ["asd", "depression", "hiv_aids", "rheumatoid_arthritis"]:
                         startup_variables["feature_flags"][product][specialty] = {
                             "ans_ref": [
                                 True,
@@ -167,7 +167,7 @@ async def lifespan(app: FastAPI):
                             },
                             
                         }
-                    elif specialty in ["lung_cancer", "rheumatoid_arthritis"]: 
+                    elif specialty in ["lung_cancer"]: 
                         startup_variables["feature_flags"][product][specialty] = {
                             "ans_ref": [
                                 True,
