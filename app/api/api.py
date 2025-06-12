@@ -13,7 +13,6 @@ import os
 from dotenv import load_dotenv
 import uuid
 import threading
-import random  # added for simulating random errors
 
 from app.api import (
     api_init, 
@@ -358,9 +357,14 @@ async def ask_query(data: askquery, request: Request):
                         startup_variables["specialty_keep_alive_threads"][specialty[0]][specialty[1]]["thread"] = new_thread
                         new_thread.start()
                     
-                # simulate random error instead of normal response
-                status_code = random.choice([400, 401, 403, 404, 500, 502, 503])
-                raise HTTPException(status_code=status_code, detail=f"Simulated error with status {status_code}")
+                return StreamingResponse(
+                    api_helper.ask_query_helper(
+                        all_queries = all_queries,
+                        all_answers = all_answers,
+                        startup_variables = startup_variables,
+                        specialty = specialty
+                    )
+                )
             
         else:
             return "wrong api key"
