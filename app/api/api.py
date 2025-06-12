@@ -360,10 +360,7 @@ async def ask_query(data: askquery, request: Request):
                     
                 # simulate random error instead of normal response
                 status_code = random.choice([400, 401, 403, 404, 500, 502, 503])
-                return Response(
-                    content=f"Simulated error with status {status_code}",
-                    status_code=status_code
-                )
+                raise HTTPException(status_code=status_code, detail=f"Simulated error with status {status_code}")
             
         else:
             return "wrong api key"
