@@ -19,9 +19,6 @@ from app.api import (
     api_helper,
     custom_threads
 )
-from app.response_retriever.src import response_retriever
-from datetime import datetime, timedelta
-import pytz
 
 from app.error_logger import (
     Error,
