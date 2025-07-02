@@ -37,6 +37,11 @@ jobs:
           echo "Latest Image Tag: $IMAGE_TAG"
           echo "::set-output name=image-tag::$IMAGE_TAG"
 
+      - name: Pull Docker image
+        run: docker pull ${{ steps.get-latest-tag.outputs.image-tag }}
+
+      - name: Configure Docker to use the Artifact Registry Docker repository
+        run: gcloud auth configure-docker ${{ env.REGION }}-docker.pkg.dev --quiet
       - name: Extract commit hash
         id: extract-hash
         run: |
