@@ -1,0 +1,76 @@
+name: Deploy Promptfoo - AI Experiments
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - '.github/workflows/deploy-promptfoo.yml'
+
+env:
+  PROJECT_NUMBER: 568157170812
+  PROJECT_ID: talk-to-your-records
+  REGION: us-central1
+  GAR_LOCATION: us-central1-docker.pkg.dev/talk-to-your-records/promptfoo
+
+jobs:
+  fetch-promptfoo:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Get commit SHA
+        id: vars
+        run: echo "sha=$(git rev-parse HEAD)" >> $GITHUB_OUTPUT
+
+      - name: Authenticate with Google Cloud
+        uses: 'google-github-actions/auth@v1'
+        with:
+          credentials_json: '${{ secrets.GCP_TALK_TO_YOUR_RECORDS }}'
+
+      - name: Set up Cloud SDK
+        uses: google-github-actions/setup-gcloud@v1
+
+      - name: Configure Docker Authentication
+        run: gcloud auth configure-docker ${{ env.REGION }}-docker.pkg.dev --quiet
+
+      - name: Pull Docker image
+        run: docker pull ghcr.io/promptfoo/promptfoo:0.117.10
+
+      - name: Push Docker image
+        run: docker push ${{ env.GAR_LOCATION }}/promptfoo:${{ steps.vars.outputs.sha }}
+    outputs:
+      sha: ${{ steps.vars.outputs.sha }}
+
+  deploy-promptfoo:
+    needs: fetch-promptfoo
+    runs-on: ubuntu-latest
+    steps:
+
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Authenticate with Google Cloud
+        uses: google-github-actions/auth@v1
+        with:
+          credentials_json: ${{ secrets.GCP_TALK_TO_YOUR_RECORDS }}
+
+      - name: Deploy Promptfoo to Cloud Run
+        run: |
+          gcloud run deploy promptfoo \
+            --image=${{ env.GAR_LOCATION }}/promptfoo:${{ needs.fetch-promptfoo.outputs.sha }} \
+            --region=${{ env.REGION }} \
+            --platform managed \
+            --allow-unauthenticated \
+            --cpu=1 \
+            --memory=2048Mi \
+            --min-instances=0 \
+            --max-instances=100 \
+            --add-volume name=promptfoo-vol,type=cloud-storage,bucket=promptfoo-data \
+            --add-volume-mount volume=promptfoo-vol,mount-path=/home/promptfoo/.promptfoo
