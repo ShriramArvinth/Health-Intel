@@ -41,10 +41,8 @@ jobs:
       - name: Pull Docker image
         run: docker pull ghcr.io/promptfoo/promptfoo:0.117.10
 
-
       - name: Tag Docker image for Artifact Registry
-        run: docker tag ghcr.io/promptfoo/promptfoo:0.117.10 \
-             ${{ env.GAR_LOCATION }}/promptfoo:${{ steps.vars.outputs.sha }}
+        run: docker tag ghcr.io/promptfoo/promptfoo:0.117.10 ${{ env.GAR_LOCATION }}/promptfoo:${{ steps.vars.outputs.sha }}
 
       - name: Push Docker image
         run: docker push ${{ env.GAR_LOCATION }}/promptfoo:${{ steps.vars.outputs.sha }}
