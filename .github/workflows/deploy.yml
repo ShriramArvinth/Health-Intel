@@ -5,7 +5,7 @@ on:
 env:
   PROJECT_ID: talk-to-your-records
   REGION: us-central1
-  GAR_LOCATION: us-central1-docker.pkg.dev/talk-to-your-records/icliniq-search
+  GAR_LOCATION: us-central1-docker.pkg.dev/talk-to-your-records/icliniq-search-prod
   AI_CHAT_API_KEY: ${{ secrets.AI_CHAT_API_KEY }}
   DEEP_RESEARCH_API_KEY: ${{ secrets.DEEP_RESEARCH_API_KEY }}
   PERPLEXITY_API_KEY: ${{ secrets.PERPLEXITY_API_KEY }}
@@ -37,16 +37,27 @@ jobs:
           echo "Latest Image Tag: $IMAGE_TAG"
           echo "::set-output name=image-tag::$IMAGE_TAG"
 
+      - name: Pull Docker image
+        run: docker pull ${{ steps.get-latest-tag.outputs.image-tag }}
+
+      - name: Configure Docker to use the Artifact Registry Docker repository
+        run: gcloud auth configure-docker ${{ env.REGION }}-docker.pkg.dev --quiet
       - name: Extract commit hash
         id: extract-hash
         run: |
           COMMIT_HASH=$(echo "${{ steps.get-latest-tag.outputs.image-tag }}" | cut -d':' -f2)
           echo "::set-output name=commit-sha::$COMMIT_HASH"
 
+      - name: Push Docker image
+        run:
+          |
+          docker tag ${{ steps.get-latest-tag.outputs.image-tag }} ${{ env.GAR_LOCATION }}/icliniq-search-prod:${{ steps.extract-hash.outputs.commit-sha }}
+          docker push ${{ env.GAR_LOCATION }}/icliniq-search-prod:${{ steps.extract-hash.outputs.commit-sha }}
+
       - name: Deploy to Production
         run: |
           gcloud run deploy icliniq-search \
-            --image ${{ env.GAR_LOCATION }}/icliniq-search:${{ steps.extract-hash.outputs.commit-sha }} \
+            --image ${{ env.GAR_LOCATION }}/icliniq-search-prod:${{ steps.extract-hash.outputs.commit-sha }} \
             --port 8090 \
             --cpu 4 \
             --memory 16Gi \
