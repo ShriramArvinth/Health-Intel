@@ -375,6 +375,41 @@ async def ask_query(data: askquery, request: Request):
         print(f"Error in ask_query: {e}")
         raise HTTPException(status_code=500, detail="Internal Server Error")
     
+@app.post("/fitness-ask-query")
+async def ask_query(data: askquery, request: Request):
+    try:
+        xapikey = request.headers.get("x-api-key")
+        if xapikey == os.environ['AI_CHAT_API_KEY']:
+            # print(data)
+            
+            all_queries = [query.question for query in data.queries]
+            all_answers = [query.answer for query in data.queries]
+
+
+            specialty = startup_variables["product_specialty_map_btn_client_and_gcs"][data.specialty]
+            print(specialty)
+                    
+            return StreamingResponse(
+                api_helper.ask_query_helper(
+                    all_queries = all_queries,
+                    all_answers = all_answers,
+                    startup_variables = startup_variables,
+                    specialty = specialty
+                )
+            )
+            
+        else:
+            return "wrong api key"
+    except Exception as e:
+        log_error( Error (
+                module="ask-query",
+                code=1002,
+                description="error in ask_query endpoint",
+                excpetion=e
+        ), Severity.ERROR)
+        print(f"Error in ask_query: {e}")
+        raise HTTPException(status_code=500, detail="Internal Server Error")
+
 @app.post('/deep-research', status_code=status.HTTP_200_OK)
 async def serve_deep_research(data: deep_research_request, request: Request, background_tasks: BackgroundTasks, response: Response):
     try:
