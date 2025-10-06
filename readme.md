@@ -1,4 +1,4 @@
-# Health Intel Search (Talk To Your Records)
+# Health Intel Search
 
 A retrieval‑augmented service that loads curated medical domain knowledge and prompt templates from Google Cloud Storage, caches them in-memory at startup, and serves downstream reasoning / chat / research workflows via LLM-backed pipelines.
 
