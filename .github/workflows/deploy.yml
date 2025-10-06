@@ -5,7 +5,7 @@ on:
 env:
   PROJECT_ID: talk-to-your-records
   REGION: us-central1
-  GAR_LOCATION: us-central1-docker.pkg.dev/talk-to-your-records/icliniq-search-prod
+  GAR_LOCATION: us-central1-docker.pkg.dev/talk-to-your-records/Health-Intel-search-prod
   AI_CHAT_API_KEY: ${{ secrets.AI_CHAT_API_KEY }}
   DEEP_RESEARCH_API_KEY: ${{ secrets.DEEP_RESEARCH_API_KEY }}
   PERPLEXITY_API_KEY: ${{ secrets.PERPLEXITY_API_KEY }}
@@ -31,7 +31,7 @@ jobs:
       - name: Get latest dev image tag
         id: get-latest-tag
         run: |
-          IMAGE_TAG=$(gcloud run services describe icliniq-search-dev \
+          IMAGE_TAG=$(gcloud run services describe Health-Intel-search-dev \
             --region=${{ env.REGION }} \
             --format="json" | jq -r '.spec.template.spec.containers[0].image')
           echo "Latest Image Tag: $IMAGE_TAG"
@@ -51,13 +51,13 @@ jobs:
       - name: Push Docker image
         run:
           |
-          docker tag ${{ steps.get-latest-tag.outputs.image-tag }} ${{ env.GAR_LOCATION }}/icliniq-search-prod:${{ steps.extract-hash.outputs.commit-sha }}
-          docker push ${{ env.GAR_LOCATION }}/icliniq-search-prod:${{ steps.extract-hash.outputs.commit-sha }}
+          docker tag ${{ steps.get-latest-tag.outputs.image-tag }} ${{ env.GAR_LOCATION }}/Health-Intel-search-prod:${{ steps.extract-hash.outputs.commit-sha }}
+          docker push ${{ env.GAR_LOCATION }}/Health-Intel-search-prod:${{ steps.extract-hash.outputs.commit-sha }}
 
       - name: Deploy to Production
         run: |
-          gcloud run deploy icliniq-search \
-            --image ${{ env.GAR_LOCATION }}/icliniq-search-prod:${{ steps.extract-hash.outputs.commit-sha }} \
+          gcloud run deploy Health-Intel-search \
+            --image ${{ env.GAR_LOCATION }}/Health-Intel-search-prod:${{ steps.extract-hash.outputs.commit-sha }} \
             --port 8090 \
             --cpu 4 \
             --memory 16Gi \

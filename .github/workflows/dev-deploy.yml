@@ -14,7 +14,7 @@ on:
 env:
   PROJECT_ID: talk-to-your-records
   REGION: us-central1
-  GAR_LOCATION: us-central1-docker.pkg.dev/talk-to-your-records/icliniq-search
+  GAR_LOCATION: us-central1-docker.pkg.dev/talk-to-your-records/Health-Intel-search
   AI_CHAT_API_KEY: ${{ secrets.AI_CHAT_API_KEY }}
   DEEP_RESEARCH_API_KEY: ${{ secrets.DEEP_RESEARCH_API_KEY }}
   PERPLEXITY_API_KEY: ${{ secrets.PERPLEXITY_API_KEY }}
@@ -67,16 +67,16 @@ jobs:
           gcloud auth configure-docker ${{ env.REGION }}-docker.pkg.dev --quiet
 
       - name: Build image
-        run: docker build .. --file ../Dockerfile --tag ${{ env.GAR_LOCATION }}/icliniq-search:${{ steps.vars.outputs.sha }}
+        run: docker build .. --file ../Dockerfile --tag ${{ env.GAR_LOCATION }}/Health-Intel-search:${{ steps.vars.outputs.sha }}
         working-directory: app/
 
       - name: Push image
-        run: docker push ${{ env.GAR_LOCATION }}/icliniq-search:${{ steps.vars.outputs.sha }}
+        run: docker push ${{ env.GAR_LOCATION }}/Health-Intel-search:${{ steps.vars.outputs.sha }}
 
       - name: Deploy to Cloud Run Dev
         run: |
-          gcloud run deploy icliniq-search-dev \
-            --image ${{ env.GAR_LOCATION }}/icliniq-search:${{ steps.vars.outputs.sha }} \
+          gcloud run deploy Health-Intel-search-dev \
+            --image ${{ env.GAR_LOCATION }}/Health-Intel-search:${{ steps.vars.outputs.sha }} \
             --port 8090 \
             --cpu 2 \
             --memory 8Gi \

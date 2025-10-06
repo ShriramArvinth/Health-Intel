@@ -32,9 +32,38 @@ else:
 with open('./input_slugs.txt', 'r') as file:
     slugs = [line.strip() for line in file]
     
+"""
+Original code used a hard‑coded internal dev endpoint on the icliniq domain:
+    https://dev-directus-gcp.icliniq.com/items/qa?...&filter={"slug": {"_eq": "<slug>"}}
+
+We remove specific internal domains. Configure your own Directus (or similar) base URL(s) below.
+
+INSTRUCTIONS:
+1. Set QNA_API_BASE_DEV / QNA_API_BASE_PROD via environment variables or edit defaults.
+2. Choose which environment to use with USE_QNA_DEV / USE_QNA_PROD.
+3. Adjust FIELDS or FILTER_FIELD if your schema differs.
+"""
+
+QNA_API_BASE_DEV = os.environ.get("QNA_API_BASE_DEV", "<SET_QNA_DEV_BASE_URL>")
+QNA_API_BASE_PROD = os.environ.get("QNA_API_BASE_PROD", "<SET_QNA_PROD_BASE_URL>")
+
+USE_QNA_DEV = True
+USE_QNA_PROD = False
+
+if USE_QNA_DEV and USE_QNA_PROD:
+    raise ValueError("Only one of USE_QNA_DEV or USE_QNA_PROD can be True.")
+if not USE_QNA_DEV and not USE_QNA_PROD:
+    raise ValueError("One of USE_QNA_DEV or USE_QNA_PROD must be True.")
+
+FILTER_FIELD = "slug"
+FIELDS = "title,titleMeta,slug,questionAnswer"
+BASE_QNA_URL = QNA_API_BASE_DEV if USE_QNA_DEV else QNA_API_BASE_PROD
+
 request_urls = []
 for _ in slugs:
-    request_urls.append("https://dev-directus-gcp.icliniq.com/items/qa?fields=title,titleMeta,slug,questionAnswer&filter={\"slug\": {\"_eq\": \"" + _ + "\"}}")
+    request_urls.append(
+        f"{BASE_QNA_URL}/items/qa?fields={FIELDS}&filter={{\"{FILTER_FIELD}\": {{\"_eq\": \"{_}\"}}}}"
+    )
 with open("./directus_token.txt", "r") as f:
     token = f.readline().strip()
 

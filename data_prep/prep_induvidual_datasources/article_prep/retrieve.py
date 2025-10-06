@@ -32,16 +32,47 @@ else:
 with open('./input_slugs.txt', 'r') as file:
     slugs = [line.strip() for line in file]
 
+"""
+The original code contained hard-coded internal API endpoints on the icliniq domain, e.g.:
+    https://dev-directus-gcp.icliniq.com/items/article?... (dev)
+    https://content-platform.icliniq.com/items/article?... (prod)
+
+Per migration/anonymization requirements, we avoid committing concrete internal URLs.
+
+INSTRUCTIONS:
+1. Set ARTICLE_API_BASE_DEV to your development Directus (or equivalent) base URL.
+2. Set ARTICLE_API_BASE_PROD to your production Directus (or equivalent) base URL.
+3. Exactly one of USE_DEV / USE_PROD should be True. (Both False raises an error.)
+4. The request path/query pattern below matches the former API; adjust if your schema differs.
+
+Expected pattern (example):
+  {BASE}/items/article?fields=title,body,slug&filter={"urlPath": {"_eq": "<slug>"}}
+
+If your API filters by a different field (e.g. slug instead of urlPath), update QUERY_FILTER_FIELD.
+"""
+
+ARTICLE_API_BASE_DEV = os.environ.get("ARTICLE_API_BASE_DEV", "<SET_DEV_BASE_URL>")  # e.g. https://dev-your-domain.example.com
+ARTICLE_API_BASE_PROD = os.environ.get("ARTICLE_API_BASE_PROD", "<SET_PROD_BASE_URL>")  # e.g. https://prod-your-domain.example.com
+
+# Toggle which environment to use.
+USE_DEV = False
+USE_PROD = True
+
+QUERY_FILTER_FIELD = "urlPath"  # change to "slug" or another field if needed
+
+if USE_DEV and USE_PROD:
+    raise ValueError("Only one of USE_DEV or USE_PROD can be True.")
+if not USE_DEV and not USE_PROD:
+    raise ValueError("One of USE_DEV or USE_PROD must be True.")
+
+BASE_URL = ARTICLE_API_BASE_DEV if USE_DEV else ARTICLE_API_BASE_PROD
+
 request_urls = []
 for _ in slugs:
-    # for dev
-    # request_urls.append("https://dev-directus-gcp.icliniq.com/items/article?fields=title,body,slug&filter={\"slug\": {\"_eq\": \"" + _ + "\"}}") 
-
-    # for prod
-    request_urls.append("https://content-platform.icliniq.com/items/article?fields=title,body,slug&filter={\"urlPath\": {\"_eq\": \"" + _ + "\"}}")
-
-    # for graphql prod
-    # request_urls.append("https://content-platform.icliniq.com/items/article?fields=title,body,slug&filter={\"slug\": {\"_eq\": \"" + _ + "\"}}") 
+    # Build the query dynamically without exposing previous internal domains.
+    request_urls.append(
+        f"{BASE_URL}/items/article?fields=title,body,slug&filter={{\"{QUERY_FILTER_FIELD}\": {{\"_eq\": \"{_}\"}}}}"
+    )
 
 with open("./directus_token.txt", "r") as f:
     lines = [line.strip() for line in f]
